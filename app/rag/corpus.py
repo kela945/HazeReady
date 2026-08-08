@@ -141,9 +141,7 @@ def parse_document(path: Path) -> Document:
     known = {k: meta[k] for k in REQUIRED_FRONTMATTER_KEYS}
     extra = {k: v for k, v in meta.items() if k not in REQUIRED_FRONTMATTER_KEYS}
 
-    return Document(
-        body=body, path=path, body_offset=body_start, extra=extra, **known
-    )
+    return Document(body=body, path=path, body_offset=body_start, extra=extra, **known)
 
 
 def load_corpus(corpus_dir: Path) -> list[Document]:

@@ -25,15 +25,27 @@ def container() -> Container:
     "question,role,decision",
     [
         # The 100/101 boundary flips a preschool from proceed to restrict.
-        ("24-hr PSI is exactly 100 in the north. K1 outdoor play?",
-         Role.preschool, Decision.proceed),
-        ("24-hr PSI just hit 101 in the north. K1 outdoor play?",
-         Role.preschool, Decision.restrict),
+        (
+            "24-hr PSI is exactly 100 in the north. K1 outdoor play?",
+            Role.preschool,
+            Decision.proceed,
+        ),
+        (
+            "24-hr PSI just hit 101 in the north. K1 outdoor play?",
+            Role.preschool,
+            Decision.restrict,
+        ),
         # 200/201 flips a worksite from proceed_with_precautions to restrict.
-        ("PSI is 200 exactly. Prolonged outdoor work for healthy staff?",
-         Role.worksite, Decision.proceed_with_precautions),
-        ("PSI is 201. Prolonged outdoor work for healthy staff?",
-         Role.worksite, Decision.restrict),
+        (
+            "PSI is 200 exactly. Prolonged outdoor work for healthy staff?",
+            Role.worksite,
+            Decision.proceed_with_precautions,
+        ),
+        (
+            "PSI is 201. Prolonged outdoor work for healthy staff?",
+            Role.worksite,
+            Decision.restrict,
+        ),
         # Hazardous suspends outdoor activity for a vulnerable cohort.
         ("PSI 305. Do we hold outdoor assembly?", Role.school, Decision.suspend),
     ],
@@ -47,9 +59,7 @@ async def test_boundary_decisions(container, question, role, decision) -> None:
 async def test_band_is_always_resolved_before_the_decision(container) -> None:
     """The design constraint, verified at runtime: resolve_psi_band must run
     before lookup_role_obligations on every answered query."""
-    a = await container.orchestrator.answer(
-        "PSI 165. Does outdoor PE run?", role=Role.school
-    )
+    a = await container.orchestrator.answer("PSI 165. Does outdoor PE run?", role=Role.school)
     tools = [t.tool for t in a.trajectory]
     assert "resolve_psi_band" in tools
     assert tools.index("resolve_psi_band") < tools.index("lookup_role_obligations")
@@ -160,7 +170,12 @@ async def test_no_retrieval_arm_still_answers_without_crashing(container) -> Non
     a = await container.orchestrator.answer(
         "PSI 165. Does outdoor play run?",
         role=Role.preschool,
-        arm=ArmConfig(arm="A0", use_retrieval=False, use_tools=False,
-                      deterministic_bands=False, use_skills=False),
+        arm=ArmConfig(
+            arm="A0",
+            use_retrieval=False,
+            use_tools=False,
+            deterministic_bands=False,
+            use_skills=False,
+        ),
     )
     assert a.decision in set(Decision)

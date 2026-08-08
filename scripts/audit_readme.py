@@ -37,16 +37,39 @@ def main() -> int:
     manifest = yaml.safe_load((REPO / "data" / "manifest.yaml").read_text())
     matrix = load_policy_matrix(s.policy_matrix_path, s.corpus_dir)
     gaps = yaml.safe_load(s.coverage_gaps_path.read_text())["gaps"]
-    items = [json.loads(x) for x in (REPO / "eval/hazeqa/items.jsonl").read_text().splitlines() if x.strip()]
-    chunks = pickle.loads((s.index_dir / "chunks.pkl").read_bytes()) if (s.index_dir / "chunks.pkl").exists() else []
-    spans = sum(len(r.actions) + len(r.obligations) + len(r.cohort_variants) for r in matrix.rows.values())
+    items = [
+        json.loads(x)
+        for x in (REPO / "eval/hazeqa/items.jsonl").read_text().splitlines()
+        if x.strip()
+    ]
+    chunks = (
+        pickle.loads((s.index_dir / "chunks.pkl").read_bytes())
+        if (s.index_dir / "chunks.pkl").exists()
+        else []
+    )
+    spans = sum(
+        len(r.actions) + len(r.obligations) + len(r.cohort_variants)
+        for r in matrix.rows.values()
+    )
 
-    claim("corpus size", f"{manifest['document_count']} curated markdown documents", manifest["document_count"])
-    claim("traceable docs", f"**{manifest['retrieved_from_a_page_this_system_fetched']} are\ntraceable", manifest["retrieved_from_a_page_this_system_fetched"])
+    claim(
+        "corpus size",
+        f"{manifest['document_count']} curated markdown documents",
+        manifest["document_count"],
+    )
+    claim(
+        "traceable docs",
+        f"**{manifest['retrieved_from_a_page_this_system_fetched']} are\ntraceable",
+        manifest["retrieved_from_a_page_this_system_fetched"],
+    )
     claim("matrix rows", f"{len(matrix.rows)} rows", len(matrix.rows))
     claim("spans", f"All {spans} spans currently resolve", spans)
     claim("benchmark size", f"{len(items)} hand-authored items", len(items))
-    claim("coverage gaps", "Twelve coverage gaps" if len(gaps) == 12 else f"{len(gaps)} coverage gaps", len(gaps))
+    claim(
+        "coverage gaps",
+        "Twelve coverage gaps" if len(gaps) == 12 else f"{len(gaps)} coverage gaps",
+        len(gaps),
+    )
 
     # Deployment section hard limit: 150-250 words.
     body = readme.split("## 6. Deployment considerations", 1)[1].split("---", 1)[0]
@@ -63,9 +86,11 @@ def main() -> int:
     if "docker compose up" in readme and "never**\nbuilt or run" not in readme:
         failures.append("README mentions docker without the unverified caveat")
 
-    print(f"corpus={manifest['document_count']} traceable={manifest['retrieved_from_a_page_this_system_fetched']} "
-          f"matrix_rows={len(matrix.rows)} spans={spans} items={len(items)} gaps={len(gaps)} "
-          f"chunks={len(chunks)} deployment_words={words}")
+    print(
+        f"corpus={manifest['document_count']} traceable={manifest['retrieved_from_a_page_this_system_fetched']} "
+        f"matrix_rows={len(matrix.rows)} spans={spans} items={len(items)} gaps={len(gaps)} "
+        f"chunks={len(chunks)} deployment_words={words}"
+    )
 
     if failures:
         print(f"\nFAIL: {len(failures)} README claim(s) do not match the repo")

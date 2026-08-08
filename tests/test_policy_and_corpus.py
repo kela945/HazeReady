@@ -36,9 +36,9 @@ def test_no_document_claims_content_from_a_disallowed_source() -> None:
     for d in DOCS:
         if d.provenance in {"fetched_and_verified", "paraphrased_from_fetched"}:
             assert d.robots_txt_checked, f"{d.doc_id}: fetched without a robots check"
-            assert d.robots_txt_permits, (
-                f"{d.doc_id}: content taken from a source that disallows retrieval"
-            )
+            assert (
+                d.robots_txt_permits
+            ), f"{d.doc_id}: content taken from a source that disallows retrieval"
 
 
 def test_verified_flag_is_consistent_with_provenance() -> None:
@@ -58,9 +58,9 @@ def test_every_matrix_quote_resolves_to_its_cited_document() -> None:
             doc = by_id[st.source_doc_id]
             start, end = st.char_span
             extracted = " ".join(doc.body[start:end].split())
-            assert extracted == " ".join(st.source_quote.split()), (
-                f"{key}: span for {st.source_doc_id} does not extract its quote"
-            )
+            assert extracted == " ".join(
+                st.source_quote.split()
+            ), f"{key}: span for {st.source_doc_id} does not extract its quote"
             checked += 1
         for v in row.cohort_variants:
             assert v.char_span is not None
@@ -74,9 +74,9 @@ def test_no_action_cites_an_authored_coverage_note() -> None:
     by_id = {d.doc_id: d for d in DOCS}
     for key, row in MATRIX.rows.items():
         for st in row.actions:
-            assert by_id[st.source_doc_id].is_obligation_source, (
-                f"{key}: action cites coverage note {st.source_doc_id}"
-            )
+            assert by_id[
+                st.source_doc_id
+            ].is_obligation_source, f"{key}: action cites coverage note {st.source_doc_id}"
 
 
 def test_every_role_has_a_complete_psi_band_ladder() -> None:
@@ -101,9 +101,9 @@ def test_decisions_are_monotonic_across_bands() -> None:
         for band in ladder:
             d = MATRIX.lookup(role, band, IndexKind.psi_24h).decision
             idx = order.index(d)
-            assert idx >= prev, (
-                f"{role.value}: {band} is more permissive than the band below it"
-            )
+            assert (
+                idx >= prev
+            ), f"{role.value}: {band} is more permissive than the band below it"
             prev = idx
 
 

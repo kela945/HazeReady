@@ -42,9 +42,7 @@ class Skill:
         matched inside `preschool`, and short terms like `pe` matched inside
         `open` and `expected`."""
         if not self._term_patterns:
-            self._term_patterns = [
-                self._compile(term) for term in self.route_terms
-            ]
+            self._term_patterns = [self._compile(term) for term in self.route_terms]
         return sum(1 for pat in self._term_patterns if pat.search(question))
 
     @staticmethod
@@ -102,9 +100,7 @@ class SkillRouter:
         """Stage-1 context: names and descriptions, nothing else. This is what
         'progressive disclosure' means here — the router never sees the six full
         skill bodies, only the ~30 words each needs to be chosen."""
-        return "\n".join(
-            f"- {s.name}: {s.description}" for s in self.skills.values()
-        )
+        return "\n".join(f"- {s.name}: {s.description}" for s in self.skills.values())
 
     def load(self, name: str) -> Skill | None:
         return self.skills.get(name)

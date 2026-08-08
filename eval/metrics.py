@@ -23,9 +23,9 @@ ORDINAL_INDEX = {d: i for i, d in enumerate(ORDINAL)}
 
 # Default weights for the cost-weighted risk score. Lower is better.
 DEFAULT_WEIGHTS = {
-    "more_permissive_far": 3.0,   # predicted more permissive, ordinal distance >= 2
+    "more_permissive_far": 3.0,  # predicted more permissive, ordinal distance >= 2
     "more_permissive_near": 2.0,  # predicted more permissive, distance 1
-    "more_restrictive": 1.0,      # predicted more restrictive, any distance
+    "more_restrictive": 1.0,  # predicted more restrictive, any distance
     "answered_when_gold_abstain": 2.5,
     "abstained_when_answerable": 0.5,
     "exact": 0.0,
@@ -98,9 +98,7 @@ def pair_weight(gold: str, pred: str, weights: dict[str, float]) -> float:
     distance = abs(gi - pi)
     if pi < gi:  # predicted less restrictive than gold
         return (
-            weights["more_permissive_far"]
-            if distance >= 2
-            else weights["more_permissive_near"]
+            weights["more_permissive_far"] if distance >= 2 else weights["more_permissive_near"]
         )
     return weights["more_restrictive"]
 
@@ -148,10 +146,14 @@ def over_permission_rate(results: Sequence[ItemResult]) -> float:
         return 0.0
     n = 0
     for r in results:
-        if r.gold_decision == "abstain" and r.pred_decision != "abstain" or (
-            r.gold_decision in ORDINAL_INDEX
-            and r.pred_decision in ORDINAL_INDEX
-            and ORDINAL_INDEX[r.pred_decision] < ORDINAL_INDEX[r.gold_decision]
+        if (
+            r.gold_decision == "abstain"
+            and r.pred_decision != "abstain"
+            or (
+                r.gold_decision in ORDINAL_INDEX
+                and r.pred_decision in ORDINAL_INDEX
+                and ORDINAL_INDEX[r.pred_decision] < ORDINAL_INDEX[r.gold_decision]
+            )
         ):
             n += 1
     return n / len(results)
@@ -163,10 +165,14 @@ def under_permission_rate(results: Sequence[ItemResult]) -> float:
         return 0.0
     n = 0
     for r in results:
-        if r.pred_decision == "abstain" and r.gold_decision != "abstain" or (
-            r.gold_decision in ORDINAL_INDEX
-            and r.pred_decision in ORDINAL_INDEX
-            and ORDINAL_INDEX[r.pred_decision] > ORDINAL_INDEX[r.gold_decision]
+        if (
+            r.pred_decision == "abstain"
+            and r.gold_decision != "abstain"
+            or (
+                r.gold_decision in ORDINAL_INDEX
+                and r.pred_decision in ORDINAL_INDEX
+                and ORDINAL_INDEX[r.pred_decision] > ORDINAL_INDEX[r.gold_decision]
+            )
         ):
             n += 1
     return n / len(results)
@@ -179,15 +185,25 @@ def abstention_prf(results: Sequence[ItemResult]) -> dict[str, float]:
     Precision = of items abstained, how many should have been (i.e. how often
     the system abstains on an answerable question).
     """
-    tp = sum(1 for r in results if r.gold_decision == "abstain" and r.pred_decision == "abstain")
-    fp = sum(1 for r in results if r.gold_decision != "abstain" and r.pred_decision == "abstain")
-    fn = sum(1 for r in results if r.gold_decision == "abstain" and r.pred_decision != "abstain")
+    tp = sum(
+        1 for r in results if r.gold_decision == "abstain" and r.pred_decision == "abstain"
+    )
+    fp = sum(
+        1 for r in results if r.gold_decision != "abstain" and r.pred_decision == "abstain"
+    )
+    fn = sum(
+        1 for r in results if r.gold_decision == "abstain" and r.pred_decision != "abstain"
+    )
     precision = tp / (tp + fp) if (tp + fp) else 0.0
     recall = tp / (tp + fn) if (tp + fn) else 0.0
     f1 = 2 * precision * recall / (precision + recall) if (precision + recall) else 0.0
     return {
-        "precision": precision, "recall": recall, "f1": f1,
-        "tp": tp, "fp": fp, "fn": fn,
+        "precision": precision,
+        "recall": recall,
+        "f1": f1,
+        "tp": tp,
+        "fp": fp,
+        "fn": fn,
     }
 
 
@@ -260,7 +276,9 @@ def latency_percentiles(results: Sequence[ItemResult]) -> dict[str, float]:
     }
 
 
-def cost_usd(results: Sequence[ItemResult], cost_in_per_1m: float, cost_out_per_1m: float) -> float:
+def cost_usd(
+    results: Sequence[ItemResult], cost_in_per_1m: float, cost_out_per_1m: float
+) -> float:
     p = sum(r.prompt_tokens for r in results)
     c = sum(r.completion_tokens for r in results)
     return p / 1e6 * cost_in_per_1m + c / 1e6 * cost_out_per_1m
@@ -349,8 +367,7 @@ def mean_std(values: Iterable[float]) -> tuple[float, float]:
 def worst_items(results: Sequence[ItemResult], n: int = 12) -> list[ItemResult]:
     """The n worst-scoring items, for the failure gallery."""
     scored = [
-        (pair_weight(r.gold_decision, r.pred_decision, DEFAULT_WEIGHTS), r)
-        for r in results
+        (pair_weight(r.gold_decision, r.pred_decision, DEFAULT_WEIGHTS), r) for r in results
     ]
     scored.sort(key=lambda t: (-t[0], t[1].item_id))
     return [r for score, r in scored if score > 0][:n]

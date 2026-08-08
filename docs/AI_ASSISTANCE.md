@@ -47,10 +47,13 @@ Cohen's κ. There was no second annotator, so there is no κ. The harness ships
 ready to compute one. Similarly, cost defaults to `$0.0000` rather than a
 plausible-looking figure when the token rates are unset.
 
-**Silently passing arms.** When the Ollama arm (A6) could not reach a model, the
-system fell back to the deterministic draft and scored *identically to A4* — a
-completely false result that looked fine. I had provider-failure tracking added
-so the runner detects it and the report banners the arm as unavailable.
+**Silently passing arms.** When the local-model arm (then A6, on Ollama) could
+not reach a model, the system fell back to the deterministic draft and scored
+*identically to A4* — a completely false result that looked fine. I had
+provider-failure tracking added so the runner detects it and the report banners
+the arm as unavailable. The arm was later cut from the grid entirely: it asked a
+procurement question rather than a question about this system's design, and an
+arm that cannot run contributes a banner, not a result.
 
 **Silent degradation in the product itself.** The same class of problem appeared
 again when the Anthropic key was first wired in with no account credit: every

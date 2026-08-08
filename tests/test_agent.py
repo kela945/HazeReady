@@ -191,8 +191,11 @@ def test_institutional_role_beats_general_public_on_a_tie() -> None:
     [
         ("At what PSI do schools close?", Role.school, "school_closure_threshold"),
         ("What size air purifier do I need?", Role.preschool, "air_purifier_specification"),
-        ("How many puffs of his inhaler should he take?", Role.general_public,
-         "individual_medical_management"),
+        (
+            "How many puffs of his inhaler should he take?",
+            Role.general_public,
+            "individual_medical_management",
+        ),
         ("What work rest cycle should we use?", Role.worksite, "haze_work_rest_cycle"),
         ("How many hotspots means I should postpone?", Role.event, "hotspot_based_decision"),
     ],
@@ -228,16 +231,28 @@ def test_ordinary_questions_do_not_match_a_gap() -> None:
 
 def span(text: str, tier: AuthorityTier = AuthorityTier.primary) -> RetrievedSpan:
     return RetrievedSpan(
-        doc_id="d", chunk_id="d::000", text=text, char_span=(0, len(text)),
-        score=0.05, authority_tier=tier, issuing_agency="NEA", title="t",
-        source_url="u", retrieved_at="2026-08-08",
+        doc_id="d",
+        chunk_id="d::000",
+        text=text,
+        char_span=(0, len(text)),
+        score=0.05,
+        authority_tier=tier,
+        issuing_agency="NEA",
+        title="t",
+        source_url="u",
+        retrieved_at="2026-08-08",
     )
 
 
 def test_unsourced_numeral_triggers_regeneration() -> None:
     draft = DraftAdvisory(decision=Decision.restrict, rationale="Cancel above PSI 175.")
-    out = run_chain(draft, [span("x")], sourced_numbers={"101"},
-                    matrix_decision=Decision.restrict, attempt=0)
+    out = run_chain(
+        draft,
+        [span("x")],
+        sourced_numbers={"101"},
+        matrix_decision=Decision.restrict,
+        attempt=0,
+    )
     assert out.needs_regeneration
     assert any(e.guardrail == "numeric_integrity" and e.triggered for e in out.events)
 
@@ -250,7 +265,10 @@ def test_numerals_the_asker_wrote_are_sourced() -> None:
 
     sourced = Orchestrator._sourced_numbers(
         "PSI just hit 101. My K1 class has outdoor play in 20 minutes.",
-        None, None, None, [],
+        None,
+        None,
+        None,
+        [],
     )
     assert "20" in sourced
     assert "101" in sourced
@@ -258,8 +276,13 @@ def test_numerals_the_asker_wrote_are_sourced() -> None:
 
 def test_second_unsourced_numeral_failure_abstains() -> None:
     draft = DraftAdvisory(decision=Decision.restrict, rationale="Cancel above PSI 175.")
-    out = run_chain(draft, [span("x")], sourced_numbers={"101"},
-                    matrix_decision=Decision.restrict, attempt=1)
+    out = run_chain(
+        draft,
+        [span("x")],
+        sourced_numbers={"101"},
+        matrix_decision=Decision.restrict,
+        attempt=1,
+    )
     assert out.abstention is not None
 
 
@@ -269,9 +292,13 @@ def test_matrix_sourced_claims_are_not_re_verified() -> None:
     merely used different wording, causing spurious abstentions."""
     claim = "Full-day preschools provide at least 30 minutes of outdoor activity daily."
     draft = DraftAdvisory(decision=Decision.restrict, obligations=[claim])
-    out = run_chain(draft, [span("unrelated text about masks")],
-                    sourced_numbers={"30"}, matrix_decision=Decision.restrict,
-                    grounded_claims={claim})
+    out = run_chain(
+        draft,
+        [span("unrelated text about masks")],
+        sourced_numbers={"30"},
+        matrix_decision=Decision.restrict,
+        grounded_claims={claim},
+    )
     assert claim in out.draft.obligations
 
 
@@ -280,9 +307,13 @@ def test_model_introduced_claim_is_still_verified() -> None:
         decision=Decision.restrict,
         obligations=["Centres must install ultraviolet sterilisation in every room."],
     )
-    out = run_chain(draft, [span("Minimise outdoor activities at this band.")],
-                    sourced_numbers=set(), matrix_decision=Decision.restrict,
-                    grounded_claims=set())
+    out = run_chain(
+        draft,
+        [span("Minimise outdoor activities at this band.")],
+        sourced_numbers=set(),
+        matrix_decision=Decision.restrict,
+        grounded_claims=set(),
+    )
     assert out.draft.obligations == [] or out.needs_regeneration
 
 
@@ -298,7 +329,8 @@ def test_over_permission_rejects_permission_by_absence() -> None:
 def test_over_permission_accepts_an_explicit_permission() -> None:
     draft = DraftAdvisory(decision=Decision.proceed, rationale="No restriction applies.")
     ev = over_permission(
-        draft, [span("| 0 - 100 (Good, Moderate) | Normal activities |")],
+        draft,
+        [span("| 0 - 100 (Good, Moderate) | Normal activities |")],
         Decision.proceed,
     )
     assert not ev.triggered
@@ -325,8 +357,12 @@ def test_model_more_permissive_than_matrix_is_rejected() -> None:
 
 def test_disclaimer_is_always_injected() -> None:
     draft = DraftAdvisory(decision=Decision.restrict, rationale="Restricted.")
-    out = run_chain(draft, [span("Minimise outdoor activities.")],
-                    sourced_numbers=set(), matrix_decision=Decision.restrict)
+    out = run_chain(
+        draft,
+        [span("Minimise outdoor activities.")],
+        sourced_numbers=set(),
+        matrix_decision=Decision.restrict,
+    )
     assert any(e.guardrail == "disclaimer_injection" for e in out.events)
     assert "nea.gov.sg" in DISCLAIMER
 
@@ -347,8 +383,12 @@ def test_claim_with_an_unsupported_numeral_is_not_entailed() -> None:
 def test_well_supported_claim_is_entailed() -> None:
     r = verify_claim_against_spans(
         "Minimise outdoor activities and avoid strenuous indoor exercise.",
-        [span("Schools should minimise outdoor activities and avoid strenuous "
-              "indoor physical exercise at this band.")],
+        [
+            span(
+                "Schools should minimise outdoor activities and avoid strenuous "
+                "indoor physical exercise at this band."
+            )
+        ],
     )
     assert r.verdict is ClaimVerdict.entailed
 

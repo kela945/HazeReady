@@ -57,9 +57,7 @@ class _OpenAIShapeProvider:
         }
         try:
             async with httpx.AsyncClient(timeout=self.timeout_s) as client:
-                resp = await client.post(
-                    self.base_url, headers=self._headers(), json=body
-                )
+                resp = await client.post(self.base_url, headers=self._headers(), json=body)
                 if resp.status_code >= 400:
                     return LLMResponse(
                         text="",
@@ -70,7 +68,9 @@ class _OpenAIShapeProvider:
                 data = resp.json()
         except Exception as exc:
             return LLMResponse(
-                text="", model=self.model, provider=self.name,
+                text="",
+                model=self.model,
+                provider=self.name,
                 error=f"{type(exc).__name__}: {exc}",
             )
 
@@ -78,7 +78,9 @@ class _OpenAIShapeProvider:
             text = data["choices"][0]["message"]["content"] or ""
         except (KeyError, IndexError):
             return LLMResponse(
-                text="", model=self.model, provider=self.name,
+                text="",
+                model=self.model,
+                provider=self.name,
                 error=f"unexpected response shape: {str(data)[:300]}",
             )
         usage = data.get("usage") or {}
@@ -143,13 +145,17 @@ class OllamaProvider:
                 resp = await client.post(f"{self.base_url}/api/generate", json=body)
                 if resp.status_code >= 400:
                     return LLMResponse(
-                        text="", model=self.model, provider=self.name,
+                        text="",
+                        model=self.model,
+                        provider=self.name,
                         error=f"HTTP {resp.status_code}: {resp.text[:300]}",
                     )
                 data = resp.json()
         except Exception as exc:
             return LLMResponse(
-                text="", model=self.model, provider=self.name,
+                text="",
+                model=self.model,
+                provider=self.name,
                 error=f"{type(exc).__name__}: {exc}",
             )
         return LLMResponse(
@@ -182,7 +188,9 @@ class GoogleProvider:
     ) -> LLMResponse:
         if not self.api_key:
             return LLMResponse(
-                text="", model=self.model, provider=self.name,
+                text="",
+                model=self.model,
+                provider=self.name,
                 error="google: LLM_API_KEY is not set",
             )
         url = (
@@ -200,18 +208,20 @@ class GoogleProvider:
         }
         try:
             async with httpx.AsyncClient(timeout=self.timeout_s) as client:
-                resp = await client.post(
-                    url, params={"key": self.api_key}, json=body
-                )
+                resp = await client.post(url, params={"key": self.api_key}, json=body)
                 if resp.status_code >= 400:
                     return LLMResponse(
-                        text="", model=self.model, provider=self.name,
+                        text="",
+                        model=self.model,
+                        provider=self.name,
                         error=f"HTTP {resp.status_code}: {resp.text[:300]}",
                     )
                 data = resp.json()
         except Exception as exc:
             return LLMResponse(
-                text="", model=self.model, provider=self.name,
+                text="",
+                model=self.model,
+                provider=self.name,
                 error=f"{type(exc).__name__}: {exc}",
             )
 
@@ -220,7 +230,9 @@ class GoogleProvider:
             text = "".join(p.get("text", "") for p in parts)
         except (KeyError, IndexError):
             return LLMResponse(
-                text="", model=self.model, provider=self.name,
+                text="",
+                model=self.model,
+                provider=self.name,
                 error=f"unexpected response shape: {str(data)[:300]}",
             )
         usage = data.get("usageMetadata") or {}

@@ -4,7 +4,7 @@ PY := .venv/bin/python
 PIP := .venv/bin/pip
 PYTHON311 ?= python3.11
 
-.PHONY: help setup validate index web run eval report test lint clean demo
+.PHONY: help setup validate index web run eval report test lint clean demo audit benchmark reset-telemetry
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
@@ -50,6 +50,9 @@ test: ## Run the test suite, corpus validation and the README claim audit
 	$(PY) -m pytest -q
 	$(PY) scripts/validate_corpus.py
 	-$(PY) scripts/audit_readme.py
+
+reset-telemetry: ## Clear the telemetry store, then replay demo traffic (needs a running server)
+	$(PY) scripts/reset_telemetry.py --seed 16
 
 audit: ## Check every quantitative README claim against the repo
 	$(PY) scripts/audit_readme.py

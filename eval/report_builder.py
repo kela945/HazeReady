@@ -446,6 +446,22 @@ def main() -> int:
             r["by_category"]["threshold_boundary"]["decision_accuracy"] for r in by_arm[arm]
         )[0]
 
+    # The reranking verdict, stated from the numbers rather than asserted. If
+    # either arm is missing the sentence is dropped rather than guessed at.
+    rerank_note = ""
+    if "A2" in a and "A3" in a:
+        d_recall = (
+            a["A3"]["metrics"]["citation_recall"][0] - a["A2"]["metrics"]["citation_recall"][0]
+        )
+        base_ms = a["A2"]["metrics"]["p50_latency_ms"][0]
+        mult = a["A3"]["metrics"]["p50_latency_ms"][0] / base_ms if base_ms else 0.0
+        rerank_note = (
+            f'<p class="note">Reranking is the clearest verdict: {d_recall:+.3f} citation recall '
+            f"for {mult:.0f}× the p50 latency, on a 64-document corpus that hybrid fusion already "
+            "orders well. It ships off by default and stays configurable, because that calculus "
+            "changes as a corpus grows.</p>"
+        )
+
     import plotly
 
     pkg = Path(plotly.__file__).parent / "package_data" / "plotly.min.js"
@@ -633,10 +649,7 @@ decides which sources get cited, so it is judged on citation recall and latency.
 
 {arm_table(a, COMPONENTS)}
 
-<p class="note">Reranking is the clearest verdict: a fraction of a point of citation recall
-for a large multiple of the latency, on a 64-document corpus that hybrid fusion already
-orders well. It ships off by default and stays configurable, because that calculus changes
-as a corpus grows.</p>
+{rerank_note}
 
 <details class="more"><summary>Show every metric for every configuration</summary>
 {arm_table(a, list(a), HEADLINE + DETAIL)}

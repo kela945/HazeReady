@@ -6,6 +6,7 @@ Exits 2 with an explanatory message if that file does not exist -- no second
 annotation was collected for this build, and no kappa is reported rather than
 a fabricated one.
 """
+
 from __future__ import annotations
 
 import json

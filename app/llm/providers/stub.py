@@ -66,9 +66,7 @@ class StubProvider:
         block = re.search(r"OBLIGATIONS_START\n(.*?)\nOBLIGATIONS_END", user, re.S)
         if block:
             obligations = [
-                line.strip("- ").strip()
-                for line in block.group(1).splitlines()
-                if line.strip()
+                line.strip("- ").strip() for line in block.group(1).splitlines() if line.strip()
             ]
 
         doc_ids: list[str] = []
@@ -103,11 +101,7 @@ class StubProvider:
                 "abstain_authority": authority,
             }
 
-        rationale = (
-            f"The governing band is {band_label}. "
-            if band_label
-            else ""
-        ) + (
+        rationale = (f"The governing band is {band_label}. " if band_label else "") + (
             "The decision follows from the published obligations for this role at "
             "this band, as set out in the cited sources."
         )

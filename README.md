@@ -92,7 +92,7 @@ the reproducibility path, not the product.
 
 ```bash
 make test        # 116 tests + corpus/policy-matrix validation
-make eval        # full 9-arm ablation grid, rebuilds reports/eval_report.html
+make eval        # full 8-arm ablation grid, rebuilds reports/eval_report.html
 make report      # rebuild the report from existing reports/raw/
 make validate    # corpus + policy matrix only
 make lint

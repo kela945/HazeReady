@@ -89,26 +89,44 @@ class TelemetryStore:
                    top_retrieval_score, abstained, payload)
                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
                 (
-                    _now(), advisory.query_id, "advisory", advisory.role.value,
-                    advisory.decision.value, advisory.arm, advisory.latency_ms,
-                    advisory.prompt_tokens, advisory.completion_tokens,
-                    advisory.model, advisory.provider, advisory.top_retrieval_score,
+                    _now(),
+                    advisory.query_id,
+                    "advisory",
+                    advisory.role.value,
+                    advisory.decision.value,
+                    advisory.arm,
+                    advisory.latency_ms,
+                    advisory.prompt_tokens,
+                    advisory.completion_tokens,
+                    advisory.model,
+                    advisory.provider,
+                    advisory.top_retrieval_score,
                     1 if advisory.decision.value == "abstain" else 0,
-                    json.dumps({
-                        "question": advisory.question,
-                        "tools": [t.tool for t in advisory.trajectory],
-                        "citations": [c.doc_id for c in advisory.citations],
-                        "band": advisory.band_result.band_label if advisory.band_result else None,
-                        "conflicts": advisory.conflicts,
-                    }),
+                    json.dumps(
+                        {
+                            "question": advisory.question,
+                            "tools": [t.tool for t in advisory.trajectory],
+                            "citations": [c.doc_id for c in advisory.citations],
+                            "band": advisory.band_result.band_label
+                            if advisory.band_result
+                            else None,
+                            "conflicts": advisory.conflicts,
+                        }
+                    ),
                 ),
             )
             for g in advisory.guardrail_events:
                 self._conn.execute(
                     """INSERT INTO guardrail_events (ts, query_id, guardrail,
                        triggered, action, detail) VALUES (?,?,?,?,?,?)""",
-                    (_now(), advisory.query_id, g.guardrail, int(g.triggered),
-                     g.action, g.detail),
+                    (
+                        _now(),
+                        advisory.query_id,
+                        g.guardrail,
+                        int(g.triggered),
+                        g.action,
+                        g.detail,
+                    ),
                 )
             self._conn.commit()
 
@@ -192,9 +210,12 @@ class TelemetryStore:
             "SELECT COUNT(*) n FROM events WHERE kind='advisory' AND top_retrieval_score < ?",
             (out_of_corpus_threshold,),
         ).fetchone()["n"]
-        mean_score = c.execute(
-            "SELECT AVG(top_retrieval_score) s FROM events WHERE kind='advisory'"
-        ).fetchone()["s"] or 0.0
+        mean_score = (
+            c.execute(
+                "SELECT AVG(top_retrieval_score) s FROM events WHERE kind='advisory'"
+            ).fetchone()["s"]
+            or 0.0
+        )
         fb = {
             r["rating"]: r["n"]
             for r in c.execute("SELECT rating, COUNT(*) n FROM feedback GROUP BY rating")
@@ -217,9 +238,7 @@ class TelemetryStore:
             "out_of_corpus_rate": round(out_of_corpus / total, 4),
             "mean_top_retrieval_score": round(mean_score, 5),
             "feedback": fb,
-            "negative_feedback_rate": round(
-                fb.get("down", 0) / max(1, sum(fb.values())), 4
-            ),
+            "negative_feedback_rate": round(fb.get("down", 0) / max(1, sum(fb.values())), 4),
             "tool_call_distribution": tool_counts,
             "upstreams": [dict(r) for r in c.execute("SELECT * FROM upstream_status")],
         }
@@ -270,8 +289,7 @@ class TelemetryStore:
         for role, n in s["by_role"].items():
             lines.append(f'hazeready_queries_by_role{{role="{role}"}} {n}')
         cost = (
-            s["tokens"]["prompt"] / 1e6 * cost_in
-            + s["tokens"]["completion"] / 1e6 * cost_out
+            s["tokens"]["prompt"] / 1e6 * cost_in + s["tokens"]["completion"] / 1e6 * cost_out
         )
         lines += [
             "# HELP hazeready_cost_usd_total Estimated spend at the configured rate.",

@@ -139,7 +139,9 @@ class _Trace:
     records: list[ToolCallRecord] = field(default_factory=list)
     hop: int = 0
 
-    def add(self, tool: str, args: dict, result: Any, ms: int, ok: bool = True, error: str = "") -> None:
+    def add(
+        self, tool: str, args: dict, result: Any, ms: int, ok: bool = True, error: str = ""
+    ) -> None:
         self.hop += 1
         self.records.append(
             ToolCallRecord(
@@ -234,8 +236,16 @@ class Orchestrator:
                 else []
             )
             return self._finalise_abstention(
-                query_id, question, role, routed_by, confidence, abstention,
-                spans, trace, started, arm,
+                query_id,
+                question,
+                role,
+                routed_by,
+                confidence,
+                abstention,
+                spans,
+                trace,
+                started,
+                arm,
             )
 
         # --- 3. Concurrent context gathering --------------------------------
@@ -245,8 +255,12 @@ class Orchestrator:
         async def _reading():
             t0 = time.perf_counter()
             r = await client.get_current_air_quality(region)
-            trace.add("get_current_air_quality", {"region": (region or Region.national).value},
-                      r, int((time.perf_counter() - t0) * 1000))
+            trace.add(
+                "get_current_air_quality",
+                {"region": (region or Region.national).value},
+                r,
+                int((time.perf_counter() - t0) * 1000),
+            )
             return r
 
         async def _forecast():
@@ -254,15 +268,20 @@ class Orchestrator:
                 return None
             t0 = time.perf_counter()
             f = await client.get_air_quality_forecast(24, region)
-            trace.add("get_air_quality_forecast", {"horizon_hours": 24}, f,
-                      int((time.perf_counter() - t0) * 1000))
+            trace.add(
+                "get_air_quality_forecast",
+                {"horizon_hours": 24},
+                f,
+                int((time.perf_counter() - t0) * 1000),
+            )
             return f
 
         async def _hotspots():
             t0 = time.perf_counter()
             h = await client.get_regional_hotspots(1)
-            trace.add("get_regional_hotspots", {"days": 1}, h,
-                      int((time.perf_counter() - t0) * 1000))
+            trace.add(
+                "get_regional_hotspots", {"days": 1}, h, int((time.perf_counter() - t0) * 1000)
+            )
             return h
 
         if arm.use_tools:
@@ -272,8 +291,13 @@ class Orchestrator:
         else:
             reading, forecast, hotspots = None, None, None
 
-        emit("reading", {"psi_24h": getattr(reading, "psi_24h", None),
-                         "source": getattr(reading, "source", "none")})
+        emit(
+            "reading",
+            {
+                "psi_24h": getattr(reading, "psi_24h", None),
+                "source": getattr(reading, "source", "none"),
+            },
+        )
 
         # --- 4. Deterministic band resolution -------------------------------
         index = self._governing_index(question, role, wants_forecast)
@@ -293,20 +317,27 @@ class Orchestrator:
             index = IndexKind.psi_24h
             forecast = Forecast(
                 horizon_hours=24,
-                psi_low=stated_forecast.low, psi_high=stated_forecast.high,
+                psi_low=stated_forecast.low,
+                psi_high=stated_forecast.high,
                 band_low=resolve_psi_band(stated_forecast.low).band,
                 band_high=resolve_psi_band(stated_forecast.high).band,
                 straddles_boundary=(
                     resolve_psi_band(stated_forecast.low).band
                     != resolve_psi_band(stated_forecast.high).band
                 ),
-                issued_at=datetime.now(UTC), source="live",
+                issued_at=datetime.now(UTC),
+                source="live",
                 note=f'Forecast range quoted by the asker: "{stated_forecast.matched_text}".',
             )
-            trace.add("get_air_quality_forecast",
-                      {"source": "stated_in_question",
-                       "range": [stated_forecast.low, stated_forecast.high]},
-                      forecast, 0)
+            trace.add(
+                "get_air_quality_forecast",
+                {
+                    "source": "stated_in_question",
+                    "range": [stated_forecast.low, stated_forecast.high],
+                },
+                forecast,
+                0,
+            )
         elif stated is not None:
             index = stated.index
 
@@ -335,11 +366,20 @@ class Orchestrator:
             emit("abstain", {"reason": abstention.reason.value, "gap": "index_mismatch"})
             spans = (
                 self.d.retriever.search(question, role=role, k=3, mode=arm.retrieval_mode())
-                if arm.use_retrieval else []
+                if arm.use_retrieval
+                else []
             )
             return self._finalise_abstention(
-                query_id, question, role, routed_by, confidence, abstention,
-                spans, trace, started, arm,
+                query_id,
+                question,
+                role,
+                routed_by,
+                confidence,
+                abstention,
+                spans,
+                trace,
+                started,
+                arm,
             )
 
         if arm.use_tools and (reading is not None or stated is not None):
@@ -352,20 +392,21 @@ class Orchestrator:
                 band_result = resolve_psi_band(float(value), index.value)
                 trace.add(
                     "resolve_psi_band",
-                    {"value": value, "index": index.value,
-                     "value_source": "stated_in_question" if stated else "live_reading"},
-                    band_result, int((time.perf_counter() - t0) * 1000))
+                    {
+                        "value": value,
+                        "index": index.value,
+                        "value_source": "stated_in_question" if stated else "live_reading",
+                    },
+                    band_result,
+                    int((time.perf_counter() - t0) * 1000),
+                )
                 governing_band = band_result.band
                 emit("band", {"value": value, "band": band_result.band_label})
 
             # A forecast decision is planned against the worst band the range
             # reaches. Only meaningful when the current band is on the same
             # index; mixing a PM2.5 band with a PSI forecast band is undefined.
-            if (
-                forecast is not None
-                and arm.deterministic_bands
-                and index == IndexKind.psi_24h
-            ):
+            if forecast is not None and arm.deterministic_bands and index == IndexKind.psi_24h:
                 if governing_band is not None:
                     governing_band = worse_band(governing_band, forecast.band_high)
                 else:
@@ -381,15 +422,19 @@ class Orchestrator:
         if governing_band is not None:
             t0 = time.perf_counter()
             obligation_set = self.d.policy_matrix.lookup(role, governing_band, index)
-            trace.add("lookup_role_obligations",
-                      {"role": role.value, "band": governing_band.value, "index": index.value},
-                      obligation_set, int((time.perf_counter() - t0) * 1000))
+            trace.add(
+                "lookup_role_obligations",
+                {"role": role.value, "band": governing_band.value, "index": index.value},
+                obligation_set,
+                int((time.perf_counter() - t0) * 1000),
+            )
             # Where the asker names a cohort and the guidance differentiates,
             # the named cohort governs rather than the role default.
             if cohort is not None and obligation_set.found:
                 variant = next(
                     (
-                        v for v in obligation_set.cohort_variants
+                        v
+                        for v in obligation_set.cohort_variants
                         if v.cohort in (cohort, "susceptible")
                         and cohort != obligation_set.default_cohort
                     ),
@@ -403,10 +448,16 @@ class Orchestrator:
                             + [f"cohort_{variant.cohort}"],
                         }
                     )
-                    trace.add("apply_cohort_variant",
-                              {"cohort": variant.cohort}, obligation_set, 0)
-            emit("obligations", {"decision": obligation_set.decision.value,
-                                 "count": len(obligation_set.actions)})
+                    trace.add(
+                        "apply_cohort_variant", {"cohort": variant.cohort}, obligation_set, 0
+                    )
+            emit(
+                "obligations",
+                {
+                    "decision": obligation_set.decision.value,
+                    "count": len(obligation_set.actions),
+                },
+            )
 
         # --- 6. Retrieval ---------------------------------------------------
         spans: list[RetrievedSpan] = []
@@ -424,27 +475,40 @@ class Orchestrator:
                 rrf_k=self.s.rrf_k,
                 fusion_top_k=self.s.fusion_top_k,
             )
-            trace.add("search_advisories", {"query": question[:80], "k": self.s.final_top_k},
-                      spans, int((time.perf_counter() - t0) * 1000))
-            emit("retrieval", {"count": len(spans),
-                               "top_score": round(spans[0].score, 5) if spans else 0.0})
+            trace.add(
+                "search_advisories",
+                {"query": question[:80], "k": self.s.final_top_k},
+                spans,
+                int((time.perf_counter() - t0) * 1000),
+            )
+            emit(
+                "retrieval",
+                {"count": len(spans), "top_score": round(spans[0].score, 5) if spans else 0.0},
+            )
 
         top_score = spans[0].score if spans else 0.0
 
         # --- 7. Composition by the language model ---------------------------
         matrix_decision = (
-            obligation_set.decision if obligation_set and obligation_set.found
+            obligation_set.decision
+            if obligation_set and obligation_set.found
             else Decision.abstain
         )
         draft, usage = await self._compose(
-            question, role, skill, band_result, obligation_set, spans,
-            reading, forecast, arm, stated=stated,
+            question,
+            role,
+            skill,
+            band_result,
+            obligation_set,
+            spans,
+            reading,
+            forecast,
+            arm,
+            stated=stated,
         )
 
         # --- 8. Guardrail chain ---------------------------------------------
-        sourced_numbers = self._sourced_numbers(
-            question, reading, band_result, forecast, spans
-        )
+        sourced_numbers = self._sourced_numbers(question, reading, band_result, forecast, spans)
         if stated is not None:
             sourced_numbers.add(str(stated.value))
         if stated_forecast is not None:
@@ -456,6 +520,7 @@ class Orchestrator:
         # abstentions (e.g. "30 minutes of outdoor activity daily").
         if obligation_set is not None and obligation_set.found:
             import re as _re
+
             for st in list(obligation_set.actions) + list(obligation_set.obligations):
                 sourced_numbers.update(_re.findall(r"\b\d{1,4}\b", st.text))
                 sourced_numbers.update(_re.findall(r"\b\d{1,4}\b", st.source_quote))
@@ -465,18 +530,35 @@ class Orchestrator:
                 s.text for s in list(obligation_set.actions) + list(obligation_set.obligations)
             }
         outcome = guardrails.run_chain(
-            draft, spans, sourced_numbers, matrix_decision, attempt=0,
+            draft,
+            spans,
+            sourced_numbers,
+            matrix_decision,
+            attempt=0,
             grounded_claims=grounded_claims,
         )
         if outcome.needs_regeneration:
             emit("guardrail", {"action": "regenerate"})
             draft2, usage2 = await self._compose(
-                question, role, skill, band_result, obligation_set, spans,
-                reading, forecast, arm, retry=True, stated=stated,
+                question,
+                role,
+                skill,
+                band_result,
+                obligation_set,
+                spans,
+                reading,
+                forecast,
+                arm,
+                retry=True,
+                stated=stated,
             )
             usage = (usage[0] + usage2[0], usage[1] + usage2[1])
             outcome = guardrails.run_chain(
-                draft2, spans, sourced_numbers, matrix_decision, attempt=1,
+                draft2,
+                spans,
+                sourced_numbers,
+                matrix_decision,
+                attempt=1,
                 grounded_claims=grounded_claims,
             )
 
@@ -485,16 +567,23 @@ class Orchestrator:
             # arm measures what the guardrail was catching.
             restored = list(outcome.draft.obligations) + outcome.stripped_claims
             outcome.draft = outcome.draft.model_copy(update={"obligations": restored})
-            outcome.events = [
-                e for e in outcome.events if e.guardrail != "citation_entailment"
-            ]
+            outcome.events = [e for e in outcome.events if e.guardrail != "citation_entailment"]
 
         elapsed_ms = int((time.perf_counter() - started) * 1000)
 
         if outcome.abstention is not None:
             return self._finalise_abstention(
-                query_id, question, role, routed_by, confidence, outcome.abstention,
-                spans, trace, started, arm, guardrail_events=outcome.events,
+                query_id,
+                question,
+                role,
+                routed_by,
+                confidence,
+                outcome.abstention,
+                spans,
+                trace,
+                started,
+                arm,
+                guardrail_events=outcome.events,
             )
 
         advisory = Advisory(
@@ -510,7 +599,9 @@ class Orchestrator:
             ),
             obligations=outcome.draft.obligations,
             rationale=outcome.draft.rationale,
-            citations=self._build_citations(outcome.draft.citation_doc_ids, spans, obligation_set),
+            citations=self._build_citations(
+                outcome.draft.citation_doc_ids, spans, obligation_set
+            ),
             band_result=band_result,
             reading=reading,
             forecast=forecast,
@@ -540,15 +631,26 @@ class Orchestrator:
         return any(
             t in q
             for t in (
-                "tomorrow", "next week", "later", "tonight", "this evening",
-                "forecast", "next day", "plan", "planning", "scheduled", "upcoming",
-                "friday", "monday", "weekend", "in two days", "day after",
+                "tomorrow",
+                "next week",
+                "later",
+                "tonight",
+                "this evening",
+                "forecast",
+                "next day",
+                "plan",
+                "planning",
+                "scheduled",
+                "upcoming",
+                "friday",
+                "monday",
+                "weekend",
+                "in two days",
+                "day after",
             )
         )
 
-    def _governing_index(
-        self, question: str, role: Role, wants_forecast: bool
-    ) -> IndexKind:
+    def _governing_index(self, question: str, role: Role, wants_forecast: bool) -> IndexKind:
         """The 24-hour PSI governs planned and institutional decisions. The
         1-hour PM2.5 governs an immediate personal go/no-go. Choosing the wrong
         one is a category error even when both readings are correct."""
@@ -640,8 +742,12 @@ class Orchestrator:
             if span is not None:
                 citations.append(
                     Citation(
-                        marker=i, doc_id=doc_id, chunk_id=span.chunk_id, title=span.title,
-                        issuing_agency=span.issuing_agency, source_url=span.source_url,
+                        marker=i,
+                        doc_id=doc_id,
+                        chunk_id=span.chunk_id,
+                        title=span.title,
+                        issuing_agency=span.issuing_agency,
+                        source_url=span.source_url,
                         retrieved_at=span.retrieved_at,
                         char_span=st.char_span if st and st.char_span else span.char_span,
                         authority_tier=span.authority_tier,
@@ -654,11 +760,16 @@ class Orchestrator:
                     continue
                 citations.append(
                     Citation(
-                        marker=i, doc_id=doc_id, chunk_id=f"{doc_id}::000",
-                        title=meta["title"], issuing_agency=meta["issuing_agency"],
-                        source_url=meta["source_url"], retrieved_at=meta["retrieved_at"],
+                        marker=i,
+                        doc_id=doc_id,
+                        chunk_id=f"{doc_id}::000",
+                        title=meta["title"],
+                        issuing_agency=meta["issuing_agency"],
+                        source_url=meta["source_url"],
+                        retrieved_at=meta["retrieved_at"],
                         char_span=st.char_span or (0, 0),
-                        authority_tier=meta["authority_tier"], quote=st.source_quote,
+                        authority_tier=meta["authority_tier"],
+                        quote=st.source_quote,
                     )
                 )
         return citations
@@ -676,15 +787,30 @@ class Orchestrator:
         }
 
     def _finalise_abstention(
-        self, query_id, question, role, routed_by, confidence, abstention,
-        spans, trace, started, arm, guardrail_events=None,
+        self,
+        query_id,
+        question,
+        role,
+        routed_by,
+        confidence,
+        abstention,
+        spans,
+        trace,
+        started,
+        arm,
+        guardrail_events=None,
     ) -> Advisory:
         advisory = Advisory(
-            query_id=query_id, question=question, role=role, role_routed_by=routed_by,
-            router_confidence=confidence, decision=Decision.abstain,
+            query_id=query_id,
+            question=question,
+            role=role,
+            role_routed_by=routed_by,
+            router_confidence=confidence,
+            decision=Decision.abstain,
             decision_label=DECISION_LABELS[Decision.abstain],
             reason_codes=[abstention.reason.value],
-            rationale=abstention.plain_language, abstention=abstention,
+            rationale=abstention.plain_language,
+            abstention=abstention,
             citations=self._build_citations([], spans, None),
             trajectory=trace.records,
             guardrail_events=guardrail_events or [],
@@ -703,8 +829,18 @@ class Orchestrator:
     # -- composition --------------------------------------------------------
 
     async def _compose(
-        self, question, role, skill, band_result, obligation_set, spans,
-        reading, forecast, arm: ArmConfig, retry: bool = False, stated=None,
+        self,
+        question,
+        role,
+        skill,
+        band_result,
+        obligation_set,
+        spans,
+        reading,
+        forecast,
+        arm: ArmConfig,
+        retry: bool = False,
+        stated=None,
     ) -> tuple[DraftAdvisory, tuple[int, int]]:
         system = SYSTEM_PROMPT if arm.deterministic_bands else SYSTEM_PROMPT_LLM_BANDS
         if arm.use_skills and skill is not None:
@@ -717,11 +853,19 @@ class Orchestrator:
             )
 
         user = self._build_context(
-            question, role, band_result, obligation_set, spans, reading, forecast,
-            arm, stated,
+            question,
+            role,
+            band_result,
+            obligation_set,
+            spans,
+            reading,
+            forecast,
+            arm,
+            stated,
         )
         resp = await self.d.llm.complete(
-            system, user,
+            system,
+            user,
             temperature=self.s.llm_temperature,
             max_tokens=self.s.llm_max_tokens,
             schema=DRAFT_ADVISORY_SCHEMA,
@@ -772,8 +916,16 @@ class Orchestrator:
         )
 
     def _build_context(
-        self, question, role, band_result, obligation_set, spans, reading, forecast,
-        arm, stated=None,
+        self,
+        question,
+        role,
+        band_result,
+        obligation_set,
+        spans,
+        reading,
+        forecast,
+        arm,
+        stated=None,
     ) -> str:
         lines = [f"QUESTION: {question}", f"ROLE: {role.value}"]
 
@@ -819,9 +971,7 @@ class Orchestrator:
                 lines.append("COHORT_VARIANTS:")
                 for v in obligation_set.cohort_variants:
                     lines.append(f"- {v.cohort}: {v.decision.value} — {v.note}")
-            lines.append(
-                f"DEFAULT_COHORT: {obligation_set.default_cohort}"
-            )
+            lines.append(f"DEFAULT_COHORT: {obligation_set.default_cohort}")
         elif arm.deterministic_bands:
             lines.append("GOVERNING_DECISION: abstain")
             lines.append("ABSTAIN_REASON: no_governing_guidance")

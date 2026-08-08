@@ -49,7 +49,9 @@ def main() -> int:
         f"{'matches' if manifest['benchmark_matches_freeze'] else '**MISMATCH** vs'}"
         f" the freeze.\n"
     )
-    lines.append("| Arm | What it changes | Accuracy ↑ | Over-perm ↓ | Abstention F1 ↑ | Risk ↓ | p50 ms |")
+    lines.append(
+        "| Arm | What it changes | Accuracy ↑ | Over-perm ↓ | Abstention F1 ↑ | Risk ↓ | p50 ms |"
+    )
     lines.append("|---|---|---|---|---|---|---|")
 
     for arm in sorted(by_arm):
@@ -70,6 +72,7 @@ def main() -> int:
 
     # The headline comparison, stated from the data rather than asserted.
     if "A4" in by_arm and "A5" in by_arm:
+
         def cat(arm: str, c: str) -> float:
             return mean_std(r["by_category"][c]["decision_accuracy"] for r in by_arm[arm])[0]
 

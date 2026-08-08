@@ -132,8 +132,12 @@ class PinnedAirQualityClient(AirQualityClient):
 
     def __init__(self, base: AirQualityClient, fixture_name: str) -> None:
         super().__init__(
-            base.psi_url, base.pm25_url, base.fixtures_dir,
-            offline=True, timeout_s=base.timeout_s, cache_ttl_s=base.cache_ttl_s,
+            base.psi_url,
+            base.pm25_url,
+            base.fixtures_dir,
+            offline=True,
+            timeout_s=base.timeout_s,
+            cache_ttl_s=base.cache_ttl_s,
         )
         self.fixture_name = fixture_name
 
@@ -173,9 +177,13 @@ def frozen_hash() -> str:
 
 def git_commit() -> str:
     try:
-        return subprocess.check_output(
-            ["git", "rev-parse", "--short", "HEAD"], cwd=REPO, stderr=subprocess.DEVNULL
-        ).decode().strip()
+        return (
+            subprocess.check_output(
+                ["git", "rev-parse", "--short", "HEAD"], cwd=REPO, stderr=subprocess.DEVNULL
+            )
+            .decode()
+            .strip()
+        )
     except Exception:
         return "not-a-git-repo"
 
@@ -195,12 +203,16 @@ async def run_item(container: Container, item: dict, arm_cfg: ArmConfig) -> Item
         )
     except Exception as exc:  # keep one bad item from aborting a 4860-item grid
         return ItemResult(
-            item_id=item["id"], category=item["category"],
-            gold_decision=item["gold_decision"], pred_decision="error",
-            gold_role=item["role"], pred_role="",
+            item_id=item["id"],
+            category=item["category"],
+            gold_decision=item["gold_decision"],
+            pred_decision="error",
+            gold_role=item["role"],
+            pred_role="",
             latency_ms=int((time.perf_counter() - t0) * 1000),
             error=f"{type(exc).__name__}: {exc}",
-            question=item["question"], notes=item.get("notes", ""),
+            question=item["question"],
+            notes=item.get("notes", ""),
         )
 
     if advisory.llm_error:
@@ -215,21 +227,21 @@ async def run_item(container: Container, item: dict, arm_cfg: ArmConfig) -> Item
     band_before_lookup = False
     if resolve_called:
         ri = tools.index("resolve_psi_band")
-        band_before_lookup = (
-            "lookup_role_obligations" not in tools
-            or ri < tools.index("lookup_role_obligations")
+        band_before_lookup = "lookup_role_obligations" not in tools or ri < tools.index(
+            "lookup_role_obligations"
         )
 
     return ItemResult(
-        item_id=item["id"], category=item["category"],
-        gold_decision=item["gold_decision"], pred_decision=advisory.decision.value,
-        gold_role=item["role"], pred_role=advisory.role.value,
+        item_id=item["id"],
+        category=item["category"],
+        gold_decision=item["gold_decision"],
+        pred_decision=advisory.decision.value,
+        gold_role=item["role"],
+        pred_role=advisory.role.value,
         gold_citation_doc_ids=item.get("gold_citation_doc_ids", []),
         pred_citation_doc_ids=[c.doc_id for c in advisory.citations],
         gold_abstain_reason=item.get("gold_abstain_reason", ""),
-        pred_abstain_reason=(
-            advisory.abstention.reason.value if advisory.abstention else ""
-        ),
+        pred_abstain_reason=(advisory.abstention.reason.value if advisory.abstention else ""),
         must_not_contain=item.get("must_not_contain", []),
         must_not_contain_hits=hits,
         band_resolved_before_claim=band_before_lookup,
@@ -328,8 +340,12 @@ async def main_async(args) -> int:
         if arm.get("provider_override"):
             base_provider = make_provider(
                 arm["provider_override"],
-                "qwen3:8b" if arm["provider_override"] == "ollama" else settings.resolved_llm_model,
-                settings.llm_api_key, settings.ollama_base_url, settings.llm_timeout_s,
+                "qwen3:8b"
+                if arm["provider_override"] == "ollama"
+                else settings.resolved_llm_model,
+                settings.llm_api_key,
+                settings.ollama_base_url,
+                settings.llm_timeout_s,
             )
         cache = REPO / "data" / "llm_cache" / f"{arm['id']}.jsonl"
         container.orchestrator.d.llm = CachingProvider(

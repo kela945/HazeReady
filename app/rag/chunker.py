@@ -80,20 +80,14 @@ def _table_blocks(body: str) -> list[_Block]:
             # A table starts here. Absorb the preceding non-blank line as the
             # lead-in so the table is never separated from what introduces it.
             table_start_line = i
-            if (
-                buf_start_line is not None
-                and i - 1 >= buf_start_line
-                and lines[i - 1].strip()
-            ):
+            if buf_start_line is not None and i - 1 >= buf_start_line and lines[i - 1].strip():
                 flush_paragraph(i - 1)
                 table_start_line = i - 1
             else:
                 flush_paragraph(i)
 
             j = i
-            while j < len(lines) and (
-                TABLE_ROW_RE.match(lines[j]) or lines[j].strip() == ""
-            ):
+            while j < len(lines) and (TABLE_ROW_RE.match(lines[j]) or lines[j].strip() == ""):
                 if lines[j].strip() == "":
                     # A blank line ends the table unless the next line resumes it.
                     if j + 1 < len(lines) and TABLE_ROW_RE.match(lines[j + 1]):
@@ -104,9 +98,7 @@ def _table_blocks(body: str) -> list[_Block]:
 
             start = offsets[table_start_line]
             end = offsets[j - 1] + len(lines[j - 1])
-            blocks.append(
-                _Block(text=body[start:end], start=start, end=end, is_table=True)
-            )
+            blocks.append(_Block(text=body[start:end], start=start, end=end, is_table=True))
             i = j
             continue
 

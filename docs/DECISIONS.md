@@ -188,7 +188,7 @@ corpus size.
 | §5 `lookup_role_obligations(role, band)` | Kept the signature; added `cohort_variants` to the returned `ObligationSet` and a separate cohort extractor | The published guidance differentiates healthy from susceptible at 101–200. Ignoring that under-protects a named individual. Extending the tool signature would have been the bigger deviation |
 | §8.2 second annotator, report Cohen's κ | Implemented the harness; **reported no κ** | No second annotator was available. A fabricated agreement statistic is worse than none. `kappa.py`, the 30-item stratified subset and the protocol are all ready |
 | §13 `docker compose up` | Dockerfile and compose file provided but **not executed** | Docker is not installed on the build machine and the user explicitly scoped it out. Marked unverified in the README rather than claimed |
-| §3.1 local model `qwen3:8b` | A6 arm configured for it; **not run** | Not pulled locally. The runner detects the failure and the report banners the arm as provider-unavailable rather than reporting fallback scores as results |
+| §3.1 local model `qwen3:8b` | An Ollama arm was configured, then **removed from the grid** | It could not be run (the model is not pulled on this machine), and it answers a procurement question — "is a small local model good enough?" — rather than a question about this system's design. The runner still detects provider failure and banners any unavailable arm, so a future local arm cannot silently report fallback scores as results |
 | §8.6 report is "committed" | Committed, and regenerated from committed raw results | No deviation, noted for completeness |
 | §4.1 "60–100 documents" | 64 | Met, but see §4 above on what fraction is agency-sourced |
 
@@ -205,7 +205,7 @@ can actually move.
 
 ## 6. Evaluation status
 
-The committed report is a **real model evaluation**: `claude-haiku-4-5`, nine
+The committed report is a **real model evaluation**: `claude-haiku-4-5`, eight
 arms, three runs each, against the frozen 180-item benchmark.
 
 An earlier iteration was run with `LLM_PROVIDER=stub`, a deterministic non-LLM

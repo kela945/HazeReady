@@ -317,9 +317,7 @@ async def health():
 async def eval_report_file():
     path = settings.reports_dir / "eval_report.html"
     if not path.exists():
-        raise HTTPException(
-            404, "reports/eval_report.html not built. Run: make eval"
-        )
+        raise HTTPException(404, "reports/eval_report.html not built. Run: make eval")
     return FileResponse(path, media_type="text/html")
 
 
