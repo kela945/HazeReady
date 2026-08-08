@@ -73,9 +73,7 @@ def _sentences(text: str) -> list[str]:
     return [p.strip() for p in parts if p.strip()]
 
 
-def numeric_integrity(
-    draft: DraftAdvisory, sourced_numbers: set[str]
-) -> GuardrailEvent:
+def numeric_integrity(draft: DraftAdvisory, sourced_numbers: set[str]) -> GuardrailEvent:
     """Stage 1. Every PSI/PM2.5 numeral in the draft must trace to a tool
     output — a `resolve_psi_band` result or a live reading. A numeral the model
     produced on its own is exactly the failure this system is designed against.
@@ -215,9 +213,7 @@ def over_permission(
             if s.authority_tier in (AuthorityTier.primary, AuthorityTier.secondary)
         ]
         supported = any(
-            re.search(p, s.text, re.I)
-            for s in citable
-            for p in EXPLICIT_PERMISSION_PATTERNS
+            re.search(p, s.text, re.I) for s in citable for p in EXPLICIT_PERMISSION_PATTERNS
         )
         if supported:
             return GuardrailEvent(

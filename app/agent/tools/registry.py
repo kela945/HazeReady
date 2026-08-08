@@ -135,9 +135,37 @@ class ToolRegistry:
 # --------------------------------------------------------------------------
 
 _STOPWORDS = {
-    "the", "a", "an", "and", "or", "of", "to", "in", "is", "are", "for", "on",
-    "at", "be", "should", "must", "may", "can", "this", "that", "it", "with",
-    "as", "by", "from", "not", "no", "your", "you", "we", "their",
+    "the",
+    "a",
+    "an",
+    "and",
+    "or",
+    "of",
+    "to",
+    "in",
+    "is",
+    "are",
+    "for",
+    "on",
+    "at",
+    "be",
+    "should",
+    "must",
+    "may",
+    "can",
+    "this",
+    "that",
+    "it",
+    "with",
+    "as",
+    "by",
+    "from",
+    "not",
+    "no",
+    "your",
+    "you",
+    "we",
+    "their",
 }
 
 
@@ -146,9 +174,7 @@ def _content_terms(text: str) -> set[str]:
     return {t for t in toks if t not in _STOPWORDS and len(t) > 2}
 
 
-def verify_claim_against_spans(
-    claim: str, spans: list[RetrievedSpan]
-) -> VerificationResult:
+def verify_claim_against_spans(claim: str, spans: list[RetrievedSpan]) -> VerificationResult:
     """Lexical-overlap entailment with a numeric-agreement gate.
 
     This is deliberately not a neural NLI model. A cross-encoder NLI model

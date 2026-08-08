@@ -40,19 +40,15 @@ class Settings(BaseSettings):
     # anyone running the system without an API key. It is NOT a language model
     # and evaluation results produced under it are not evidence about model
     # behaviour; the runner labels them accordingly.
-    llm_provider: Literal[
-        "stub", "anthropic", "openrouter", "google", "groq", "ollama"
-    ] = Field(
-        default="stub", alias="LLM_PROVIDER"
+    llm_provider: Literal["stub", "anthropic", "openrouter", "google", "groq", "ollama"] = (
+        Field(default="stub", alias="LLM_PROVIDER")
     )
     llm_model: str = Field(default="", alias="LLM_MODEL")
     llm_api_key: str = Field(default="", alias="LLM_API_KEY")
     llm_temperature: float = Field(default=0.2, alias="LLM_TEMPERATURE")
     llm_max_tokens: int = Field(default=1400, alias="LLM_MAX_TOKENS")
     llm_timeout_s: float = Field(default=90.0, alias="LLM_TIMEOUT_S")
-    ollama_base_url: str = Field(
-        default="http://localhost:11434", alias="OLLAMA_BASE_URL"
-    )
+    ollama_base_url: str = Field(default="http://localhost:11434", alias="OLLAMA_BASE_URL")
 
     # Per-1M-token published rates, used for the cost projection in the report.
     # Set these to the rate for the model actually used; defaults are 0 so an
@@ -61,12 +57,8 @@ class Settings(BaseSettings):
     llm_cost_per_1m_output_usd: float = Field(default=0.0, alias="LLM_COST_OUT")
 
     # --- Retrieval ---------------------------------------------------------
-    embedding_model: str = Field(
-        default="BAAI/bge-small-en-v1.5", alias="EMBEDDING_MODEL"
-    )
-    reranker_model: str = Field(
-        default="BAAI/bge-reranker-base", alias="RERANKER_MODEL"
-    )
+    embedding_model: str = Field(default="BAAI/bge-small-en-v1.5", alias="EMBEDDING_MODEL")
+    reranker_model: str = Field(default="BAAI/bge-reranker-base", alias="RERANKER_MODEL")
     chunk_target_tokens: int = 400
     chunk_overlap_tokens: int = 80
     bm25_top_k: int = 20
@@ -76,9 +68,7 @@ class Settings(BaseSettings):
     final_top_k: int = 5
     # Below this fused score the query is treated as out-of-corpus. This is the
     # drift signal surfaced on the monitoring dashboard.
-    out_of_corpus_score_threshold: float = Field(
-        default=0.012, alias="OUT_OF_CORPUS_THRESHOLD"
-    )
+    out_of_corpus_score_threshold: float = Field(default=0.012, alias="OUT_OF_CORPUS_THRESHOLD")
 
     # --- Agent -------------------------------------------------------------
     max_tool_hops: int = 6

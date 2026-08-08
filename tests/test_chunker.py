@@ -24,17 +24,28 @@ TABLE = """| 24-hour PSI | Descriptor | Action |
 | 201 - 300 | Very Unhealthy | Avoid outdoor exertion |
 | above 300 | Hazardous | Remain indoors |"""
 
-FILLER = ("Lorem ipsum dolor sit amet consectetur adipiscing elit sed do "
-          "eiusmod tempor incididunt ut labore et dolore magna aliqua. ") * 12
+FILLER = (
+    "Lorem ipsum dolor sit amet consectetur adipiscing elit sed do "
+    "eiusmod tempor incididunt ut labore et dolore magna aliqua. "
+) * 12
 
 
 def make_doc(body: str) -> Document:
     return Document(
-        doc_id="test-doc", title="t", issuing_agency="NEA", source_url="http://x",
-        retrieved_at="2026-08-08", licence="l", robots_txt_checked=True,
-        robots_txt_permits=True, provenance="paraphrased_from_fetched",
-        verified_against_source=True, applies_to_roles=["school"],
-        authority_tier="primary", body=body, path=Path("test-doc.md"),
+        doc_id="test-doc",
+        title="t",
+        issuing_agency="NEA",
+        source_url="http://x",
+        retrieved_at="2026-08-08",
+        licence="l",
+        robots_txt_checked=True,
+        robots_txt_permits=True,
+        provenance="paraphrased_from_fetched",
+        verified_against_source=True,
+        applies_to_roles=["school"],
+        authority_tier="primary",
+        body=body,
+        path=Path("test-doc.md"),
     )
 
 

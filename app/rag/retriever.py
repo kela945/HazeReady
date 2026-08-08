@@ -81,7 +81,9 @@ class Retriever:
     # -- query expansion ----------------------------------------------------
 
     @staticmethod
-    def expand(query: str, role: Role | None, band_token: str | None, index: IndexKind | None) -> str:
+    def expand(
+        query: str, role: Role | None, band_token: str | None, index: IndexKind | None
+    ) -> str:
         """Inject the resolved context as query tokens. The band comes from the
         deterministic resolver, never from the model, so expansion cannot
         introduce a band the arithmetic did not produce."""

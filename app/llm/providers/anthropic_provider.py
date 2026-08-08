@@ -83,20 +83,22 @@ class AnthropicProvider:
             "temperature": temperature,
         }
         if schema is not None:
-            kwargs["output_config"] = {
-                "format": {"type": "json_schema", "schema": schema}
-            }
+            kwargs["output_config"] = {"format": {"type": "json_schema", "schema": schema}}
 
         try:
             message = await self.client.messages.create(**kwargs)
         except anthropic.APIStatusError as exc:
             return LLMResponse(
-                text="", model=self.model, provider=self.name,
+                text="",
+                model=self.model,
+                provider=self.name,
                 error=f"HTTP {exc.status_code}: {str(exc)[:300]}",
             )
         except Exception as exc:
             return LLMResponse(
-                text="", model=self.model, provider=self.name,
+                text="",
+                model=self.model,
+                provider=self.name,
                 error=f"{type(exc).__name__}: {exc}",
             )
 
@@ -106,14 +108,18 @@ class AnthropicProvider:
             detail = getattr(message, "stop_details", None)
             category = getattr(detail, "category", None) if detail else None
             return LLMResponse(
-                text="", model=message.model, provider=self.name,
+                text="",
+                model=message.model,
+                provider=self.name,
                 error=f"refusal (category={category})",
             )
 
         text = "".join(b.text for b in message.content if b.type == "text")
         if not text:
             return LLMResponse(
-                text="", model=message.model, provider=self.name,
+                text="",
+                model=message.model,
+                provider=self.name,
                 error=f"empty response (stop_reason={message.stop_reason})",
             )
 

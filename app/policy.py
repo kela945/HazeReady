@@ -71,9 +71,7 @@ def locate_quote(doc: Document, quote: str) -> tuple[int, int]:
 
     j = flat.find(target)
     if j == -1:
-        raise PolicyMatrixError(
-            f"source_quote not found in {doc.doc_id}: {quote[:90]!r}"
-        )
+        raise PolicyMatrixError(f"source_quote not found in {doc.doc_id}: {quote[:90]!r}")
     start = positions[j]
     end_index = j + len(target) - 1
     end = positions[end_index] + 1

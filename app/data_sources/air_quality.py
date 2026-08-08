@@ -91,11 +91,11 @@ class AirQualityClient:
 
     # -- public API ---------------------------------------------------------
 
-    async def get_current_air_quality(
-        self, region: Region | None = None
-    ) -> AirQualityReading:
+    async def get_current_air_quality(self, region: Region | None = None) -> AirQualityReading:
         region = region or Region.national
-        psi_payload, psi_src = await self._get(self.psi_url, "psi_current.json", "data.gov.sg/psi")
+        psi_payload, psi_src = await self._get(
+            self.psi_url, "psi_current.json", "data.gov.sg/psi"
+        )
         pm_payload, _ = await self._get(self.pm25_url, "pm25_current.json", "data.gov.sg/pm25")
 
         item = psi_payload["items"][0]
@@ -199,8 +199,7 @@ class AirQualityClient:
                         resp.raise_for_status()
                         payload = resp.json()
                     series.extend(
-                        {"t": it["timestamp"],
-                         "psi": it["readings"]["psi_twenty_four_hourly"]}
+                        {"t": it["timestamp"], "psi": it["readings"]["psi_twenty_four_hourly"]}
                         for it in payload.get("items", [])
                     )
                 except Exception:
@@ -217,9 +216,7 @@ class AirQualityClient:
         regions = ["north", "south", "east", "west", "central"]
         return {
             "timestamps": [r["t"] for r in series],
-            "regions": {
-                reg: [r["psi"].get(reg) for r in series] for reg in regions
-            },
+            "regions": {reg: [r["psi"].get(reg) for r in series] for reg in regions},
             "source": "fixture" if self.offline else "live",
             "hours": len(series),
         }

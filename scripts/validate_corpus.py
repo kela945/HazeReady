@@ -85,9 +85,7 @@ def main() -> int:
             start, end = s.char_span
             extracted = doc.body[start:end]
             if " ".join(extracted.split()) != " ".join(s.source_quote.split()):
-                errors.append(
-                    f"{key}: span for {s.source_doc_id} does not extract the quote"
-                )
+                errors.append(f"{key}: span for {s.source_doc_id} does not extract the quote")
             span_count += 1
         for v in row.cohort_variants:
             if v.char_span is None:

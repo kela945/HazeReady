@@ -32,7 +32,9 @@ _PM25_RE = re.compile(
 )
 # "101 PSI", "250 pm2.5"
 _VALUE_FIRST_PSI = re.compile(r"\b(\d{1,4})\s*(?:on the\s+)?psi\b", re.I)
-_VALUE_FIRST_PM25 = re.compile(r"\b(\d{1,4})\s*(?:µg|ug|micrograms?)?[^0-9\n]{0,12}?pm\s*2\.?5\b", re.I)
+_VALUE_FIRST_PM25 = re.compile(
+    r"\b(\d{1,4})\s*(?:µg|ug|micrograms?)?[^0-9\n]{0,12}?pm\s*2\.?5\b", re.I
+)
 
 _REGION_RE = re.compile(
     r"\b(?:in|at|for|the)\s+(north|south|east|west|central)(?:ern)?\b", re.I
@@ -142,16 +144,27 @@ def extract_stated_forecast(question: str) -> StatedForecast | None:
 # ---------------------------------------------------------------------------
 
 _VULNERABLE_CUES = [
-    r"\bpregnan\w*", r"\belderly\b", r"\bsenior\b", r"\bchronic\b",
-    r"\bcopd\b", r"\basthma\w*", r"\bheart (?:disease|condition)\b",
-    r"\blung (?:disease|condition)\b", r"\bvulnerable\b", r"\bsusceptible\b",
+    r"\bpregnan\w*",
+    r"\belderly\b",
+    r"\bsenior\b",
+    r"\bchronic\b",
+    r"\bcopd\b",
+    r"\basthma\w*",
+    r"\bheart (?:disease|condition)\b",
+    r"\blung (?:disease|condition)\b",
+    r"\bvulnerable\b",
+    r"\bsusceptible\b",
     r"\b(?:my|his|her|their) (?:father|mother|dad|mum|mom|grandfather|grandmother)\b",
-    r"\b(?:aged|age)\s*(?:6[5-9]|[7-9]\d|1\d\d)\b", r"\b(?:6[5-9]|[7-9]\d)[- ]year[- ]old\b",
+    r"\b(?:aged|age)\s*(?:6[5-9]|[7-9]\d|1\d\d)\b",
+    r"\b(?:6[5-9]|[7-9]\d)[- ]year[- ]old\b",
     r"\bpre-?existing condition\b",
 ]
 _HEALTHY_CUES = [
-    r"\ball healthy\b", r"\bhealthy adults?\b", r"\bhealthy (?:workers?|staff|employees?)\b",
-    r"\bhealthy \d{1,3}[- ]year[- ]old\b", r"\bi am (?:a )?healthy\b",
+    r"\ball healthy\b",
+    r"\bhealthy adults?\b",
+    r"\bhealthy (?:workers?|staff|employees?)\b",
+    r"\bhealthy \d{1,3}[- ]year[- ]old\b",
+    r"\bi am (?:a )?healthy\b",
 ]
 
 

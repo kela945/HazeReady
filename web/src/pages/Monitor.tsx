@@ -316,7 +316,9 @@ export default function Monitor() {
         data fields exist in the telemetry schema. <code>GET /metrics</code>{' '}
         exposes the same counters in Prometheus text format — that is the
         integration point for real observability infrastructure, which is
-        deliberately not implemented here.
+        deliberately not implemented here. The counters above are local demo
+        traffic, not production usage: every event was produced by someone
+        asking this instance a question.
       </p>
     </div>
   )
