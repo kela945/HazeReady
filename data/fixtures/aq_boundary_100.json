@@ -1,0 +1,59 @@
+{
+ "_fixture_note": "CONSTRUCTED. 24h PSI exactly 100 in the north - upper bound of Moderate.",
+ "region_metadata": [
+  {
+   "name": "east",
+   "label_location": {
+    "longitude": 103.94,
+    "latitude": 1.35735
+   }
+  },
+  {
+   "name": "south",
+   "label_location": {
+    "longitude": 103.82,
+    "latitude": 1.29587
+   }
+  },
+  {
+   "name": "north",
+   "label_location": {
+    "latitude": 1.41803,
+    "longitude": 103.82
+   }
+  },
+  {
+   "name": "west",
+   "label_location": {
+    "latitude": 1.35735,
+    "longitude": 103.7
+   }
+  },
+  {
+   "name": "central",
+   "label_location": {
+    "longitude": 103.82,
+    "latitude": 1.35735
+   }
+  }
+ ],
+ "items": [
+  {
+   "timestamp": "2026-08-12T14:00:00+08:00",
+   "update_timestamp": "2026-08-12T14:00:00+08:00",
+   "readings": {
+    "psi_twenty_four_hourly": {
+     "north": 100,
+     "south": 94,
+     "east": 96,
+     "west": 98,
+     "central": 100,
+     "national": 100
+    }
+   }
+  }
+ ],
+ "api_info": {
+  "status": "fixture"
+ }
+}

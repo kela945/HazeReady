@@ -1,0 +1,59 @@
+{
+ "_fixture_note": "CONSTRUCTED. Mid Very Unhealthy band.",
+ "region_metadata": [
+  {
+   "name": "east",
+   "label_location": {
+    "longitude": 103.94,
+    "latitude": 1.35735
+   }
+  },
+  {
+   "name": "south",
+   "label_location": {
+    "longitude": 103.82,
+    "latitude": 1.29587
+   }
+  },
+  {
+   "name": "north",
+   "label_location": {
+    "latitude": 1.41803,
+    "longitude": 103.82
+   }
+  },
+  {
+   "name": "west",
+   "label_location": {
+    "latitude": 1.35735,
+    "longitude": 103.7
+   }
+  },
+  {
+   "name": "central",
+   "label_location": {
+    "longitude": 103.82,
+    "latitude": 1.35735
+   }
+  }
+ ],
+ "items": [
+  {
+   "timestamp": "2026-08-28T15:00:00+08:00",
+   "update_timestamp": "2026-08-28T15:00:00+08:00",
+   "readings": {
+    "psi_twenty_four_hourly": {
+     "north": 250,
+     "south": 230,
+     "east": 240,
+     "west": 245,
+     "central": 250,
+     "national": 250
+    }
+   }
+  }
+ ],
+ "api_info": {
+  "status": "fixture"
+ }
+}

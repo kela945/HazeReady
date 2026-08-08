@@ -1,0 +1,17 @@
+HazeQA benchmark freeze
+items: 180
+sha256(items.jsonl): 5825e4adcdad0b41fae525bfa95def84c4acb8dbf49dbf8bce28b19e52e5425b
+frozen_at: 2026-08-08
+
+The benchmark is frozen before any evaluation run. The runner records
+this hash in every result file and the report displays it. A run whose
+recorded hash does not match this file was executed against a different
+benchmark and its numbers are not comparable.
+
+Categories:
+  forecast_temporal: 20
+  multi_hop: 25
+  out_of_knowledge_base: 30
+  robustness_paraphrase: 25
+  role_conditioned: 40
+  threshold_boundary: 40

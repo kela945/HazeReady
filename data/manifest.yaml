@@ -1,0 +1,1034 @@
+document_count: 64
+counts_by_provenance:
+  authored_coverage_note: 5
+  authored_from_domain_knowledge: 7
+  authored_interpretation: 15
+  fetched_and_verified: 4
+  paraphrased_from_fetched: 33
+counts_by_authority_tier:
+  explanatory: 27
+  primary: 31
+  secondary: 6
+counts_by_issuing_agency:
+  ASMC: 1
+  ECDA: 5
+  HazeReady: 5
+  MOE: 7
+  MOH: 7
+  MOM: 15
+  NASA: 1
+  NEA: 20
+  data.gov.sg: 3
+retrieved_from_a_page_this_system_fetched: 37
+documents:
+- doc_id: asmc-regional-bulletins
+  title: ASEAN Specialised Meteorological Centre regional haze bulletins
+  issuing_agency: ASMC
+  source_url: http://asmc.asean.org/
+  retrieved_at: '2026-08-08'
+  licence: ASEAN publication; terms not verified
+  robots_txt_checked: false
+  robots_txt_permits: false
+  provenance: authored_from_domain_knowledge
+  verified_against_source: false
+  applies_to_roles:
+  - general_public
+  - event
+  authority_tier: secondary
+  body_chars: 1022
+- doc_id: authority-tier-and-conflicts
+  title: Authority tiers and how conflicts are handled
+  issuing_agency: HazeReady
+  source_url: ''
+  retrieved_at: '2026-08-08'
+  licence: Authored system note; not an agency publication
+  robots_txt_checked: false
+  robots_txt_permits: false
+  provenance: authored_coverage_note
+  verified_against_source: false
+  applies_to_roles:
+  - general_public
+  - school
+  - preschool
+  - eldercare
+  - worksite
+  - event
+  authority_tier: explanatory
+  body_chars: 1171
+- doc_id: datagov-open-data-licence
+  title: Singapore Open Data Licence 1.0 terms
+  issuing_agency: data.gov.sg
+  source_url: https://data.gov.sg/open-data-licence
+  retrieved_at: '2026-08-08'
+  licence: Singapore Open Data Licence 1.0
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: authored_from_domain_knowledge
+  verified_against_source: false
+  applies_to_roles:
+  - general_public
+  authority_tier: explanatory
+  body_chars: 812
+- doc_id: datagov-pm25-api
+  title: data.gov.sg real-time PM2.5 API schema
+  issuing_agency: data.gov.sg
+  source_url: https://api.data.gov.sg/v1/environment/pm25
+  retrieved_at: '2026-08-08'
+  licence: Singapore Open Data Licence 1.0
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: fetched_and_verified
+  verified_against_source: true
+  applies_to_roles:
+  - general_public
+  - school
+  - preschool
+  - eldercare
+  - worksite
+  - event
+  authority_tier: explanatory
+  body_chars: 748
+- doc_id: datagov-psi-api
+  title: data.gov.sg real-time PSI API schema
+  issuing_agency: data.gov.sg
+  source_url: https://api.data.gov.sg/v1/environment/psi
+  retrieved_at: '2026-08-08'
+  licence: Singapore Open Data Licence 1.0
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: fetched_and_verified
+  verified_against_source: true
+  applies_to_roles:
+  - general_public
+  - school
+  - preschool
+  - eldercare
+  - worksite
+  - event
+  authority_tier: explanatory
+  body_chars: 1101
+- doc_id: ecda-daily-outdoor-requirement
+  title: Standing daily outdoor and gross motor activity requirement
+  issuing_agency: ECDA
+  source_url: https://www.moe.gov.sg/news/parliamentary-replies/20230109-outdoor-learning-in-pre-schools-and-primary-schools
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - preschool
+  authority_tier: secondary
+  body_chars: 843
+- doc_id: ecda-parent-communication
+  title: Communicating haze measures to parents
+  issuing_agency: ECDA
+  source_url: https://www.ecda.gov.sg/early-childhood-educators-(ece)/curriculum-frameworks/teaching-and-learning-resources/outdoor-learning
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: authored_from_domain_knowledge
+  verified_against_source: false
+  applies_to_roles:
+  - preschool
+  authority_tier: secondary
+  body_chars: 870
+- doc_id: ecda-preschool-outdoor-unhealthy
+  title: Preschool outdoor activities at 24-hour PSI 101-200
+  issuing_agency: ECDA
+  source_url: https://www.nea.gov.sg/media/news/news/index/singapore-government-agencies-implement-measures-to-mitigate-impact-of-haze
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - preschool
+  authority_tier: primary
+  body_chars: 818
+- doc_id: ecda-unwell-children-room
+  title: Air-conditioned room with air purifier for unwell children
+  issuing_agency: ECDA
+  source_url: https://www.nea.gov.sg/media/news/news/index/singapore-government-agencies-implement-measures-to-mitigate-impact-of-haze
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - preschool
+  authority_tier: primary
+  body_chars: 673
+- doc_id: eldercare-guidance-coverage-gap
+  title: Absence of eldercare-specific published haze thresholds
+  issuing_agency: HazeReady
+  source_url: ''
+  retrieved_at: '2026-08-08'
+  licence: Authored coverage note for this system; not an agency publication
+  robots_txt_checked: false
+  robots_txt_permits: false
+  provenance: authored_coverage_note
+  verified_against_source: false
+  applies_to_roles:
+  - eldercare
+  authority_tier: explanatory
+  body_chars: 1256
+- doc_id: eldercare-outing-decision
+  title: Eldercare outings and day-programme activities
+  issuing_agency: MOH
+  source_url: https://www.nea.gov.sg/our-services/pollution-control/air-pollution/faqs
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; interpretation authored for this system
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: authored_interpretation
+  verified_against_source: false
+  applies_to_roles:
+  - eldercare
+  authority_tier: explanatory
+  body_chars: 1064
+- doc_id: eldercare-vulnerable-cohort
+  title: Eldercare cohorts are vulnerable by definition
+  issuing_agency: NEA
+  source_url: https://www.nea.gov.sg/our-services/pollution-control/air-pollution/faqs
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - eldercare
+  authority_tier: primary
+  body_chars: 891
+- doc_id: event-decision-timing
+  title: When an event cancellation decision has to be made
+  issuing_agency: NEA
+  source_url: https://www.nea.gov.sg/media/news/news/index/singapore-government-agencies-implement-measures-to-mitigate-impact-of-haze
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; interpretation authored for this system
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: authored_interpretation
+  verified_against_source: false
+  applies_to_roles:
+  - event
+  authority_tier: explanatory
+  body_chars: 976
+- doc_id: event-organiser-risk-assessment
+  title: 'Outdoor event organisers: risk assessment against the 24-hour PSI forecast'
+  issuing_agency: NEA
+  source_url: https://www.nea.gov.sg/media/news/news/index/singapore-government-agencies-implement-measures-to-mitigate-impact-of-haze
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - event
+  authority_tier: primary
+  body_chars: 1036
+- doc_id: event-participant-exertion
+  title: Participant exertion at mass-participation outdoor events
+  issuing_agency: NEA
+  source_url: https://www.nea.gov.sg/our-services/pollution-control/air-pollution/faqs
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - event
+  authority_tier: primary
+  body_chars: 1060
+- doc_id: event-static-versus-strenuous
+  title: Static events and strenuous events are different exposures
+  issuing_agency: NEA
+  source_url: https://www.nea.gov.sg/our-services/pollution-control/air-pollution/faqs
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; interpretation authored for this system
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: authored_interpretation
+  verified_against_source: false
+  applies_to_roles:
+  - event
+  authority_tier: explanatory
+  body_chars: 1085
+- doc_id: forecast-versus-current-reading
+  title: Choosing between the forecast and the current reading
+  issuing_agency: NEA
+  source_url: https://www.nea.gov.sg/our-services/pollution-control/air-pollution/faqs
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; interpretation authored for this system
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: authored_interpretation
+  verified_against_source: false
+  applies_to_roles:
+  - general_public
+  - school
+  - preschool
+  - eldercare
+  - worksite
+  - event
+  authority_tier: explanatory
+  body_chars: 971
+- doc_id: haze-2026-season-context
+  title: 2026 transboundary haze season context
+  issuing_agency: HazeReady
+  source_url: ''
+  retrieved_at: '2026-08-08'
+  licence: Authored context note; not an agency publication
+  robots_txt_checked: false
+  robots_txt_permits: false
+  provenance: authored_coverage_note
+  verified_against_source: false
+  applies_to_roles:
+  - general_public
+  - school
+  - preschool
+  - eldercare
+  - worksite
+  - event
+  authority_tier: explanatory
+  body_chars: 911
+- doc_id: moe-air-purifiers-classrooms
+  title: Air purifier provision in schools
+  issuing_agency: MOE
+  source_url: https://www.nea.gov.sg/media/news/news/index/singapore-government-agencies-implement-measures-to-mitigate-impact-of-haze
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - school
+  authority_tier: primary
+  body_chars: 676
+- doc_id: moe-outdoor-activities-unhealthy
+  title: School outdoor activities at 24-hour PSI 101-200
+  issuing_agency: MOE
+  source_url: https://www.nea.gov.sg/media/news/news/index/singapore-government-agencies-implement-measures-to-mitigate-impact-of-haze
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - school
+  authority_tier: primary
+  body_chars: 735
+- doc_id: moe-school-continuity-plan
+  title: School continuity plan during haze
+  issuing_agency: MOE
+  source_url: https://www.moe.gov.sg/about-us/emergency-preparedness/haze-management
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - school
+  authority_tier: primary
+  body_chars: 985
+- doc_id: moe-students-preexisting-conditions
+  title: Students with pre-existing lung or heart conditions
+  issuing_agency: MOE
+  source_url: https://www.moe.gov.sg/about-us/emergency-preparedness/haze-management
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - school
+  - preschool
+  authority_tier: primary
+  body_chars: 764
+- doc_id: moh-healthcare-facility-measures
+  title: Healthcare facility measures during haze
+  issuing_agency: MOH
+  source_url: https://www.nea.gov.sg/media/news/news/index/singapore-government-agencies-implement-measures-to-mitigate-impact-of-haze
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - eldercare
+  authority_tier: primary
+  body_chars: 762
+- doc_id: moh-individual-medical-management-boundary
+  title: 'Boundary of health advisory: individual medical management is out of scope'
+  issuing_agency: MOH
+  source_url: https://www.nea.gov.sg/our-services/pollution-control/air-pollution/faqs
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: authored_from_domain_knowledge
+  verified_against_source: false
+  applies_to_roles:
+  - general_public
+  - school
+  - preschool
+  - eldercare
+  - worksite
+  - event
+  authority_tier: explanatory
+  body_chars: 1064
+- doc_id: moh-n95-vulnerable-above-200
+  title: N95 mask advisory for vulnerable persons
+  issuing_agency: MOH
+  source_url: https://www.nea.gov.sg/media/news/news/index/singapore-government-agencies-implement-measures-to-mitigate-impact-of-haze
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+    via NEA cross-agency release (moh.gov.sg not retrievable)
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - general_public
+  - eldercare
+  - worksite
+  - event
+  - school
+  - preschool
+  authority_tier: primary
+  body_chars: 910
+- doc_id: moh-vulnerable-group-definition
+  title: Definition of vulnerable groups for haze health advisories
+  issuing_agency: MOH
+  source_url: https://www.nea.gov.sg/our-services/pollution-control/air-pollution/faqs
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - general_public
+  - school
+  - preschool
+  - eldercare
+  - worksite
+  - event
+  authority_tier: primary
+  body_chars: 978
+- doc_id: mom-communication-and-feedback
+  title: Communicating haze measures to employees
+  issuing_agency: MOM
+  source_url: https://www.mom.gov.sg/haze/guidelines-on-protecting-employees-from-haze
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - worksite
+  - event
+  authority_tier: secondary
+  body_chars: 640
+- doc_id: mom-employer-duty-wsh-act
+  title: Employer's primary duty under the WSH Act during haze
+  issuing_agency: MOM
+  source_url: https://www.mom.gov.sg/haze/guidelines-on-protecting-employees-from-haze
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - worksite
+  - event
+  authority_tier: primary
+  body_chars: 947
+- doc_id: mom-outdoor-work-hazardous
+  title: Outdoor work measures at 24-hour PSI above 300 (Hazardous)
+  issuing_agency: MOM
+  source_url: https://www.mom.gov.sg/haze/guidelines-on-protecting-employees-from-haze
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - worksite
+  authority_tier: primary
+  body_chars: 820
+- doc_id: mom-outdoor-work-unhealthy
+  title: Outdoor work measures at 24-hour PSI 101-200 (Unhealthy)
+  issuing_agency: MOM
+  source_url: https://www.mom.gov.sg/haze/guidelines-on-protecting-employees-from-haze
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - worksite
+  authority_tier: primary
+  body_chars: 987
+- doc_id: mom-outdoor-work-very-unhealthy
+  title: Outdoor work measures at 24-hour PSI 201-300 (Very Unhealthy)
+  issuing_agency: MOM
+  source_url: https://www.mom.gov.sg/haze/guidelines-on-protecting-employees-from-haze
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - worksite
+  authority_tier: primary
+  body_chars: 890
+- doc_id: mom-preparatory-measures
+  title: Preparatory measures before a haze episode
+  issuing_agency: MOM
+  source_url: https://www.mom.gov.sg/haze/guidelines-on-protecting-employees-from-haze
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - worksite
+  - event
+  authority_tier: primary
+  body_chars: 841
+- doc_id: mom-respirator-selection
+  title: Respiratory protection selection and escalation for outdoor work
+  issuing_agency: MOM
+  source_url: https://www.mom.gov.sg/haze/guidelines-on-protecting-employees-from-haze
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - worksite
+  authority_tier: primary
+  body_chars: 952
+- doc_id: mom-risk-assessment-haze
+  title: Haze risk assessment requirements for employers
+  issuing_agency: MOM
+  source_url: https://www.mom.gov.sg/haze/guidelines-on-protecting-employees-from-haze
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - worksite
+  - event
+  authority_tier: primary
+  body_chars: 893
+- doc_id: mom-susceptible-employees
+  title: Identifying susceptible employees
+  issuing_agency: MOM
+  source_url: https://www.mom.gov.sg/haze/guidelines-on-protecting-employees-from-haze
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - worksite
+  - event
+  authority_tier: primary
+  body_chars: 843
+- doc_id: mom-tripartite-advisory
+  title: Tripartite advisory on haze-related workplace measures
+  issuing_agency: MOM
+  source_url: https://www.mom.gov.sg/haze/tripartite-advisory-on-haze-related-workplace-measures
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: authored_from_domain_knowledge
+  verified_against_source: false
+  applies_to_roles:
+  - worksite
+  authority_tier: secondary
+  body_chars: 861
+- doc_id: mom-work-rest-and-controls
+  title: Work organisation controls during haze
+  issuing_agency: MOM
+  source_url: https://www.mom.gov.sg/haze/guidelines-on-protecting-employees-from-haze
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - worksite
+  authority_tier: primary
+  body_chars: 1001
+- doc_id: nasa-firms-hotspots
+  title: NASA FIRMS active fire hotspot data
+  issuing_agency: NASA
+  source_url: https://firms.modaps.eosdis.nasa.gov/api/
+  retrieved_at: '2026-08-08'
+  licence: NASA open data policy; free and open use with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: authored_from_domain_knowledge
+  verified_against_source: false
+  applies_to_roles:
+  - general_public
+  - event
+  - worksite
+  authority_tier: explanatory
+  body_chars: 1249
+- doc_id: nea-band-boundary-arithmetic
+  title: Band boundary arithmetic and off-by-one errors
+  issuing_agency: NEA
+  source_url: https://www.nea.gov.sg/our-services/pollution-control/air-pollution/faqs
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; interpretation authored for this system
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: authored_interpretation
+  verified_against_source: false
+  applies_to_roles:
+  - general_public
+  - school
+  - preschool
+  - eldercare
+  - worksite
+  - event
+  authority_tier: explanatory
+  body_chars: 1175
+- doc_id: nea-forecast-is-a-range
+  title: The 24-hour PSI forecast is published as a range, not a point value
+  issuing_agency: NEA
+  source_url: https://www.weather.gov.sg/fwo-haze-situation-update-7-october-2023/
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - general_public
+  - school
+  - preschool
+  - eldercare
+  - worksite
+  - event
+  authority_tier: primary
+  body_chars: 1016
+- doc_id: nea-pm25-bands
+  title: 1-hour PM2.5 concentration bands
+  issuing_agency: NEA
+  source_url: https://www.haze.gov.sg/resources/1-hr-pm2.5-readings
+  retrieved_at: '2026-08-08'
+  licence: 'Source page not retrieved: haze.gov.sg robots.txt disallows automated
+    access. Band-to-PSI correspondence verified from nea.gov.sg; numeric boundaries
+    authored from domain knowledge and NOT verified.'
+  robots_txt_checked: true
+  robots_txt_permits: false
+  provenance: authored_from_domain_knowledge
+  verified_against_source: false
+  applies_to_roles:
+  - general_public
+  - school
+  - preschool
+  - eldercare
+  - worksite
+  - event
+  authority_tier: primary
+  body_chars: 1227
+- doc_id: nea-psi-bands
+  title: PSI bands and descriptors
+  issuing_agency: NEA
+  source_url: https://www.nea.gov.sg/our-services/pollution-control/air-pollution/faqs
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - general_public
+  - school
+  - preschool
+  - eldercare
+  - worksite
+  - event
+  authority_tier: primary
+  body_chars: 813
+- doc_id: nea-psi-health-advisory-healthy
+  title: Health advisory for healthy persons, by 24-hour PSI band
+  issuing_agency: NEA
+  source_url: https://www.nea.gov.sg/our-services/pollution-control/air-pollution/faqs
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - general_public
+  - school
+  - preschool
+  - eldercare
+  - worksite
+  - event
+  authority_tier: primary
+  body_chars: 850
+- doc_id: nea-psi-health-advisory-vulnerable
+  title: Health advisory for vulnerable persons, by 24-hour PSI band
+  issuing_agency: NEA
+  source_url: https://www.nea.gov.sg/our-services/pollution-control/air-pollution/faqs
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - general_public
+  - school
+  - preschool
+  - eldercare
+  - worksite
+  - event
+  authority_tier: primary
+  body_chars: 1112
+- doc_id: nea-psi-vs-pm25-purpose
+  title: 'Which index governs which decision: 24-hour PSI versus 1-hour PM2.5'
+  issuing_agency: NEA
+  source_url: https://www.nea.gov.sg/our-services/pollution-control/air-pollution/faqs
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - general_public
+  - school
+  - preschool
+  - eldercare
+  - worksite
+  - event
+  authority_tier: primary
+  body_chars: 1162
+- doc_id: nea-reading-cadence-and-staleness
+  title: Reading cadence, timestamps and staleness
+  issuing_agency: NEA
+  source_url: https://api.data.gov.sg/v1/environment/psi
+  retrieved_at: '2026-08-08'
+  licence: Singapore Open Data Licence 1.0
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: fetched_and_verified
+  verified_against_source: true
+  applies_to_roles:
+  - general_public
+  - school
+  - preschool
+  - eldercare
+  - worksite
+  - event
+  authority_tier: explanatory
+  body_chars: 953
+- doc_id: nea-regions
+  title: Reporting regions for PSI and PM2.5
+  issuing_agency: NEA
+  source_url: https://api.data.gov.sg/v1/environment/psi
+  retrieved_at: '2026-08-08'
+  licence: Singapore Open Data Licence 1.0
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: fetched_and_verified
+  verified_against_source: true
+  applies_to_roles:
+  - general_public
+  - school
+  - preschool
+  - eldercare
+  - worksite
+  - event
+  authority_tier: explanatory
+  body_chars: 788
+- doc_id: nea-subindex-is-not-psi
+  title: Sub-indices are not the PSI
+  issuing_agency: NEA
+  source_url: https://api.data.gov.sg/v1/environment/psi
+  retrieved_at: '2026-08-08'
+  licence: Singapore Open Data Licence 1.0; interpretation authored for this system
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: authored_interpretation
+  verified_against_source: false
+  applies_to_roles:
+  - general_public
+  - school
+  - preschool
+  - eldercare
+  - worksite
+  - event
+  authority_tier: explanatory
+  body_chars: 918
+- doc_id: preschool-excursion-and-under-twos
+  title: Preschool excursions and the under-two cohort
+  issuing_agency: ECDA
+  source_url: https://www.nea.gov.sg/media/news/news/index/singapore-government-agencies-implement-measures-to-mitigate-impact-of-haze
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; interpretation authored for this system
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: authored_interpretation
+  verified_against_source: false
+  applies_to_roles:
+  - preschool
+  authority_tier: explanatory
+  body_chars: 1134
+- doc_id: preschool-purifier-operation-gap
+  title: 'Air purifier specification and operation: coverage gap'
+  issuing_agency: HazeReady
+  source_url: ''
+  retrieved_at: '2026-08-08'
+  licence: Authored coverage note; not an agency publication
+  robots_txt_checked: false
+  robots_txt_permits: false
+  provenance: authored_coverage_note
+  verified_against_source: false
+  applies_to_roles:
+  - preschool
+  - school
+  - eldercare
+  authority_tier: explanatory
+  body_chars: 1036
+- doc_id: public-general-advisory
+  title: 'General public: what to do at each band'
+  issuing_agency: NEA
+  source_url: https://www.nea.gov.sg/our-services/pollution-control/air-pollution/faqs
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - general_public
+  authority_tier: primary
+  body_chars: 941
+- doc_id: public-indoor-measures
+  title: Indoor measures during a haze episode
+  issuing_agency: MOH
+  source_url: https://www.nea.gov.sg/media/news/news/index/singapore-government-agencies-implement-measures-to-mitigate-impact-of-haze
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - general_public
+  - eldercare
+  - preschool
+  - school
+  authority_tier: secondary
+  body_chars: 837
+- doc_id: public-mask-usage
+  title: Mask use by the general public during haze
+  issuing_agency: MOH
+  source_url: https://www.nea.gov.sg/media/news/news/index/singapore-government-agencies-implement-measures-to-mitigate-impact-of-haze
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - general_public
+  authority_tier: primary
+  body_chars: 774
+- doc_id: public-outdoor-exercise
+  title: Personal outdoor exercise decisions
+  issuing_agency: NEA
+  source_url: https://www.nea.gov.sg/our-services/pollution-control/air-pollution/faqs
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - general_public
+  authority_tier: primary
+  body_chars: 783
+- doc_id: public-vulnerable-self-identification
+  title: Working out whether the vulnerable-person advisory applies to you
+  issuing_agency: NEA
+  source_url: https://www.nea.gov.sg/our-services/pollution-control/air-pollution/faqs
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; interpretation authored for this system
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: authored_interpretation
+  verified_against_source: false
+  applies_to_roles:
+  - general_public
+  authority_tier: explanatory
+  body_chars: 1060
+- doc_id: regional-variation-decision
+  title: Which region's reading applies
+  issuing_agency: NEA
+  source_url: https://api.data.gov.sg/v1/environment/psi
+  retrieved_at: '2026-08-08'
+  licence: Singapore Open Data Licence 1.0; interpretation authored for this system
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: authored_interpretation
+  verified_against_source: false
+  applies_to_roles:
+  - general_public
+  - school
+  - preschool
+  - eldercare
+  - worksite
+  - event
+  authority_tier: explanatory
+  body_chars: 914
+- doc_id: school-closure-authority-gap
+  title: School closure decisions during haze
+  issuing_agency: HazeReady
+  source_url: ''
+  retrieved_at: '2026-08-08'
+  licence: Authored coverage note; not an agency publication
+  robots_txt_checked: false
+  robots_txt_permits: false
+  provenance: authored_coverage_note
+  verified_against_source: false
+  applies_to_roles:
+  - school
+  - preschool
+  authority_tier: explanatory
+  body_chars: 857
+- doc_id: school-excursion-forecast-decision
+  title: Deciding on a next-day school excursion
+  issuing_agency: MOE
+  source_url: https://www.nea.gov.sg/our-services/pollution-control/air-pollution/faqs
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; interpretation authored for this system
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: authored_interpretation
+  verified_against_source: false
+  applies_to_roles:
+  - school
+  - preschool
+  authority_tier: explanatory
+  body_chars: 1080
+- doc_id: school-pe-lesson-decision
+  title: PE lessons and outdoor training by band
+  issuing_agency: MOE
+  source_url: https://www.nea.gov.sg/media/news/news/index/singapore-government-agencies-implement-measures-to-mitigate-impact-of-haze
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; interpretation authored for this system
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: authored_interpretation
+  verified_against_source: false
+  applies_to_roles:
+  - school
+  authority_tier: explanatory
+  body_chars: 953
+- doc_id: school-recess-and-transit
+  title: Recess, transit and incidental outdoor exposure
+  issuing_agency: MOE
+  source_url: https://www.nea.gov.sg/our-services/pollution-control/air-pollution/faqs
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; interpretation authored for this system
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: authored_interpretation
+  verified_against_source: false
+  applies_to_roles:
+  - school
+  - preschool
+  authority_tier: explanatory
+  body_chars: 872
+- doc_id: worksite-brief-outdoor-tasks
+  title: Brief and light outdoor tasks at high bands
+  issuing_agency: MOM
+  source_url: https://www.mom.gov.sg/haze/guidelines-on-protecting-employees-from-haze
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; interpretation authored for this system
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: authored_interpretation
+  verified_against_source: false
+  applies_to_roles:
+  - worksite
+  authority_tier: explanatory
+  body_chars: 929
+- doc_id: worksite-forecast-shift-planning
+  title: Planning a shift against the 24-hour PSI forecast
+  issuing_agency: MOM
+  source_url: https://www.mom.gov.sg/haze/guidelines-on-protecting-employees-from-haze
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; interpretation authored for this system
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: authored_interpretation
+  verified_against_source: false
+  applies_to_roles:
+  - worksite
+  authority_tier: explanatory
+  body_chars: 1107
+- doc_id: worksite-good-moderate-bands
+  title: Outdoor work at 24-hour PSI 100 and below
+  issuing_agency: MOM
+  source_url: https://www.mom.gov.sg/haze/guidelines-on-protecting-employees-from-haze
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; reproduced as paraphrase with attribution
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: paraphrased_from_fetched
+  verified_against_source: true
+  applies_to_roles:
+  - worksite
+  authority_tier: primary
+  body_chars: 829
+- doc_id: worksite-stop-work-authority
+  title: Who decides to stop or move outdoor work
+  issuing_agency: MOM
+  source_url: https://www.mom.gov.sg/haze/guidelines-on-protecting-employees-from-haze
+  retrieved_at: '2026-08-08'
+  licence: Singapore public agency publication; interpretation authored for this system
+  robots_txt_checked: true
+  robots_txt_permits: true
+  provenance: authored_interpretation
+  verified_against_source: false
+  applies_to_roles:
+  - worksite
+  authority_tier: explanatory
+  body_chars: 892

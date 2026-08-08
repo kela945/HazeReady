@@ -1,0 +1,22 @@
+{
+ "started_at": "2026-08-08T09:19:20.119804+00:00",
+ "git_commit": "not-a-git-repo",
+ "benchmark_sha256": "5825e4adcdad0b41fae525bfa95def84c4acb8dbf49dbf8bce28b19e52e5425b",
+ "frozen_sha256": "5825e4adcdad0b41fae525bfa95def84c4acb8dbf49dbf8bce28b19e52e5425b",
+ "benchmark_matches_freeze": true,
+ "provider": "anthropic",
+ "model": "claude-haiku-4-5",
+ "temperature": 0.2,
+ "runs_per_arm": 1,
+ "n_items": 15,
+ "arms": [
+  "A4"
+ ],
+ "offline_mode": true,
+ "cost_per_1m_input_usd": 1.0,
+ "cost_per_1m_output_usd": 5.0,
+ "runs": [
+  "reports/raw/A4_run1.json"
+ ],
+ "finished_at": "2026-08-08T09:20:32.164691+00:00"
+}

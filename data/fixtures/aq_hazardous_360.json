@@ -1,0 +1,59 @@
+{
+ "_fixture_note": "CONSTRUCTED. Hazardous band.",
+ "region_metadata": [
+  {
+   "name": "east",
+   "label_location": {
+    "longitude": 103.94,
+    "latitude": 1.35735
+   }
+  },
+  {
+   "name": "south",
+   "label_location": {
+    "longitude": 103.82,
+    "latitude": 1.29587
+   }
+  },
+  {
+   "name": "north",
+   "label_location": {
+    "latitude": 1.41803,
+    "longitude": 103.82
+   }
+  },
+  {
+   "name": "west",
+   "label_location": {
+    "latitude": 1.35735,
+    "longitude": 103.7
+   }
+  },
+  {
+   "name": "central",
+   "label_location": {
+    "longitude": 103.82,
+    "latitude": 1.35735
+   }
+  }
+ ],
+ "items": [
+  {
+   "timestamp": "2026-09-05T12:00:00+08:00",
+   "update_timestamp": "2026-09-05T12:00:00+08:00",
+   "readings": {
+    "psi_twenty_four_hourly": {
+     "north": 360,
+     "south": 340,
+     "east": 350,
+     "west": 355,
+     "central": 360,
+     "national": 360
+    }
+   }
+  }
+ ],
+ "api_info": {
+  "status": "fixture"
+ }
+}

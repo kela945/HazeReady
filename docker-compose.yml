@@ -1,0 +1,38 @@
+# NOT VERIFIED ON THIS MACHINE — see the header of Dockerfile.
+#
+#   cp .env.example .env   # then set LLM_API_KEY
+#   docker compose up
+#
+# The `offline` profile runs with no API key and no network, from committed
+# fixtures and the deterministic stub provider.
+
+services:
+  hazeready:
+    build: .
+    image: hazeready:1.0.0
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      OFFLINE_MODE: "${OFFLINE_MODE:-false}"
+    volumes:
+      # Telemetry is a local SQLite file; persist it across restarts so the
+      # monitoring dashboard is not reset by a redeploy.
+      - hazeready-data:/app/data/telemetry
+    restart: unless-stopped
+
+  # docker compose --profile offline up
+  hazeready-offline:
+    profiles: ["offline"]
+    build: .
+    image: hazeready:1.0.0
+    ports:
+      - "8000:8000"
+    environment:
+      OFFLINE_MODE: "true"
+      LLM_PROVIDER: "stub"
+    restart: unless-stopped
+
+volumes:
+  hazeready-data:

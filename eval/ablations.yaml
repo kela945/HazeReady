@@ -1,0 +1,107 @@
+# Ablation grid. Each arm answers one question; everything not named is held
+# constant with A4, the proposed system.
+#
+# Arms are configured as ArmConfig kwargs consumed by app.agent.orchestrator, so
+# a single code path serves them all and they cannot silently diverge from the
+# production path.
+#
+# A local-model arm (Ollama) was removed. It answered "is a small local model
+# sufficient?", which is a procurement question rather than a question about
+# this system's design, and it could not be run on the build machine — an arm
+# whose provider is unreachable contributes a banner, not a result.
+
+runs_per_arm: 3
+temperature: 0.2
+
+arms:
+  - id: A0
+    label: "Model alone — no retrieval, no tools, no band resolver"
+    question: "How much does grounding actually buy?"
+    config:
+      use_retrieval: false
+      use_tools: false
+      deterministic_bands: false
+      use_skills: false
+      use_entailment_guardrail: false
+
+  - id: A1
+    label: "Dense retrieval only"
+    question: "Is hybrid retrieval worth the complexity?"
+    config:
+      use_retrieval: true
+      use_dense: true
+      use_sparse: false
+      use_tools: true
+      deterministic_bands: true
+      use_skills: true
+
+  - id: A2
+    label: "Hybrid retrieval (BM25 + dense)"
+    question: "Baseline retrieval system."
+    config:
+      use_retrieval: true
+      use_dense: true
+      use_sparse: true
+      use_tools: true
+      deterministic_bands: true
+      use_skills: true
+
+  - id: A3
+    label: "Hybrid + cross-encoder reranker"
+    question: "Does reranking justify its latency?"
+    config:
+      use_retrieval: true
+      use_dense: true
+      use_sparse: true
+      use_rerank: true
+      use_tools: true
+      deterministic_bands: true
+      use_skills: true
+
+  - id: A4
+    label: "Full system"
+    question: "The proposed system."
+    config:
+      use_retrieval: true
+      use_dense: true
+      use_sparse: true
+      use_tools: true
+      deterministic_bands: true
+      use_skills: true
+      use_entailment_guardrail: true
+
+  - id: A5
+    label: "Model does the band arithmetic"
+    question: "THE HEADLINE ABLATION. What does moving threshold arithmetic into the model cost, especially at band boundaries?"
+    config:
+      use_retrieval: true
+      use_dense: true
+      use_sparse: true
+      use_tools: true
+      deterministic_bands: false
+      use_skills: true
+      use_entailment_guardrail: true
+
+  - id: A7
+    label: "Without the entailment guardrail"
+    question: "What does the entailment guardrail actually catch?"
+    config:
+      use_retrieval: true
+      use_dense: true
+      use_sparse: true
+      use_tools: true
+      deterministic_bands: true
+      use_skills: true
+      use_entailment_guardrail: false
+
+  - id: A8
+    label: "Without role skills"
+    question: "Do role skills earn their keep?"
+    config:
+      use_retrieval: true
+      use_dense: true
+      use_sparse: true
+      use_tools: true
+      deterministic_bands: true
+      use_skills: false
+      use_entailment_guardrail: true

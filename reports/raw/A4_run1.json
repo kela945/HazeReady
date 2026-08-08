@@ -1,0 +1,625 @@
+{
+ "arm": "A4",
+ "label": "Full agent, deterministic band tool",
+ "question": "The proposed system.",
+ "run_index": 1,
+ "summary": {
+  "n": 15,
+  "decision_accuracy": 1.0,
+  "ordinal_error": 0.0,
+  "over_permission_rate": 0.0,
+  "under_permission_rate": 0.0,
+  "abstention_precision": 0.0,
+  "abstention_recall": 0.0,
+  "abstention_f1": 0.0,
+  "citation_recall": 0.7,
+  "citation_precision_proxy": 0.45652173913043476,
+  "role_routing_accuracy": 1.0,
+  "trajectory_validity": 1.0,
+  "must_not_contain_violation_rate": 0.0,
+  "risk_score": 0.0,
+  "risk_score_sensitivity": {
+   "default": 0.0,
+   "symmetric": 0.0,
+   "safety_heavy": 0.0
+  },
+  "p50_latency_ms": 4318.0,
+  "p95_latency_ms": 11892.0,
+  "total_prompt_tokens": 41558,
+  "total_completion_tokens": 3315,
+  "cost_usd": 0.058133,
+  "errors": 0
+ },
+ "by_category": {
+  "threshold_boundary": {
+   "n": 15,
+   "decision_accuracy": 1.0,
+   "over_permission_rate": 0.0,
+   "under_permission_rate": 0.0,
+   "risk_score": 0.0,
+   "abstention_f1": 0.0
+  }
+ },
+ "items": [
+  {
+   "item_id": "tb_001",
+   "category": "threshold_boundary",
+   "gold_decision": "proceed",
+   "pred_decision": "proceed",
+   "gold_role": "preschool",
+   "pred_role": "preschool",
+   "gold_citation_doc_ids": [
+    "ecda-preschool-outdoor-unhealthy",
+    "nea-psi-health-advisory-vulnerable"
+   ],
+   "pred_citation_doc_ids": [
+    "nea-psi-health-advisory-vulnerable",
+    "ecda-daily-outdoor-requirement",
+    "nea-psi-vs-pm25-purpose",
+    "nea-psi-health-advisory-healthy",
+    "ecda-preschool-outdoor-unhealthy"
+   ],
+   "gold_abstain_reason": "",
+   "pred_abstain_reason": "",
+   "must_not_contain": [],
+   "must_not_contain_hits": [],
+   "band_resolved_before_claim": true,
+   "resolve_band_called": true,
+   "tools_called": [
+    "get_current_air_quality",
+    "get_regional_hotspots",
+    "resolve_psi_band",
+    "lookup_role_obligations",
+    "search_advisories"
+   ],
+   "latency_ms": 11892,
+   "prompt_tokens": 2836,
+   "completion_tokens": 222,
+   "top_retrieval_score": 0.05032258064516129,
+   "error": "",
+   "question": "My K1 class has outdoor play in 20 minutes. 24-hr PSI is 49 in the north. Do I cancel?",
+   "rationale": "The 24-hour PSI reading of 49 falls within the Good band (0\u201350). At this band level, the health advisory for vulnerable persons\u2014which governs preschool cohorts entirely composed of children\u2014permits normal outdoor activities. No minimisation or substitution is required. Outdoor play in 20 minutes may proceed as scheduled.",
+   "notes": "Boundary item: PSI 49 is good. Adjacent value flips the band."
+  },
+  {
+   "item_id": "tb_002",
+   "category": "threshold_boundary",
+   "gold_decision": "proceed",
+   "pred_decision": "proceed",
+   "gold_role": "school",
+   "pred_role": "school",
+   "gold_citation_doc_ids": [
+    "moe-outdoor-activities-unhealthy",
+    "nea-psi-health-advisory-vulnerable"
+   ],
+   "pred_citation_doc_ids": [
+    "nea-psi-health-advisory-healthy",
+    "moe-air-purifiers-classrooms",
+    "moe-outdoor-activities-unhealthy"
+   ],
+   "gold_abstain_reason": "",
+   "pred_abstain_reason": "",
+   "must_not_contain": [],
+   "must_not_contain_hits": [],
+   "band_resolved_before_claim": true,
+   "resolve_band_called": true,
+   "tools_called": [
+    "get_current_air_quality",
+    "get_regional_hotspots",
+    "resolve_psi_band",
+    "lookup_role_obligations",
+    "search_advisories"
+   ],
+   "latency_ms": 3846,
+   "prompt_tokens": 2758,
+   "completion_tokens": 171,
+   "top_retrieval_score": 0.05032258064516129,
+   "error": "",
+   "question": "24-hr PSI is 49. Does the Sec 2 PE lesson outdoors go ahead?",
+   "rationale": "The 24-hour PSI is 49, which falls within the Good band (0\u201350). At this band, the health advisory for healthy persons permits normal activities, and MOE guidance confirms that PE, CCA and outdoor activities proceed normally. The Sec 2 PE lesson outdoors goes ahead without restriction.",
+   "notes": "Boundary item: PSI 49 is good. Adjacent value flips the band."
+  },
+  {
+   "item_id": "tb_003",
+   "category": "threshold_boundary",
+   "gold_decision": "proceed",
+   "pred_decision": "proceed",
+   "gold_role": "worksite",
+   "pred_role": "worksite",
+   "gold_citation_doc_ids": [
+    "mom-outdoor-work-unhealthy",
+    "nea-psi-health-advisory-healthy"
+   ],
+   "pred_citation_doc_ids": [
+    "worksite-good-moderate-bands",
+    "mom-preparatory-measures"
+   ],
+   "gold_abstain_reason": "",
+   "pred_abstain_reason": "",
+   "must_not_contain": [],
+   "must_not_contain_hits": [],
+   "band_resolved_before_claim": true,
+   "resolve_band_called": true,
+   "tools_called": [
+    "get_current_air_quality",
+    "get_regional_hotspots",
+    "resolve_psi_band",
+    "lookup_role_obligations",
+    "search_advisories"
+   ],
+   "latency_ms": 4155,
+   "prompt_tokens": 2677,
+   "completion_tokens": 222,
+   "top_retrieval_score": 0.05073506081438393,
+   "error": "",
+   "question": "24-hr PSI reads 49. Can my crew continue the outdoor rebar work?",
+   "rationale": "The 24-hour PSI of 49 falls within the Good band (0\u201350). At this band, no haze-specific restriction on outdoor work applies to either healthy or susceptible employees. Outdoor rebar work may proceed normally. However, the employer must complete preparatory measures: identify susceptible employees, conduct mask fit testing, stock N95 masks, and establish criteria in advance for when restrictions will apply at higher bands. The employer's general duty under the WSH Act to manage workplace hazards remains in effect.",
+   "notes": "Boundary item: PSI 49 is good. Adjacent value flips the band."
+  },
+  {
+   "item_id": "tb_004",
+   "category": "threshold_boundary",
+   "gold_decision": "proceed",
+   "pred_decision": "proceed",
+   "gold_role": "eldercare",
+   "pred_role": "eldercare",
+   "gold_citation_doc_ids": [
+    "eldercare-vulnerable-cohort",
+    "nea-psi-health-advisory-vulnerable"
+   ],
+   "pred_citation_doc_ids": [
+    "eldercare-vulnerable-cohort",
+    "nea-psi-health-advisory-vulnerable"
+   ],
+   "gold_abstain_reason": "",
+   "pred_abstain_reason": "",
+   "must_not_contain": [],
+   "must_not_contain_hits": [],
+   "band_resolved_before_claim": true,
+   "resolve_band_called": true,
+   "tools_called": [
+    "get_current_air_quality",
+    "get_regional_hotspots",
+    "resolve_psi_band",
+    "lookup_role_obligations",
+    "search_advisories"
+   ],
+   "latency_ms": 3565,
+   "prompt_tokens": 2694,
+   "completion_tokens": 188,
+   "top_retrieval_score": 0.04952380952380952,
+   "error": "",
+   "question": "24-hr PSI is 49. Should the day centre's morning garden walk run?",
+   "rationale": "The 24-hour PSI of 49 falls within the Good band (0\u201350). Under the NEA Health Advisory for Vulnerable Persons, elderly persons at this PSI level are advised to undertake normal activities. Eldercare day centre clients are a named vulnerable cohort by definition and are governed by the vulnerable-person advisory in its entirety. At PSI 0\u201350, no restriction applies to outdoor programming. The morning garden walk may proceed.",
+   "notes": "Boundary item: PSI 49 is good. Adjacent value flips the band."
+  },
+  {
+   "item_id": "tb_005",
+   "category": "threshold_boundary",
+   "gold_decision": "proceed",
+   "pred_decision": "proceed",
+   "gold_role": "event",
+   "pred_role": "event",
+   "gold_citation_doc_ids": [
+    "event-participant-exertion",
+    "event-organiser-risk-assessment"
+   ],
+   "pred_citation_doc_ids": [
+    "event-participant-exertion",
+    "event-organiser-risk-assessment",
+    "nea-psi-health-advisory-healthy"
+   ],
+   "gold_abstain_reason": "",
+   "pred_abstain_reason": "",
+   "must_not_contain": [],
+   "must_not_contain_hits": [],
+   "band_resolved_before_claim": true,
+   "resolve_band_called": true,
+   "tools_called": [
+    "get_current_air_quality",
+    "get_regional_hotspots",
+    "resolve_psi_band",
+    "lookup_role_obligations",
+    "search_advisories"
+   ],
+   "latency_ms": 5949,
+   "prompt_tokens": 2824,
+   "completion_tokens": 338,
+   "top_retrieval_score": 0.05032258064516129,
+   "error": "",
+   "question": "24-hr PSI is 49 an hour before our outdoor 10km race. Do we start?",
+   "rationale": "At a 24-hour PSI of 49 (Good band, 0\u201350), no health advisory constraint applies to participant exertion. The event may proceed. However, the organiser's decision sits with the organiser and must be informed by the 24-hour PSI forecast for the full duration of the race. Because this is a competitive road race\u2014prolonged strenuous outdoor exertion for every participant\u2014the organiser should verify that the forecast range does not extend into higher bands where the advisory would constrain or prohibit such activity. The current reading of 49 permits the start; the organiser's risk assessment must account for conditions over the race duration.",
+   "notes": "Boundary item: PSI 49 is good. Adjacent value flips the band."
+  },
+  {
+   "item_id": "tb_006",
+   "category": "threshold_boundary",
+   "gold_decision": "proceed",
+   "pred_decision": "proceed",
+   "gold_role": "general_public",
+   "pred_role": "general_public",
+   "gold_citation_doc_ids": [
+    "public-general-advisory",
+    "nea-psi-health-advisory-healthy"
+   ],
+   "pred_citation_doc_ids": [
+    "nea-psi-health-advisory-healthy",
+    "public-general-advisory"
+   ],
+   "gold_abstain_reason": "",
+   "pred_abstain_reason": "",
+   "must_not_contain": [],
+   "must_not_contain_hits": [],
+   "band_resolved_before_claim": true,
+   "resolve_band_called": true,
+   "tools_called": [
+    "get_current_air_quality",
+    "get_regional_hotspots",
+    "resolve_psi_band",
+    "lookup_role_obligations",
+    "search_advisories"
+   ],
+   "latency_ms": 2916,
+   "prompt_tokens": 2753,
+   "completion_tokens": 151,
+   "top_retrieval_score": 0.05073506081438393,
+   "error": "",
+   "question": "24-hr PSI is 49. Can I take my usual long outdoor walk?",
+   "rationale": "At a 24-hour PSI of 49, the air quality is in the Good band (0\u201350). NEA guidance permits normal activities for healthy persons at this level, with no haze-related restriction on outdoor exertion. Your usual long outdoor walk is not restricted by the haze advisory.",
+   "notes": "Boundary item: PSI 49 is good. Adjacent value flips the band."
+  },
+  {
+   "item_id": "tb_007",
+   "category": "threshold_boundary",
+   "gold_decision": "proceed",
+   "pred_decision": "proceed",
+   "gold_role": "preschool",
+   "pred_role": "preschool",
+   "gold_citation_doc_ids": [
+    "ecda-preschool-outdoor-unhealthy",
+    "nea-psi-health-advisory-vulnerable"
+   ],
+   "pred_citation_doc_ids": [
+    "nea-psi-health-advisory-vulnerable",
+    "ecda-daily-outdoor-requirement",
+    "nea-psi-vs-pm25-purpose",
+    "nea-psi-health-advisory-healthy",
+    "ecda-preschool-outdoor-unhealthy"
+   ],
+   "gold_abstain_reason": "",
+   "pred_abstain_reason": "",
+   "must_not_contain": [],
+   "must_not_contain_hits": [],
+   "band_resolved_before_claim": true,
+   "resolve_band_called": true,
+   "tools_called": [
+    "get_current_air_quality",
+    "get_regional_hotspots",
+    "resolve_psi_band",
+    "lookup_role_obligations",
+    "search_advisories"
+   ],
+   "latency_ms": 4615,
+   "prompt_tokens": 2860,
+   "completion_tokens": 230,
+   "top_retrieval_score": 0.049536290322580646,
+   "error": "",
+   "question": "My K1 class has outdoor play in 20 minutes. 24-hr PSI is 50 in the north. Do I cancel?",
+   "rationale": "The 24-hour PSI reading of 50 places the air quality in the Good band (0\u201350). At this band, the health advisory for vulnerable persons\u2014which governs preschool cohorts entirely composed of children\u2014permits normal outdoor activities. Your K1 class's outdoor play in 20 minutes may proceed as scheduled. No modification to activity intensity or duration is required.",
+   "notes": "Boundary item: PSI 50 is good. Adjacent value flips the band."
+  },
+  {
+   "item_id": "tb_008",
+   "category": "threshold_boundary",
+   "gold_decision": "proceed",
+   "pred_decision": "proceed",
+   "gold_role": "school",
+   "pred_role": "school",
+   "gold_citation_doc_ids": [
+    "moe-outdoor-activities-unhealthy",
+    "nea-psi-health-advisory-vulnerable"
+   ],
+   "pred_citation_doc_ids": [
+    "nea-psi-health-advisory-healthy",
+    "moe-air-purifiers-classrooms",
+    "moe-outdoor-activities-unhealthy"
+   ],
+   "gold_abstain_reason": "",
+   "pred_abstain_reason": "",
+   "must_not_contain": [],
+   "must_not_contain_hits": [],
+   "band_resolved_before_claim": true,
+   "resolve_band_called": true,
+   "tools_called": [
+    "get_current_air_quality",
+    "get_regional_hotspots",
+    "resolve_psi_band",
+    "lookup_role_obligations",
+    "search_advisories"
+   ],
+   "latency_ms": 3625,
+   "prompt_tokens": 2782,
+   "completion_tokens": 166,
+   "top_retrieval_score": 0.05032258064516129,
+   "error": "",
+   "question": "24-hr PSI is 50. Does the Sec 2 PE lesson outdoors go ahead?",
+   "rationale": "The 24-hour PSI is 50, which falls within the Good band (0\u201350). At this band, the health advisory for healthy persons permits normal activities. The Sec 2 PE lesson outdoors proceeds normally with no restrictions on intensity or duration. No indoor substitute is required.",
+   "notes": "Boundary item: PSI 50 is good. Adjacent value flips the band."
+  },
+  {
+   "item_id": "tb_009",
+   "category": "threshold_boundary",
+   "gold_decision": "proceed",
+   "pred_decision": "proceed",
+   "gold_role": "worksite",
+   "pred_role": "worksite",
+   "gold_citation_doc_ids": [
+    "mom-outdoor-work-unhealthy",
+    "nea-psi-health-advisory-healthy"
+   ],
+   "pred_citation_doc_ids": [
+    "worksite-good-moderate-bands",
+    "mom-preparatory-measures"
+   ],
+   "gold_abstain_reason": "",
+   "pred_abstain_reason": "",
+   "must_not_contain": [],
+   "must_not_contain_hits": [],
+   "band_resolved_before_claim": true,
+   "resolve_band_called": true,
+   "tools_called": [
+    "get_current_air_quality",
+    "get_regional_hotspots",
+    "resolve_psi_band",
+    "lookup_role_obligations",
+    "search_advisories"
+   ],
+   "latency_ms": 3838,
+   "prompt_tokens": 2701,
+   "completion_tokens": 245,
+   "top_retrieval_score": 0.05073506081438393,
+   "error": "",
+   "question": "24-hr PSI reads 50. Can my crew continue the outdoor rebar work?",
+   "rationale": "The 24-hour PSI reading of 50 falls within the Good band (0\u201350). At this band, no haze-specific restriction on outdoor work applies to either healthy or susceptible employees. Outdoor rebar work may proceed normally. However, the employer must complete preparatory measures: identify susceptible employees, determine in advance the PSI thresholds at which restrictions will apply, conduct fit testing for N95 masks, maintain adequate stock, and communicate the haze response plan to the crew. The employer's general duty under the WSH Act to manage outdoor work hazards remains in effect regardless of the current air quality band.",
+   "notes": "Boundary item: PSI 50 is good. Adjacent value flips the band."
+  },
+  {
+   "item_id": "tb_010",
+   "category": "threshold_boundary",
+   "gold_decision": "proceed",
+   "pred_decision": "proceed",
+   "gold_role": "eldercare",
+   "pred_role": "eldercare",
+   "gold_citation_doc_ids": [
+    "eldercare-vulnerable-cohort",
+    "nea-psi-health-advisory-vulnerable"
+   ],
+   "pred_citation_doc_ids": [
+    "eldercare-vulnerable-cohort",
+    "nea-psi-health-advisory-vulnerable"
+   ],
+   "gold_abstain_reason": "",
+   "pred_abstain_reason": "",
+   "must_not_contain": [],
+   "must_not_contain_hits": [],
+   "band_resolved_before_claim": true,
+   "resolve_band_called": true,
+   "tools_called": [
+    "get_current_air_quality",
+    "get_regional_hotspots",
+    "resolve_psi_band",
+    "lookup_role_obligations",
+    "search_advisories"
+   ],
+   "latency_ms": 4318,
+   "prompt_tokens": 2718,
+   "completion_tokens": 196,
+   "top_retrieval_score": 0.049536290322580646,
+   "error": "",
+   "question": "24-hr PSI is 50. Should the day centre's morning garden walk run?",
+   "rationale": "The 24-hour PSI reading of 50 places air quality in the Good band (0\u201350). Elderly persons are a named vulnerable group under the NEA health advisory. At the Good band, the vulnerable-person advisory states 'Normal activities', which includes outdoor programme activities such as a morning garden walk. The day centre's cohort falls under the vulnerable-person advisory in its entirety without individual assessment. No facility-specific PSI threshold for suspending outings is published in the guidance.",
+   "notes": "Boundary item: PSI 50 is good. Adjacent value flips the band."
+  },
+  {
+   "item_id": "tb_011",
+   "category": "threshold_boundary",
+   "gold_decision": "proceed",
+   "pred_decision": "proceed",
+   "gold_role": "event",
+   "pred_role": "event",
+   "gold_citation_doc_ids": [
+    "event-participant-exertion",
+    "event-organiser-risk-assessment"
+   ],
+   "pred_citation_doc_ids": [
+    "event-participant-exertion",
+    "event-organiser-risk-assessment",
+    "public-general-advisory"
+   ],
+   "gold_abstain_reason": "",
+   "pred_abstain_reason": "",
+   "must_not_contain": [],
+   "must_not_contain_hits": [],
+   "band_resolved_before_claim": true,
+   "resolve_band_called": true,
+   "tools_called": [
+    "get_current_air_quality",
+    "get_regional_hotspots",
+    "resolve_psi_band",
+    "lookup_role_obligations",
+    "search_advisories"
+   ],
+   "latency_ms": 4680,
+   "prompt_tokens": 2856,
+   "completion_tokens": 278,
+   "top_retrieval_score": 0.05033567525370805,
+   "error": "",
+   "question": "24-hr PSI is 50 an hour before our outdoor 10km race. Do we start?",
+   "rationale": "The 24-hour PSI reading of 50 falls within the Good band (0\u201350). At this band, NEA's health advisory imposes no constraint on exertion for either healthy or vulnerable persons. A 10km competitive race is prolonged strenuous outdoor exertion; the advisory permits it at the Good band. The decision to proceed is yours as organiser, informed by the 24-hour PSI forecast and the advisory framework. No published guidance sets a PSI threshold at which an outdoor event must be cancelled.",
+   "notes": "Boundary item: PSI 50 is good. Adjacent value flips the band."
+  },
+  {
+   "item_id": "tb_012",
+   "category": "threshold_boundary",
+   "gold_decision": "proceed",
+   "pred_decision": "proceed",
+   "gold_role": "general_public",
+   "pred_role": "general_public",
+   "gold_citation_doc_ids": [
+    "public-general-advisory",
+    "nea-psi-health-advisory-healthy"
+   ],
+   "pred_citation_doc_ids": [
+    "nea-psi-health-advisory-healthy",
+    "public-general-advisory"
+   ],
+   "gold_abstain_reason": "",
+   "pred_abstain_reason": "",
+   "must_not_contain": [],
+   "must_not_contain_hits": [],
+   "band_resolved_before_claim": true,
+   "resolve_band_called": true,
+   "tools_called": [
+    "get_current_air_quality",
+    "get_regional_hotspots",
+    "resolve_psi_band",
+    "lookup_role_obligations",
+    "search_advisories"
+   ],
+   "latency_ms": 3219,
+   "prompt_tokens": 2777,
+   "completion_tokens": 149,
+   "top_retrieval_score": 0.05073506081438393,
+   "error": "",
+   "question": "24-hr PSI is 50. Can I take my usual long outdoor walk?",
+   "rationale": "The 24-hour PSI of 50 falls within the Good band (0\u201350). At this level, the advisory for healthy persons permits normal activities with no haze-related restriction. A long outdoor walk is a normal activity and is not restricted by the haze advisory at the Good band.",
+   "notes": "Boundary item: PSI 50 is good. Adjacent value flips the band."
+  },
+  {
+   "item_id": "tb_013",
+   "category": "threshold_boundary",
+   "gold_decision": "proceed",
+   "pred_decision": "proceed",
+   "gold_role": "preschool",
+   "pred_role": "preschool",
+   "gold_citation_doc_ids": [
+    "ecda-preschool-outdoor-unhealthy",
+    "nea-psi-health-advisory-vulnerable"
+   ],
+   "pred_citation_doc_ids": [
+    "nea-psi-health-advisory-vulnerable",
+    "ecda-unwell-children-room",
+    "ecda-preschool-outdoor-unhealthy",
+    "nea-psi-vs-pm25-purpose",
+    "nea-psi-health-advisory-healthy"
+   ],
+   "gold_abstain_reason": "",
+   "pred_abstain_reason": "",
+   "must_not_contain": [],
+   "must_not_contain_hits": [],
+   "band_resolved_before_claim": true,
+   "resolve_band_called": true,
+   "tools_called": [
+    "get_current_air_quality",
+    "get_regional_hotspots",
+    "resolve_psi_band",
+    "lookup_role_obligations",
+    "search_advisories"
+   ],
+   "latency_ms": 4603,
+   "prompt_tokens": 2855,
+   "completion_tokens": 262,
+   "top_retrieval_score": 0.049161290322580646,
+   "error": "",
+   "question": "My K1 class has outdoor play in 20 minutes. 24-hr PSI is 51 in the north. Do I cancel?",
+   "rationale": "The 24-hour PSI reading of 51 places the activity in the Moderate band (51\u2013100). At this band, ECDA guidance states that outdoor play and excursions proceed normally for preschool cohorts. Although preschool children are a vulnerable group under the NEA health advisory, the Moderate band does not trigger restrictions on outdoor activity. The standing requirement for daily physical activity continues. You do not need to cancel the outdoor play session in 20 minutes. Ensure the air-conditioned room with an air purifier remains available for any child who becomes unwell during or after the session.",
+   "notes": "Boundary item: PSI 51 is moderate. Adjacent value flips the band."
+  },
+  {
+   "item_id": "tb_014",
+   "category": "threshold_boundary",
+   "gold_decision": "proceed",
+   "pred_decision": "proceed",
+   "gold_role": "school",
+   "pred_role": "school",
+   "gold_citation_doc_ids": [
+    "moe-outdoor-activities-unhealthy",
+    "nea-psi-health-advisory-vulnerable"
+   ],
+   "pred_citation_doc_ids": [
+    "nea-psi-health-advisory-healthy",
+    "moe-students-preexisting-conditions",
+    "moe-outdoor-activities-unhealthy",
+    "public-general-advisory"
+   ],
+   "gold_abstain_reason": "",
+   "pred_abstain_reason": "",
+   "must_not_contain": [],
+   "must_not_contain_hits": [],
+   "band_resolved_before_claim": true,
+   "resolve_band_called": true,
+   "tools_called": [
+    "get_current_air_quality",
+    "get_regional_hotspots",
+    "resolve_psi_band",
+    "lookup_role_obligations",
+    "search_advisories"
+   ],
+   "latency_ms": 5796,
+   "prompt_tokens": 2798,
+   "completion_tokens": 177,
+   "top_retrieval_score": 0.05032258064516129,
+   "error": "",
+   "question": "24-hr PSI is 51. Does the Sec 2 PE lesson outdoors go ahead?",
+   "rationale": "The 24-hour PSI of 51 falls within the Moderate band (51\u2013100). At this band, the health advisory for healthy persons and the school guidance both permit normal outdoor activities. The Sec 2 PE lesson outdoors proceeds as scheduled. Teachers should continue to monitor any students who are unwell or have pre-existing lung or heart conditions.",
+   "notes": "Boundary item: PSI 51 is moderate. Adjacent value flips the band."
+  },
+  {
+   "item_id": "tb_015",
+   "category": "threshold_boundary",
+   "gold_decision": "proceed",
+   "pred_decision": "proceed",
+   "gold_role": "worksite",
+   "pred_role": "worksite",
+   "gold_citation_doc_ids": [
+    "mom-outdoor-work-unhealthy",
+    "nea-psi-health-advisory-healthy"
+   ],
+   "pred_citation_doc_ids": [
+    "worksite-good-moderate-bands",
+    "mom-risk-assessment-haze",
+    "mom-respirator-selection"
+   ],
+   "gold_abstain_reason": "",
+   "pred_abstain_reason": "",
+   "must_not_contain": [],
+   "must_not_contain_hits": [],
+   "band_resolved_before_claim": true,
+   "resolve_band_called": true,
+   "tools_called": [
+    "get_current_air_quality",
+    "get_regional_hotspots",
+    "resolve_psi_band",
+    "lookup_role_obligations",
+    "search_advisories"
+   ],
+   "latency_ms": 4835,
+   "prompt_tokens": 2669,
+   "completion_tokens": 320,
+   "top_retrieval_score": 0.05073506081438393,
+   "error": "",
+   "question": "24-hr PSI reads 51. Can my crew continue the outdoor rebar work?",
+   "rationale": "At 24-hour PSI 51 (Moderate band, 51\u2013100), the published guidance permits outdoor work to proceed normally for both healthy and susceptible employees. No haze-specific restriction on outdoor work applies at this band. The employer's obligation is to have preparatory measures in place \u2014 susceptible employee identification, pre-set restriction criteria, fit-tested masks, and adequate stock \u2014 so that the operation can respond appropriately if the PSI rises into the Unhealthy band or above. The general duty under the WSH Act to assess and manage risks remains in force; \"no haze-specific restriction\" does not mean \"no duty\". For rebar work, which is typically prolonged and strenuous, the crew may continue, but the employer should ensure that if conditions deteriorate, the measures to reduce duration and intensity (for healthy employees) or minimise exposure (for susceptible employees) can be deployed without delay.",
+   "notes": "Boundary item: PSI 51 is moderate. Adjacent value flips the band."
+  }
+ ],
+ "wall_seconds": 71.9,
+ "provider": "anthropic",
+ "llm_calls": 15,
+ "llm_errors": 0,
+ "llm_cache_hits": 0,
+ "llm_last_error": "",
+ "llm_failure_rate": 0.0,
+ "model": "claude-haiku-4-5",
+ "benchmark_sha256": "5825e4adcdad0b41fae525bfa95def84c4acb8dbf49dbf8bce28b19e52e5425b"
+}

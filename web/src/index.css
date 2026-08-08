@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Instrument panel in daylight. Still dense, calm and information-first — the
+ * change is the surface, not the discipline. No gradients, no emoji in the
+ * chrome, numerals always tabular so a reading never shifts width as it updates.
+ *
+ * The palette is warm paper rather than pure white: a health-safety readout is
+ * looked at for long stretches, and #FFFFFF against a bright screen is harsher
+ * than an off-white with the same contrast ratio against the text.
+ */
+
+@layer base {
+  :root {
+    color-scheme: light;
+
+    --paper: #faf9f7;
+    --panel: #ffffff;
+    --line: #e3e0d8;
+    --line-strong: #cfcbc0;
+    --ink: #1a1a18;
+    --ink-soft: #4a4740;
+    --ink-mute: #78756c;
+    --subtle: #f3f1ec;
+    --active: #e9e5dc;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    @apply font-sans antialiased;
+    font-feature-settings: 'cv02', 'cv03', 'cv04';
+  }
+
+  /* Every numeral is tabular so readings do not jitter as they update. */
+  .num {
+    @apply font-mono;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background: #cfe3d8;
+  }
+}
+
+@layer components {
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    @apply rounded-lg;
+  }
+  .label {
+    color: var(--ink-mute);
+    @apply text-[10px] uppercase tracking-[0.14em] font-medium;
+  }
+  .hairline {
+    border-color: var(--line);
+  }
+  .btn {
+    background: var(--panel);
+    border: 1px solid var(--line-strong);
+    color: var(--ink);
+    @apply px-3 py-1.5 text-sm rounded-md transition-colors;
+  }
+  .btn:hover {
+    background: var(--subtle);
+  }
+  .btn:disabled:hover {
+    background: var(--panel);
+  }
+  .chip {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
+    @apply text-left text-[13px] leading-snug px-3 py-2 rounded-md transition-colors;
+  }
+  .chip:hover {
+    border-color: var(--line-strong);
+    background: var(--subtle);
+    color: var(--ink);
+  }
+  .field {
+    background: var(--panel);
+    border: 1px solid var(--line-strong);
+    color: var(--ink);
+    @apply rounded-md outline-none;
+  }
+  .field::placeholder {
+    color: var(--ink-mute);
+  }
+  .field:focus {
+    border-color: #8a8578;
+  }
+}
+
+/* Respect prefers-reduced-motion: no transitions, no pulse. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes tick {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.live-dot {
+  animation: tick 2.4s ease-in-out infinite;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #c9c5ba transparent;
+}
+*::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+*::-webkit-scrollbar-thumb {
+  background: #c9c5ba;
+  border-radius: 5px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}

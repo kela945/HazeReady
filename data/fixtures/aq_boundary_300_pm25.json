@@ -1,0 +1,58 @@
+{
+ "_fixture_note": "CONSTRUCTED. 24h PSI exactly 300 - upper bound of Very Unhealthy.",
+ "region_metadata": [
+  {
+   "name": "north",
+   "label_location": {
+    "longitude": 103.82,
+    "latitude": 1.41803
+   }
+  },
+  {
+   "name": "west",
+   "label_location": {
+    "latitude": 1.35735,
+    "longitude": 103.7
+   }
+  },
+  {
+   "name": "east",
+   "label_location": {
+    "longitude": 103.94,
+    "latitude": 1.35735
+   }
+  },
+  {
+   "name": "south",
+   "label_location": {
+    "latitude": 1.29587,
+    "longitude": 103.82
+   }
+  },
+  {
+   "name": "central",
+   "label_location": {
+    "longitude": 103.82,
+    "latitude": 1.35735
+   }
+  }
+ ],
+ "items": [
+  {
+   "timestamp": "2026-09-02T13:00:00+08:00",
+   "update_timestamp": "2026-09-02T13:00:00+08:00",
+   "readings": {
+    "pm25_one_hourly": {
+     "north": 248,
+     "south": 230,
+     "east": 240,
+     "west": 244,
+     "central": 248
+    }
+   }
+  }
+ ],
+ "api_info": {
+  "status": "fixture"
+ }
+}

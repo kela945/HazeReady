@@ -1,0 +1,59 @@
+{
+ "_fixture_note": "CONSTRUCTED. North is Unhealthy while national figure is Moderate - regional divergence across the 100/101 boundary.",
+ "region_metadata": [
+  {
+   "name": "east",
+   "label_location": {
+    "longitude": 103.94,
+    "latitude": 1.35735
+   }
+  },
+  {
+   "name": "south",
+   "label_location": {
+    "longitude": 103.82,
+    "latitude": 1.29587
+   }
+  },
+  {
+   "name": "north",
+   "label_location": {
+    "latitude": 1.41803,
+    "longitude": 103.82
+   }
+  },
+  {
+   "name": "west",
+   "label_location": {
+    "latitude": 1.35735,
+    "longitude": 103.7
+   }
+  },
+  {
+   "name": "central",
+   "label_location": {
+    "longitude": 103.82,
+    "latitude": 1.35735
+   }
+  }
+ ],
+ "items": [
+  {
+   "timestamp": "2026-08-18T07:00:00+08:00",
+   "update_timestamp": "2026-08-18T07:00:00+08:00",
+   "readings": {
+    "psi_twenty_four_hourly": {
+     "north": 104,
+     "south": 88,
+     "east": 92,
+     "west": 97,
+     "central": 99,
+     "national": 96
+    }
+   }
+  }
+ ],
+ "api_info": {
+  "status": "fixture"
+ }
+}

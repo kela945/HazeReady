@@ -1,0 +1,10 @@
+line-length = 96
+target-version = "py311"
+
+[lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM"]
+ignore = ["E501", "B008"]
+
+[lint.per-file-ignores]
+"eval/hazeqa/author_items.py" = ["E402"]
+"tests/*" = ["B011"]

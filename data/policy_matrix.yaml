@@ -1,0 +1,663 @@
+# HazeReady deterministic policy matrix
+#
+# This file is the deterministic backbone of the system. The language model
+# composes and explains; it does not decide. Every row maps
+#   (role, index, band) -> decision + actions + obligations
+# and every action and obligation carries a source_doc_id and a verbatim
+# source_quote drawn from that document.
+#
+# source_quote is resolved to a character span at index-build time by
+# scripts/build_index.py and validated by scripts/validate_corpus.py. A row
+# whose quote does not appear verbatim in its cited document fails the build.
+# Character offsets are therefore never hand-maintained here.
+#
+# Decision scale (ordinal, least to most restrictive). The decision applies to
+# THE OUTDOOR ACTIVITY IN QUESTION, not to the institution as a whole:
+#   proceed                  - goes ahead unmodified
+#   proceed_with_precautions - goes ahead with reduced intensity/duration or
+#                              added protection
+#   restrict                 - substantially curtailed: outdoor element
+#                              minimised, moved indoors at reduced intensity,
+#                              or discretionary outdoor activity postponed
+#   suspend                  - the outdoor activity does not proceed
+#   abstain                  - no governing published guidance exists
+#
+# `decision` is the governing decision for the role's default cohort.
+# `cohort_variants` records where published guidance differentiates.
+
+version: 1
+generated_by: hand-authored from data/corpus/, 2026-08-08
+decision_scale: [proceed, proceed_with_precautions, restrict, suspend, abstain]
+
+# The index each role's planned activity decisions are governed by. A question
+# that supplies the other index is flagged as a possible index confusion rather
+# than silently answered.
+role_governing_index:
+  general_public: psi_24h
+  school: psi_24h
+  preschool: psi_24h
+  eldercare: psi_24h
+  worksite: psi_24h
+  event: psi_24h
+
+# The cohort whose advisory row governs by default for each role.
+role_default_cohort:
+  general_public: healthy
+  school: vulnerable
+  preschool: vulnerable
+  eldercare: vulnerable
+  worksite: healthy
+  event: healthy
+
+rows:
+
+# ---------------------------------------------------------------------------
+# general_public / psi_24h
+# ---------------------------------------------------------------------------
+- role: general_public
+  index: psi_24h
+  band: good
+  decision: proceed
+  reason_codes: [band_good]
+  actions:
+    - text: "Normal activities. No haze-related restriction applies at this band."
+      source_doc_id: nea-psi-health-advisory-healthy
+      source_quote: "| 0 – 100 (Good, Moderate) | Normal activities |"
+  obligations: []
+  cohort_variants:
+    vulnerable:
+      decision: proceed
+      note: "Normal activities."
+      source_doc_id: nea-psi-health-advisory-vulnerable
+      source_quote: "| 0 – 50 (Good) | Normal activities |"
+
+- role: general_public
+  index: psi_24h
+  band: moderate
+  decision: proceed
+  reason_codes: [band_moderate]
+  actions:
+    - text: "Normal activities. No haze-related restriction applies at this band."
+      source_doc_id: nea-psi-health-advisory-healthy
+      source_quote: "| 0 – 100 (Good, Moderate) | Normal activities |"
+  obligations: []
+  cohort_variants:
+    vulnerable:
+      decision: proceed
+      note: "Normal activities."
+      source_doc_id: nea-psi-health-advisory-vulnerable
+      source_quote: "| 51 – 100 (Moderate) | Normal activities |"
+
+- role: general_public
+  index: psi_24h
+  band: unhealthy
+  decision: proceed_with_precautions
+  reason_codes: [band_unhealthy]
+  actions:
+    - text: "Reduce prolonged or strenuous outdoor physical exertion. Shorten and ease outdoor exercise rather than cancelling ordinary outdoor movement."
+      source_doc_id: nea-psi-health-advisory-healthy
+      source_quote: "Reduce prolonged or strenuous outdoor physical exertion"
+  obligations:
+    - text: "The restriction attaches to prolonged or strenuous exertion, not to being outdoors."
+      source_doc_id: nea-psi-health-advisory-healthy
+      source_quote: "Guidance at\n101–200 restricts the intensity and duration of outdoor exertion; it does not\nprohibit being outdoors."
+  cohort_variants:
+    vulnerable:
+      decision: restrict
+      note: "Minimise prolonged or strenuous outdoor physical exertion."
+      source_doc_id: nea-psi-health-advisory-vulnerable
+      source_quote: "Minimise prolonged or strenuous outdoor physical exertion"
+
+- role: general_public
+  index: psi_24h
+  band: very_unhealthy
+  decision: restrict
+  reason_codes: [band_very_unhealthy]
+  actions:
+    - text: "Avoid prolonged or strenuous outdoor physical exertion."
+      source_doc_id: nea-psi-health-advisory-healthy
+      source_quote: "Avoid prolonged or strenuous outdoor physical exertion"
+  obligations:
+    - text: "Vulnerable persons needing to be outdoors for several hours should wear an N95 mask above 24-hour PSI 200."
+      source_doc_id: moh-n95-vulnerable-above-200
+      source_quote: "Vulnerable persons who need to be outdoors for several hours are advised to wear\nan N95 mask when the 24-hour PSI is above 200."
+  cohort_variants:
+    vulnerable:
+      decision: suspend
+      note: "Avoid prolonged or strenuous outdoor physical exertion; stay indoors where possible."
+      source_doc_id: nea-psi-health-advisory-vulnerable
+      source_quote: "Avoid prolonged or strenuous outdoor physical exertion; stay indoors where possible"
+
+- role: general_public
+  index: psi_24h
+  band: hazardous
+  decision: restrict
+  reason_codes: [band_hazardous]
+  actions:
+    - text: "Minimise outdoor activity. At this band the restriction extends to being outdoors, not only to strenuous exertion."
+      source_doc_id: nea-psi-health-advisory-healthy
+      source_quote: "Minimise outdoor activity"
+  obligations:
+    - text: "Vulnerable persons needing to be outdoors for several hours should wear an N95 mask above 24-hour PSI 200."
+      source_doc_id: moh-n95-vulnerable-above-200
+      source_quote: "an N95 mask when the 24-hour PSI is above 200"
+  cohort_variants:
+    vulnerable:
+      decision: suspend
+      note: "Avoid outdoor activity; remain indoors."
+      source_doc_id: nea-psi-health-advisory-vulnerable
+      source_quote: "Avoid outdoor activity; remain indoors"
+
+# ---------------------------------------------------------------------------
+# general_public / pm25_1h  (immediate personal decisions)
+# ---------------------------------------------------------------------------
+- role: general_public
+  index: pm25_1h
+  band: normal
+  decision: proceed
+  reason_codes: [pm25_band_normal]
+  actions:
+    - text: "No advisory constraint on outdoor exercise at this band."
+      source_doc_id: public-outdoor-exercise
+      source_quote: "**Band 1 / Normal:** no advisory constraint."
+  obligations: []
+
+- role: general_public
+  index: pm25_1h
+  band: elevated
+  decision: proceed_with_precautions
+  reason_codes: [pm25_band_elevated]
+  actions:
+    - text: "Healthy people should reduce the duration and intensity of an outdoor run; vulnerable people should minimise it."
+      source_doc_id: public-outdoor-exercise
+      source_quote: "healthy runners reduce\n  duration and intensity; vulnerable runners minimise it."
+  obligations:
+    - text: "The 1-hour PM2.5 reading is the index NEA designates for immediate decisions such as whether to walk or run outdoors now."
+      source_doc_id: nea-psi-vs-pm25-purpose
+      source_quote: "NEA states these readings are meant for\n*immediate decisions*, such as whether to go for a walk or run outdoors now."
+  cohort_variants:
+    vulnerable:
+      decision: restrict
+      note: "Minimise prolonged or strenuous outdoor exertion."
+      source_doc_id: nea-psi-health-advisory-vulnerable
+      source_quote: "Minimise prolonged or strenuous outdoor physical exertion"
+
+- role: general_public
+  index: pm25_1h
+  band: high
+  decision: restrict
+  reason_codes: [pm25_band_high]
+  actions:
+    - text: "Avoid an outdoor run at this band."
+      source_doc_id: public-outdoor-exercise
+      source_quote: "**Band 3 / High** (corresponds to PSI 201–300): avoid."
+  obligations: []
+  cohort_variants:
+    vulnerable:
+      decision: suspend
+      note: "Avoid prolonged or strenuous outdoor exertion; stay indoors where possible."
+      source_doc_id: nea-psi-health-advisory-vulnerable
+      source_quote: "Avoid prolonged or strenuous outdoor physical exertion; stay indoors where possible"
+
+- role: general_public
+  index: pm25_1h
+  band: very_high
+  decision: restrict
+  reason_codes: [pm25_band_very_high]
+  actions:
+    - text: "Minimise outdoor activity generally."
+      source_doc_id: public-outdoor-exercise
+      source_quote: "**Band 4 / Very High:** minimise outdoor activity generally."
+  obligations: []
+  cohort_variants:
+    vulnerable:
+      decision: suspend
+      note: "Avoid outdoor activity; remain indoors."
+      source_doc_id: nea-psi-health-advisory-vulnerable
+      source_quote: "Avoid outdoor activity; remain indoors"
+
+# ---------------------------------------------------------------------------
+# preschool / psi_24h   (cohort is vulnerable by definition)
+# ---------------------------------------------------------------------------
+- role: preschool
+  index: psi_24h
+  band: good
+  decision: proceed
+  reason_codes: [band_good, vulnerable_cohort]
+  actions:
+    - text: "Outdoor play and excursions proceed normally. The standing daily outdoor activity requirement applies as usual."
+      source_doc_id: nea-psi-health-advisory-vulnerable
+      source_quote: "| 0 – 50 (Good) | Normal activities |"
+  obligations:
+    - text: "Full-day preschools provide at least 30 minutes of outdoor activity daily, or 45 minutes three times weekly."
+      source_doc_id: ecda-daily-outdoor-requirement
+      source_quote: "**Full-day preschools:** at least 30 minutes of outdoor activity daily, or 45\n  minutes three times weekly."
+
+- role: preschool
+  index: psi_24h
+  band: moderate
+  decision: proceed
+  reason_codes: [band_moderate, vulnerable_cohort]
+  actions:
+    - text: "Outdoor play and excursions proceed normally."
+      source_doc_id: nea-psi-health-advisory-vulnerable
+      source_quote: "| 51 – 100 (Moderate) | Normal activities |"
+  obligations:
+    - text: "Maintain the air-conditioned room fitted with an air purifier for children who become unwell."
+      source_doc_id: ecda-unwell-children-room
+      source_quote: "air-conditioned room fitted with an air\npurifier for children who become unwell during a haze episode"
+
+- role: preschool
+  index: psi_24h
+  band: unhealthy
+  decision: restrict
+  reason_codes: [band_unhealthy, vulnerable_cohort]
+  actions:
+    - text: "Minimise outdoor activities and replace them with indoor alternatives."
+      source_doc_id: ecda-preschool-outdoor-unhealthy
+      source_quote: "**minimise outdoor activities**"
+    - text: "Avoid strenuous indoor physical exercise. Moving the activity indoors is not sufficient on its own; the indoor substitute must also be low intensity."
+      source_doc_id: ecda-preschool-outdoor-unhealthy
+      source_quote: "**avoid strenuous indoor physical exercise**, replacing them with alternative\nactivities."
+    - text: "Postpone discretionary outdoor excursions."
+      source_doc_id: preschool-excursion-and-under-twos
+      source_quote: "At 101–200 the preschool instruction is to minimise outdoor\nactivities, which for a discretionary excursion means postponing it."
+  obligations:
+    - text: "The children's cohort is vulnerable, so the vulnerable-person advisory governs: minimise prolonged or strenuous outdoor physical exertion."
+      source_doc_id: nea-psi-health-advisory-vulnerable
+      source_quote: "Minimise prolonged or strenuous outdoor physical exertion"
+    - text: "Have the air-conditioned, purifier-equipped room ready for children who become unwell."
+      source_doc_id: ecda-unwell-children-room
+      source_quote: "the room is to exist and be usable, so that a child who becomes unwell can be\nmoved into it immediately"
+
+- role: preschool
+  index: psi_24h
+  band: very_unhealthy
+  decision: suspend
+  reason_codes: [band_very_unhealthy, vulnerable_cohort]
+  actions:
+    - text: "Outdoor activity does not proceed. The vulnerable-person advisory is to avoid prolonged or strenuous outdoor exertion and stay indoors where possible."
+      source_doc_id: nea-psi-health-advisory-vulnerable
+      source_quote: "Avoid prolonged or strenuous outdoor physical exertion; stay indoors where possible"
+    - text: "Keep indoor activity low intensity."
+      source_doc_id: ecda-preschool-outdoor-unhealthy
+      source_quote: "**avoid strenuous indoor physical exercise**"
+  obligations:
+    - text: "Have the air-conditioned, purifier-equipped room ready for children who become unwell."
+      source_doc_id: ecda-unwell-children-room
+      source_quote: "air-conditioned room fitted with an air\npurifier"
+    - text: "No published guidance sets a PSI value at which a preschool closes. Closure is not derivable from this matrix."
+      source_doc_id: school-closure-authority-gap
+      source_quote: "They do not publish a PSI value at\nwhich schools close."
+
+- role: preschool
+  index: psi_24h
+  band: hazardous
+  decision: suspend
+  reason_codes: [band_hazardous, vulnerable_cohort]
+  actions:
+    - text: "Outdoor activity does not proceed. Children are to remain indoors."
+      source_doc_id: nea-psi-health-advisory-vulnerable
+      source_quote: "Avoid outdoor activity; remain indoors"
+  obligations:
+    - text: "Have the air-conditioned, purifier-equipped room ready for children who become unwell."
+      source_doc_id: ecda-unwell-children-room
+      source_quote: "air-conditioned room fitted with an air\npurifier"
+    - text: "No published guidance sets a PSI value at which a preschool closes."
+      source_doc_id: school-closure-authority-gap
+      source_quote: "School closure is a decision made by MOE centrally and communicated directly to\nschools during an episode."
+
+# ---------------------------------------------------------------------------
+# school / psi_24h
+# ---------------------------------------------------------------------------
+- role: school
+  index: psi_24h
+  band: good
+  decision: proceed
+  reason_codes: [band_good]
+  actions:
+    - text: "PE, CCA and outdoor activities proceed normally."
+      source_doc_id: nea-psi-health-advisory-healthy
+      source_quote: "| 0 – 100 (Good, Moderate) | Normal activities |"
+  obligations:
+    - text: "Classrooms are equipped with air purifiers as a standing preparedness measure."
+      source_doc_id: moe-air-purifiers-classrooms
+      source_quote: "All classrooms are equipped with air purifiers as part of the standing haze\npreparedness posture."
+
+- role: school
+  index: psi_24h
+  band: moderate
+  decision: proceed
+  reason_codes: [band_moderate]
+  actions:
+    - text: "PE, CCA and outdoor activities proceed normally."
+      source_doc_id: nea-psi-health-advisory-healthy
+      source_quote: "| 0 – 100 (Good, Moderate) | Normal activities |"
+  obligations:
+    - text: "Teachers monitor students who are unwell or who have pre-existing lung or heart conditions."
+      source_doc_id: moe-students-preexisting-conditions
+      source_quote: "Teachers monitor for students who are unwell or who have pre-existing lung or\nheart conditions."
+
+- role: school
+  index: psi_24h
+  band: unhealthy
+  decision: restrict
+  reason_codes: [band_unhealthy, vulnerable_cohort]
+  actions:
+    - text: "Minimise outdoor activities. Outdoor PE and outdoor CCA training should not proceed as strenuous sessions."
+      source_doc_id: moe-outdoor-activities-unhealthy
+      source_quote: "**minimise outdoor activities**"
+    - text: "Avoid strenuous indoor physical exercise. Moving PE indoors is not sufficient on its own; the indoor session must also be low intensity."
+      source_doc_id: moe-outdoor-activities-unhealthy
+      source_quote: "**avoid strenuous indoor physical exercise**"
+  obligations:
+    - text: "Students are children and therefore a vulnerable group: minimise prolonged or strenuous outdoor physical exertion."
+      source_doc_id: nea-psi-health-advisory-vulnerable
+      source_quote: "Minimise prolonged or strenuous outdoor physical exertion"
+    - text: "Teachers monitor students who are unwell or have pre-existing lung or heart conditions; parents ensure children have their medication."
+      source_doc_id: moe-students-preexisting-conditions
+      source_quote: "Parents should ensure their children have their medication\nwith them during a haze situation"
+
+- role: school
+  index: psi_24h
+  band: very_unhealthy
+  decision: suspend
+  reason_codes: [band_very_unhealthy, vulnerable_cohort]
+  actions:
+    - text: "Outdoor PE, CCA and other outdoor activity do not proceed."
+      source_doc_id: nea-psi-health-advisory-vulnerable
+      source_quote: "Avoid prolonged or strenuous outdoor physical exertion; stay indoors where possible"
+    - text: "Indoor substitutes must be low intensity."
+      source_doc_id: moe-outdoor-activities-unhealthy
+      source_quote: "**avoid strenuous indoor physical exercise**"
+  obligations:
+    - text: "No published guidance sets a PSI value at which schools close; closure is communicated by MOE directly."
+      source_doc_id: school-closure-authority-gap
+      source_quote: "School closure is a decision made by MOE centrally and communicated directly to\nschools during an episode."
+
+- role: school
+  index: psi_24h
+  band: hazardous
+  decision: suspend
+  reason_codes: [band_hazardous, vulnerable_cohort]
+  actions:
+    - text: "Outdoor activity does not proceed; students remain indoors."
+      source_doc_id: nea-psi-health-advisory-vulnerable
+      source_quote: "Avoid outdoor activity; remain indoors"
+  obligations:
+    - text: "At this band incidental outdoor movement between blocks is also within scope and should be minimised."
+      source_doc_id: school-recess-and-transit
+      source_quote: "Incidental outdoor movement is within scope at that band, and a school would be minimising it."
+    - text: "No published guidance sets a PSI value at which schools close."
+      source_doc_id: school-closure-authority-gap
+      source_quote: "They do not publish a PSI value at\nwhich schools close."
+
+# ---------------------------------------------------------------------------
+# eldercare / psi_24h   (cohort is vulnerable by definition)
+# ---------------------------------------------------------------------------
+- role: eldercare
+  index: psi_24h
+  band: good
+  decision: proceed
+  reason_codes: [band_good, vulnerable_cohort]
+  actions:
+    - text: "Outings and outdoor programme activities proceed normally."
+      source_doc_id: eldercare-vulnerable-cohort
+      source_quote: "| 0 – 100 | Normal activities |"
+  obligations: []
+
+- role: eldercare
+  index: psi_24h
+  band: moderate
+  decision: proceed
+  reason_codes: [band_moderate, vulnerable_cohort]
+  actions:
+    - text: "Outings and outdoor programme activities proceed normally."
+      source_doc_id: eldercare-vulnerable-cohort
+      source_quote: "| 0 – 100 | Normal activities |"
+  obligations:
+    - text: "Deploy air purifiers, fans and portable coolers within the facility and monitor clients closely."
+      source_doc_id: moh-healthcare-facility-measures
+      source_quote: "Deploy air purifiers, fans and portable coolers within facilities."
+
+- role: eldercare
+  index: psi_24h
+  band: unhealthy
+  decision: restrict
+  reason_codes: [band_unhealthy, vulnerable_cohort]
+  actions:
+    - text: "Minimise prolonged or strenuous outdoor exertion; postpone discretionary outings."
+      source_doc_id: eldercare-vulnerable-cohort
+      source_quote: "| 101 – 200 | Minimise prolonged or strenuous outdoor physical exertion |"
+    - text: "Keep indoor programme activity low intensity."
+      source_doc_id: eldercare-outing-decision
+      source_quote: "| 101 – 200 | Minimise — a discretionary outing should be postponed | Avoid strenuous indoor exercise |"
+  obligations:
+    - text: "Elderly persons are a named vulnerable group, so the vulnerable-person advisory governs the whole cohort."
+      source_doc_id: eldercare-vulnerable-cohort
+      source_quote: "An\neldercare facility's clients therefore fall under the vulnerable-person advisory\nin its entirety"
+    - text: "Deploy air purifiers, fans and portable coolers within the facility and monitor clients closely."
+      source_doc_id: moh-healthcare-facility-measures
+      source_quote: "Monitor patients closely."
+
+- role: eldercare
+  index: psi_24h
+  band: very_unhealthy
+  decision: suspend
+  reason_codes: [band_very_unhealthy, vulnerable_cohort]
+  actions:
+    - text: "Outdoor outings do not proceed; clients stay indoors where possible."
+      source_doc_id: eldercare-vulnerable-cohort
+      source_quote: "| 201 – 300 | Avoid prolonged or strenuous outdoor physical exertion; stay indoors where possible |"
+  obligations:
+    - text: "Clients needing to be outdoors for several hours are advised to wear an N95 mask above 24-hour PSI 200."
+      source_doc_id: moh-n95-vulnerable-above-200
+      source_quote: "an N95 mask when the 24-hour PSI is above 200"
+    - text: "No published guidance sets an eldercare-specific threshold for suspending a day programme or closing a centre."
+      source_doc_id: eldercare-guidance-coverage-gap
+      source_quote: "Questions demanding an eldercare-specific numeric threshold — \"at what PSI\n  must a senior care centre suspend its day programme?\" — have no published\n  answer."
+
+- role: eldercare
+  index: psi_24h
+  band: hazardous
+  decision: suspend
+  reason_codes: [band_hazardous, vulnerable_cohort]
+  actions:
+    - text: "Clients remain indoors; outdoor activity does not proceed."
+      source_doc_id: eldercare-vulnerable-cohort
+      source_quote: "| above 300 | Avoid outdoor activity; remain indoors |"
+  obligations:
+    - text: "No published guidance sets an eldercare-specific threshold for suspending a day programme or closing a centre."
+      source_doc_id: eldercare-guidance-coverage-gap
+      source_quote: "They do not set out a distinct eldercare or senior-care-centre threshold table equivalent"
+
+# ---------------------------------------------------------------------------
+# worksite / psi_24h   (default cohort healthy; susceptible as variant)
+# ---------------------------------------------------------------------------
+- role: worksite
+  index: psi_24h
+  band: good
+  decision: proceed
+  reason_codes: [band_good]
+  actions:
+    - text: "Outdoor work proceeds. Preparatory measures only apply at this band."
+      source_doc_id: worksite-good-moderate-bands
+      source_quote: "the guidance calls\nfor **preparatory measures only**. No restriction on outdoor work applies to\neither healthy or susceptible employees at these bands."
+  obligations:
+    - text: "Identify susceptible employees, set restriction criteria in advance, conduct mask fit testing and maintain N95 stock, and establish employee communications."
+      source_doc_id: mom-preparatory-measures
+      source_quote: "Conducting mask fit testing and maintaining N95 stock."
+    - text: "The employer's general duty under the WSH Act is unaffected by the absence of a haze-specific restriction."
+      source_doc_id: worksite-good-moderate-bands
+      source_quote: "\"No haze-specific restriction\" is not \"no duty\"."
+
+- role: worksite
+  index: psi_24h
+  band: moderate
+  decision: proceed
+  reason_codes: [band_moderate]
+  actions:
+    - text: "Outdoor work proceeds. Preparatory measures only apply at this band."
+      source_doc_id: worksite-good-moderate-bands
+      source_quote: "**preparatory measures only**"
+  obligations:
+    - text: "Carry out a risk assessment taking the PSI level, employee health conditions and activity intensity together."
+      source_doc_id: mom-risk-assessment-haze
+      source_quote: "Employers must carry out a proper risk assessment and implement appropriate\nmeasures."
+
+- role: worksite
+  index: psi_24h
+  band: unhealthy
+  decision: proceed_with_precautions
+  reason_codes: [band_unhealthy]
+  actions:
+    - text: "Reduce prolonged or strenuous outdoor work for healthy employees."
+      source_doc_id: mom-outdoor-work-unhealthy
+      source_quote: "| Healthy employees | Reduce prolonged or strenuous outdoor work |"
+    - text: "Provide mechanical aids in place of manual lifting, institute indoor rest breaks and job rotation, and ensure hydration."
+      source_doc_id: mom-outdoor-work-unhealthy
+      source_quote: "Provide mechanical aids in place of manual lifting where practicable."
+  obligations:
+    - text: "Monitor and act on employee health feedback."
+      source_doc_id: mom-outdoor-work-unhealthy
+      source_quote: "Monitor and act on employee health feedback."
+    - text: "Work is not stopped at this band; intensity and duration are restricted."
+      source_doc_id: mom-outdoor-work-unhealthy
+      source_quote: "Work is not stopped at this band."
+  cohort_variants:
+    susceptible:
+      decision: restrict
+      note: "Minimise prolonged or strenuous outdoor work for elderly, pregnant employees and those with chronic lung or heart disease."
+      source_doc_id: mom-outdoor-work-unhealthy
+      source_quote: "| Susceptible employees (elderly, pregnant, chronic lung or heart disease) | Minimise prolonged or strenuous outdoor work |"
+
+- role: worksite
+  index: psi_24h
+  band: very_unhealthy
+  decision: restrict
+  reason_codes: [band_very_unhealthy]
+  actions:
+    - text: "Avoid prolonged or strenuous outdoor work. This applies to healthy and susceptible employees alike at this band."
+      source_doc_id: mom-outdoor-work-very-unhealthy
+      source_quote: "At this band the guidance converges: both groups are to *avoid* prolonged or\nstrenuous outdoor work."
+    - text: "Where outdoor work is unavoidable, provide masks."
+      source_doc_id: mom-outdoor-work-very-unhealthy
+      source_quote: "Where outdoor work is unavoidable, masks are to be provided."
+  obligations:
+    - text: "The band restriction attaches to prolonged or strenuous outdoor work. Brief light outdoor tasks are not addressed by the band wording and are governed by the risk assessment."
+      source_doc_id: mom-outdoor-work-very-unhealthy
+      source_quote: "Brief, light outdoor tasks are not addressed by this wording."
+  cohort_variants:
+    susceptible:
+      decision: restrict
+      note: "Same posture as healthy employees at this band: avoid prolonged or strenuous outdoor work."
+      source_doc_id: mom-outdoor-work-very-unhealthy
+      source_quote: "| Susceptible employees | Avoid prolonged or strenuous outdoor work |"
+
+- role: worksite
+  index: psi_24h
+  band: hazardous
+  decision: restrict
+  reason_codes: [band_hazardous]
+  actions:
+    - text: "Minimise outdoor work for healthy employees. At this band the restriction applies to outdoor work as such, not only to prolonged or strenuous work."
+      source_doc_id: mom-outdoor-work-hazardous
+      source_quote: "| Healthy employees | Minimise outdoor work |"
+    - text: "Provide masks or appropriate respirators; full face respirators for prolonged outdoor work above 24-hour PSI 400."
+      source_doc_id: mom-outdoor-work-hazardous
+      source_quote: "the guidance names full face respirators for prolonged outdoor work at 24-hour PSI above 400"
+  obligations:
+    - text: "An employee who has difficulty breathing while wearing a mask should be deployed indoors rather than continue outdoor work without it."
+      source_doc_id: mom-outdoor-work-hazardous
+      source_quote: "Where an employee has difficulty breathing while wearing a mask, the employer\nshould deploy that employee to indoor work"
+  cohort_variants:
+    susceptible:
+      decision: suspend
+      note: "Susceptible employees are to avoid outdoor work entirely at this band."
+      source_doc_id: mom-outdoor-work-hazardous
+      source_quote: "| Susceptible employees | Avoid outdoor work |"
+
+# ---------------------------------------------------------------------------
+# event / psi_24h
+# ---------------------------------------------------------------------------
+- role: event
+  index: psi_24h
+  band: good
+  decision: proceed
+  reason_codes: [band_good]
+  actions:
+    - text: "The event proceeds. No advisory constraint applies at this band."
+      source_doc_id: event-participant-exertion
+      source_quote: "| 0 – 100 | None from the advisory |"
+  obligations:
+    - text: "The organiser conducts its own risk assessment using the 24-hour PSI forecast and the prevailing health advisories."
+      source_doc_id: event-organiser-risk-assessment
+      source_quote: "Organisers of outdoor events are to conduct their own risk assessment, using the\n24-hour PSI forecast together with the prevailing health advisories"
+
+- role: event
+  index: psi_24h
+  band: moderate
+  decision: proceed
+  reason_codes: [band_moderate]
+  actions:
+    - text: "The event proceeds. No advisory constraint applies at this band."
+      source_doc_id: event-participant-exertion
+      source_quote: "| 0 – 100 | None from the advisory |"
+  obligations:
+    - text: "The organiser conducts its own risk assessment; no agency issues a proceed or cancel instruction at a given PSI value."
+      source_doc_id: event-organiser-risk-assessment
+      source_quote: "**The decision sits with the organiser.** No agency issues a\n   proceed/cancel instruction at a given PSI value for general events."
+
+- role: event
+  index: psi_24h
+  band: unhealthy
+  decision: proceed_with_precautions
+  reason_codes: [band_unhealthy]
+  actions:
+    - text: "Healthy participants reduce prolonged or strenuous outdoor exertion; vulnerable participants minimise it. Reduce the exertion demanded by the event rather than cancelling by default."
+      source_doc_id: event-participant-exertion
+      source_quote: "| 101 – 200 | Healthy participants: reduce prolonged or strenuous outdoor exertion. Vulnerable participants: minimise it |"
+  obligations:
+    - text: "Crew and volunteers doing physical setup are workers, and the MOM worksite guidance applies to them independently of what applies to attendees."
+      source_doc_id: event-static-versus-strenuous
+      source_quote: "Crew and volunteers are workers, and the MOM worksite guidance applies to them\nindependently of what applies to attendees."
+    - text: "No published guidance sets a PSI threshold at which an outdoor event must be cancelled."
+      source_doc_id: event-organiser-risk-assessment
+      source_quote: "There is no published PSI threshold at which an outdoor event must be cancelled."
+  cohort_variants:
+    vulnerable:
+      decision: restrict
+      note: "Vulnerable participants minimise prolonged or strenuous outdoor exertion."
+      source_doc_id: nea-psi-health-advisory-vulnerable
+      source_quote: "Minimise prolonged or strenuous outdoor physical exertion"
+
+- role: event
+  index: psi_24h
+  band: very_unhealthy
+  decision: restrict
+  reason_codes: [band_very_unhealthy]
+  actions:
+    - text: "All participants are to avoid prolonged or strenuous outdoor exertion. A competitive race or mass sports event is exactly that, and is difficult to reconcile with the advisory at this band."
+      source_doc_id: event-participant-exertion
+      source_quote: "At 201–300 the advisory tells every participant to avoid exactly\nthat, which makes proceeding difficult to reconcile with the advisory even\nthough no rule prohibits the event."
+    - text: "A static event with a seated audience is a different exposure profile at the same reading and is constrained less."
+      source_doc_id: event-static-versus-strenuous
+      source_quote: "| Outdoor festival, seated audience | Prolonged, not strenuous | Partial: applies to vulnerable attendees and to working crew doing physical setup |"
+  obligations:
+    - text: "Vulnerable attendees outdoors for several hours are advised to wear an N95 mask above 24-hour PSI 200."
+      source_doc_id: moh-n95-vulnerable-above-200
+      source_quote: "an N95 mask when the 24-hour PSI is above 200"
+
+- role: event
+  index: psi_24h
+  band: hazardous
+  decision: suspend
+  reason_codes: [band_hazardous]
+  actions:
+    - text: "The advisory extends to outdoor activity generally at this band and reaches static events too. An outdoor mass event does not proceed."
+      source_doc_id: event-static-versus-strenuous
+      source_quote: "At above 300 the advisory extends to outdoor activity generally and reaches\nstatic events too."
+  obligations:
+    - text: "Crew and volunteers doing setup are workers; susceptible employees are to avoid outdoor work entirely at this band."
+      source_doc_id: mom-outdoor-work-hazardous
+      source_quote: "| Susceptible employees | Avoid outdoor work |"

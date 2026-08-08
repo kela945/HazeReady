@@ -1,0 +1,123 @@
+# Known coverage gaps: topics on which the published guidance in data/corpus/ is
+# silent, and on which the system must abstain rather than reason an answer out.
+#
+# This file makes abstention behaviour inspectable rather than emergent. Each
+# gap names the authority who can actually answer, so an abstention is a
+# redirection rather than a dead end.
+#
+# Every gap cites the corpus document that records the silence, so the claim
+# "there is no guidance on this" is itself grounded.
+
+version: 1
+
+gaps:
+  - id: school_closure_threshold
+    topic: "The PSI value at which a school or preschool closes"
+    applies_to_roles: [school, preschool]
+    reason: no_governing_guidance
+    evidence_doc_id: school-closure-authority-gap
+    suggested_authority: "MOE, via its direct communications to schools during an episode"
+    trigger_terms: [schools close, school closure, close school, closing school, school closed,
+      preschool closure, close preschool, suspend classes, dismiss early, cancel school,
+      shut the school, school shut]
+
+  - id: air_purifier_specification
+    topic: "Air purifier sizing, filter class, air-change rate, and when to switch units on"
+    applies_to_roles: [preschool, school, eldercare, general_public]
+    reason: no_governing_guidance
+    evidence_doc_id: preschool-purifier-operation-gap
+    suggested_authority: "A building services or indoor air quality professional"
+    trigger_terms: [purifier size, size purifier, purifier capacity, purifier specification,
+      which purifier, what purifier, choose purifier, purifier model, cadr, hepa,
+      filter class, filter replacement, replace filter, air changes, purifier on,
+      purifier switch, recirculation]
+
+  - id: mask_fit_for_young_children
+    topic: "N95 fit, sizing or suitability for children, particularly under-twos"
+    applies_to_roles: [preschool, school, general_public]
+    reason: no_governing_guidance
+    evidence_doc_id: public-mask-usage
+    suggested_authority: "The child's healthcare provider; NEA and MOH for any future published guidance"
+    trigger_terms: [mask toddler, mask infant, mask baby, n95 child, n95 children, n95 toddler,
+      child mask fit, mask fit child, mask size child, mask under 2, mask under two]
+
+  - id: individual_medical_management
+    topic: "Medication, dosing, symptoms, and whether an individual should seek care"
+    applies_to_roles: [general_public, school, preschool, eldercare, worksite, event]
+    reason: requires_professional_judgement
+    evidence_doc_id: moh-individual-medical-management-boundary
+    suggested_authority: "The individual's healthcare provider; in an emergency, 995"
+    trigger_terms: [what dose, dosage, how much medication, change medication, increase medication,
+      start medication, stop medication, inhaler puffs, how many puffs, see a doctor,
+      seek medical, is it serious, symptoms mean, diagnose, prescribe, medical attention]
+
+  - id: eldercare_specific_threshold
+    topic: "An eldercare-specific PSI threshold for suspending a day programme or closing a centre"
+    applies_to_roles: [eldercare]
+    reason: no_governing_guidance
+    evidence_doc_id: eldercare-guidance-coverage-gap
+    suggested_authority: "The facility's licensing agency (MOH / AIC)"
+    trigger_terms: [close the centre, close centre, closing centre, centre closure, centre closed,
+      suspend day programme, suspend programme, shut the centre, close the home]
+
+  - id: haze_work_rest_cycle
+    topic: "A numeric work-rest cycle for haze, expressed in minutes worked and rested"
+    applies_to_roles: [worksite]
+    reason: no_governing_guidance
+    evidence_doc_id: mom-work-rest-and-controls
+    suggested_authority: "MOM / WSH Council; note that Singapore's numeric work-rest framework is published for heat stress, a separate hazard"
+    trigger_terms: [work rest cycle, work rest ratio, rest cycle, minutes of rest, rest every,
+      how many minutes outdoors, rest break length, how long rest]
+
+  - id: employment_terms_during_standdown
+    topic: "Pay, leave and contractual consequences when work is stood down during an episode"
+    applies_to_roles: [worksite, event]
+    reason: out_of_scope
+    evidence_doc_id: worksite-stop-work-authority
+    suggested_authority: "MOM employment standards, or the applicable employment contract"
+    trigger_terms: [salary, wages, unpaid leave, paid leave, leave entitlement, deduct pay,
+      pay workers, their pay, compensation, no pay leave, wage during]
+
+  - id: event_refund_and_makeup
+    topic: "Refunds, notice periods and make-up arrangements for cancelled events or activities"
+    applies_to_roles: [event, preschool, school]
+    reason: out_of_scope
+    evidence_doc_id: event-decision-timing
+    suggested_authority: "The organiser's own terms and conditions; for preschools, ECDA on fee matters"
+    trigger_terms: [refund, refunds, makeup class, make up class, reschedule fee, notice period,
+      deposit back, fee waiver, credit the fee]
+
+  - id: pm25_numeric_band_boundaries
+    topic: "The authoritative 1-hour PM2.5 microgram boundaries between bands"
+    applies_to_roles: [general_public, school, preschool, eldercare, worksite, event]
+    reason: conflicting_sources
+    evidence_doc_id: nea-pm25-bands
+    suggested_authority: "haze.gov.sg, whose robots.txt disallows automated retrieval by this system"
+    trigger_terms: [pm2.5 boundary, pm2.5 boundaries, band boundary pm2.5, exact pm2.5 threshold,
+      pm2.5 cutoff, pm2.5 exact]
+
+  - id: outdoor_duration_definition
+    topic: "The number of minutes at which outdoor exposure becomes 'prolonged'"
+    applies_to_roles: [general_public, school, preschool, eldercare, worksite, event]
+    reason: no_governing_guidance
+    evidence_doc_id: school-recess-and-transit
+    suggested_authority: "NEA; the published advisories do not define the term numerically"
+    trigger_terms: [define prolonged, prolonged means, prolonged defined, what counts prolonged,
+      how long prolonged, minutes prolonged]
+
+  - id: tripartite_advisory_detail
+    topic: "Specific provisions of the MOM/SNEF/NTUC tripartite advisory"
+    applies_to_roles: [worksite]
+    reason: no_governing_guidance
+    evidence_doc_id: mom-tripartite-advisory
+    suggested_authority: "MOM, for the text of the tripartite advisory"
+    trigger_terms: [tripartite advisory, tripartite provision, snef, ntuc advisory]
+
+  - id: hotspot_based_decision
+    topic: "Operational decisions taken from hotspot counts rather than PSI or PM2.5"
+    applies_to_roles: [general_public, school, preschool, eldercare, worksite, event]
+    reason: no_governing_guidance
+    evidence_doc_id: nasa-firms-hotspots
+    suggested_authority: "NEA; obligations are conditioned on PSI and PM2.5, not on hotspot counts"
+    trigger_terms: [hotspot count, hotspots detected, how many hotspots, firms shows,
+      hotspots should, hotspots do i, based on hotspots]

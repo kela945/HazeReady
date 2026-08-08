@@ -1,0 +1,33 @@
+# 30-item stratified subset for independent second annotation.
+# Seed 20260808. See ANNOTATION_GUIDE.md section 9 for the protocol.
+# Label each from data/corpus/ alone; do NOT consult items.jsonl.
+tb_002
+tb_003
+tb_009
+tb_016
+tb_023
+tb_032
+tb_035
+rc_003
+rc_006
+rc_009
+rc_014
+rc_023
+rc_030
+rc_032
+mh_002
+mh_014
+mh_022
+mh_024
+ok_010
+ok_013
+ok_015
+ok_021
+ok_024
+ft_004
+ft_005
+ft_014
+ft_018
+rp_004
+rp_008
+rp_018

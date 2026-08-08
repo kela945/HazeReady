@@ -1,0 +1,59 @@
+{
+ "_fixture_note": "CONSTRUCTED. 24h PSI exactly 301 - Hazardous.",
+ "region_metadata": [
+  {
+   "name": "east",
+   "label_location": {
+    "longitude": 103.94,
+    "latitude": 1.35735
+   }
+  },
+  {
+   "name": "south",
+   "label_location": {
+    "longitude": 103.82,
+    "latitude": 1.29587
+   }
+  },
+  {
+   "name": "north",
+   "label_location": {
+    "latitude": 1.41803,
+    "longitude": 103.82
+   }
+  },
+  {
+   "name": "west",
+   "label_location": {
+    "latitude": 1.35735,
+    "longitude": 103.7
+   }
+  },
+  {
+   "name": "central",
+   "label_location": {
+    "longitude": 103.82,
+    "latitude": 1.35735
+   }
+  }
+ ],
+ "items": [
+  {
+   "timestamp": "2026-09-02T13:00:00+08:00",
+   "update_timestamp": "2026-09-02T13:00:00+08:00",
+   "readings": {
+    "psi_twenty_four_hourly": {
+     "north": 301,
+     "south": 282,
+     "east": 291,
+     "west": 296,
+     "central": 301,
+     "national": 301
+    }
+   }
+  }
+ ],
+ "api_info": {
+  "status": "fixture"
+ }
+}

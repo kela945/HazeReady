@@ -1,0 +1,59 @@
+{
+ "_fixture_note": "CONSTRUCTED. Mid-Moderate band.",
+ "region_metadata": [
+  {
+   "name": "east",
+   "label_location": {
+    "longitude": 103.94,
+    "latitude": 1.35735
+   }
+  },
+  {
+   "name": "south",
+   "label_location": {
+    "longitude": 103.82,
+    "latitude": 1.29587
+   }
+  },
+  {
+   "name": "north",
+   "label_location": {
+    "latitude": 1.41803,
+    "longitude": 103.82
+   }
+  },
+  {
+   "name": "west",
+   "label_location": {
+    "latitude": 1.35735,
+    "longitude": 103.7
+   }
+  },
+  {
+   "name": "central",
+   "label_location": {
+    "longitude": 103.82,
+    "latitude": 1.35735
+   }
+  }
+ ],
+ "items": [
+  {
+   "timestamp": "2026-08-10T10:00:00+08:00",
+   "update_timestamp": "2026-08-10T10:00:00+08:00",
+   "readings": {
+    "psi_twenty_four_hourly": {
+     "north": 78,
+     "south": 70,
+     "east": 74,
+     "west": 76,
+     "central": 78,
+     "national": 78
+    }
+   }
+  }
+ ],
+ "api_info": {
+  "status": "fixture"
+ }
+}
