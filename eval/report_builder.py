@@ -28,6 +28,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from eval.grid import arm_labels  # noqa: E402
 from eval.metrics import (  # noqa: E402
     WEIGHTING_SETS,
     ItemResult,
@@ -125,10 +126,14 @@ def load() -> tuple[dict[str, list[dict]], dict]:
 
 
 def aggregate(by_arm: dict[str, list[dict]]) -> dict[str, dict]:
+    # Labels come from eval/ablations.yaml rather than the run files, so
+    # renaming an arm does not require re-running it. An arm no longer in the
+    # grid keeps the name it was produced under.
+    labels = arm_labels()
     out: dict[str, dict] = {}
     for arm, runs in by_arm.items():
         out[arm] = {
-            "label": runs[0]["label"],
+            "label": labels.get(arm, runs[0]["label"]),
             "question": runs[0]["question"],
             "metrics": {
                 k: mean_std(r["summary"][k] for r in runs) for k, _, _ in HEADLINE + DETAIL
@@ -453,13 +458,23 @@ def main() -> int:
         d_recall = (
             a["A3"]["metrics"]["citation_recall"][0] - a["A2"]["metrics"]["citation_recall"][0]
         )
-        base_ms = a["A2"]["metrics"]["p50_latency_ms"][0]
-        mult = a["A3"]["metrics"]["p50_latency_ms"][0] / base_ms if base_ms else 0.0
+        base50 = a["A2"]["metrics"]["p50_latency_ms"][0]
+        base95 = a["A2"]["metrics"]["p95_latency_ms"][0]
+        d50 = (a["A3"]["metrics"]["p50_latency_ms"][0] / base50 - 1) * 100 if base50 else 0.0
+        d95 = (a["A3"]["metrics"]["p95_latency_ms"][0] / base95 - 1) * 100 if base95 else 0.0
+        # A cross-encoder can reorder a good ranking into a worse one, so the
+        # sentence has to work when the delta is negative as well as positive.
+        verdict = (
+            f"it <em>loses</em> {abs(d_recall):.3f} citation recall"
+            if d_recall < 0
+            else f"it buys {d_recall:+.3f} citation recall"
+        )
         rerank_note = (
-            f'<p class="note">Reranking is the clearest verdict: {d_recall:+.3f} citation recall '
-            f"for {mult:.0f}× the p50 latency, on a 64-document corpus that hybrid fusion already "
-            "orders well. It ships off by default and stays configurable, because that calculus "
-            "changes as a corpus grows.</p>"
+            f'<p class="note">Reranking is the clearest verdict: {verdict} against plain hybrid, '
+            f"while adding {d50:.0f}% to p50 and {d95:.0f}% to p95 latency — on a 64-document "
+            "corpus that hybrid fusion already orders well, a cross-encoder has little to fix and "
+            "some room to break. It ships off by default and stays configurable, because that "
+            "calculus changes as a corpus grows.</p>"
         )
 
     import plotly
