@@ -1,5 +1,5 @@
 {
- "started_at": "2026-08-08T09:19:20.119804+00:00",
+ "started_at": "2026-08-08T09:20:50.334120+00:00",
  "git_commit": "not-a-git-repo",
  "benchmark_sha256": "5825e4adcdad0b41fae525bfa95def84c4acb8dbf49dbf8bce28b19e52e5425b",
  "frozen_sha256": "5825e4adcdad0b41fae525bfa95def84c4acb8dbf49dbf8bce28b19e52e5425b",
@@ -7,16 +7,49 @@
  "provider": "anthropic",
  "model": "claude-haiku-4-5",
  "temperature": 0.2,
- "runs_per_arm": 1,
- "n_items": 15,
+ "runs_per_arm": 3,
+ "n_items": 180,
  "arms": [
-  "A4"
+  "A0",
+  "A1",
+  "A2",
+  "A3",
+  "A4",
+  "A5",
+  "A7",
+  "A8"
  ],
  "offline_mode": true,
  "cost_per_1m_input_usd": 1.0,
  "cost_per_1m_output_usd": 5.0,
  "runs": [
-  "reports/raw/A4_run1.json"
+  "reports/raw/A0_run1.json",
+  "reports/raw/A0_run2.json",
+  "reports/raw/A0_run3.json",
+  "reports/raw/A1_run1.json",
+  "reports/raw/A1_run2.json",
+  "reports/raw/A1_run3.json",
+  "reports/raw/A2_run1.json",
+  "reports/raw/A2_run2.json",
+  "reports/raw/A2_run3.json",
+  "reports/raw/A3_run1.json",
+  "reports/raw/A3_run2.json",
+  "reports/raw/A3_run3.json",
+  "reports/raw/A4_run1.json",
+  "reports/raw/A4_run2.json",
+  "reports/raw/A4_run3.json",
+  "reports/raw/A5_run1.json",
+  "reports/raw/A5_run2.json",
+  "reports/raw/A5_run3.json",
+  "reports/raw/A7_run1.json",
+  "reports/raw/A7_run2.json",
+  "reports/raw/A7_run3.json",
+  "reports/raw/A8_run1.json",
+  "reports/raw/A8_run2.json",
+  "reports/raw/A8_run3.json"
  ],
- "finished_at": "2026-08-08T09:20:32.164691+00:00"
+ "finished_at": "2026-08-09T03:32:08.897002+00:00",
+ "removed_arms": {
+  "A6": "Local-model (Ollama) arm. It was cut from eval/ablations.yaml before this run, but the runner process had already loaded the grid, so it executed anyway with provider_unavailable=true \u2014 every model call failed and the system scored its deterministic fallback. Its run files were deleted rather than reported: fallback scores are not a result."
+ }
 }

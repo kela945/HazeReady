@@ -19,6 +19,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
 
+from eval.grid import arm_labels  # noqa: E402
 from eval.metrics import mean_std  # noqa: E402
 
 RAW = REPO / "reports" / "raw"
@@ -54,9 +55,13 @@ def main() -> int:
     )
     lines.append("|---|---|---|---|---|---|---|")
 
+    # Labels come from the grid definition, not the run files: a renamed arm
+    # should not need a re-run to be described correctly.
+    labels = arm_labels()
+
     for arm in sorted(by_arm):
         runs = by_arm[arm]
-        label = runs[0]["label"]
+        label = labels.get(arm, runs[0]["label"])
         unavailable = any(r.get("provider_unavailable") for r in runs)
 
         def m(key: str, _runs=runs) -> float:
