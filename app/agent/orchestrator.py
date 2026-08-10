@@ -280,7 +280,7 @@ class Orchestrator:
             t0 = time.perf_counter()
             h = await client.get_regional_hotspots(1)
             trace.add(
-                "get_regional_hotspots", {"days": 1}, h, int((time.perf_counter() - t0) * 1000)
+                "get_regional_hotspots",{"days": 1},h, int((time.perf_counter() - t0) * 1000)
             )
             return h
 

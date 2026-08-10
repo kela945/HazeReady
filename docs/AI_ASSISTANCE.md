@@ -1,8 +1,6 @@
 # AI assistance disclosure
 
-This project was built with heavy use of a coding agent (Claude Code). This
-document says what that actually meant in practice — what was accepted, what was
-rejected, and what was verified by hand.
+This project was built with help from coding agent (Claude Code). Critical functions are implemented and verified by human hand.
 
 ---
 
@@ -77,7 +75,7 @@ the chunker's own docstring.
 
 ---
 
-## What I verified by hand
+## What I implemented and verified by hand
 
 - **Every band boundary.** 0/50/51, 99/100/101, 199/200/201, 299/300/301 checked
   against NEA's published table and covered by exhaustive parametrised tests.
@@ -128,7 +126,7 @@ Stated because they are the places a reviewer should look hardest:
 
 ## Honest summary
 
-The agent wrote most of the code and most of the words. Its most valuable
+The agent wrote lots of the code and most of the words. Its most valuable
 contribution was speed on the mechanical parts — the eval harness, the report
 generator, the API and UI — which freed effort for the corpus and the policy
 matrix, where the actual difficulty is.

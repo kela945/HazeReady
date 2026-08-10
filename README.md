@@ -1,6 +1,6 @@
 # HazeReady
 
-**Demo video:** _<!-- REPLACE: paste the Loom / screen-recording URL here before submitting -->_
+**Demo video:** [Watch the demo](https://youtu.be/cKQYkXzBkf0)
 
 A role-aware, forecast-aware, strictly-grounded haze advisory assistant for
 Singapore. It answers operational questions — *"24-hour PSI just hit 101, my K1
@@ -127,7 +127,7 @@ React SPA (Vite + TS + Tailwind)          /  advisory console
 
 Independent calls (live reading, hotspots, retrieval) run concurrently via
 `asyncio.gather`. The agent loop is hand-written, not LangChain. `app/agent/orchestrator.py` is
-860 lines including the ablation wiring and context construction; the loop body
+1010 lines including the ablation wiring and context construction; the loop body
 itself is short and every hop is auditable, which is what matters when a
 guardrail misfires at 2am.
 
@@ -193,7 +193,24 @@ limitations: **`reports/eval_report.html`** (committed, self-contained, also
 served at `/report`).
 
 <!-- EVAL_RESULTS_START -->
-_Results table is inserted here by the final audit pass._
+
+**Run:** `anthropic` / `claude-haiku-4-5`, 3 runs per arm, 180 items, benchmark hash matches the freeze.
+
+| Arm | What it changes | Accuracy ↑ | Over-perm ↓ | Abstention F1 ↑ | Risk ↓ | p50 ms |
+|---|---|---|---|---|---|---|
+| A0 | Model alone — no retrieval, no tools, no band resolver | 0.328 | 0.078 | 0.429 | 0.469 | 1,733 |
+| A1 | Dense retrieval only | 0.907 | 0.044 | 0.953 | 0.155 | 3,901 |
+| A2 | Hybrid retrieval (BM25 + dense) | 0.904 | 0.050 | 0.943 | 0.162 | 4,062 |
+| A3 | Hybrid + cross-encoder reranker | 0.904 | 0.043 | 0.941 | 0.146 | 4,773 |
+| **A4** | Full system | 0.906 | 0.050 | 0.947 | 0.161 | 4,264 |
+| **A5** | Model does the band arithmetic | 0.587 | 0.272 | 0.838 | 0.669 | 4,293 |
+| A7 | Without the entailment guardrail | 0.902 | 0.050 | 0.939 | 0.163 | 4,135 |
+| A8 | Without role skills | 0.900 | 0.056 | 0.933 | 0.181 | 3,963 |
+
+**The headline result.** A4 and A5 differ in exactly one thing: whether a 40-line Python function or the language model performs the band comparison. Overall accuracy moves 0.906 → 0.587; on the `threshold_boundary` items, where a single index point flips the obligation, it moves **0.950 → 0.708**.
+
+**What grounding buys.** A0 is the same model with no retrieval, no tools and no deterministic band — 0.328 accuracy answering from its own knowledge, against 0.906 for the full system.
+
 <!-- EVAL_RESULTS_END -->
 
 ### Cost-weighted risk score
@@ -317,10 +334,10 @@ The report's §12 is the full list. The three that matter most:
    development narrative lists all of them.
 
 Also: chunking is a no-op on this corpus (documents are atomic by construction),
-hybrid retrieval is not demonstrated to beat dense-only at this scale, reranking
-costs ~57× latency for under a point of citation recall, and the forecast is
-*derived* from the current reading when the asker does not quote one — labelled
-`derived` everywhere it appears.
+hybrid retrieval buys only +0.022 citation recall over dense-only at this scale,
+reranking *loses* 0.019 citation recall while adding 57% to p95 latency, and the
+forecast is *derived* from the current reading when the asker does not quote one
+— labelled `derived` everywhere it appears.
 
 ---
 

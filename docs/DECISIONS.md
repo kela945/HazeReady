@@ -110,10 +110,13 @@ not exist at this scale.
 
 ## 3. Things the frozen benchmark caught
 
-The benchmark was authored and frozen before the first evaluation run. The first
-run scored **0.650** decision accuracy. The failures were system bugs, not
-benchmark bugs, and fixing them took accuracy to **0.844** with over-permission
-falling from 0.311 to 0.117.
+The benchmark was authored and frozen before the first evaluation run. That first
+run used the deterministic stub provider and scored **0.650** decision accuracy;
+the failures were system bugs, not benchmark bugs, and fixing them took the stub
+to **0.844** with over-permission falling from 0.311 to 0.117. Those figures
+measure the deterministic pipeline, not a model — the shipped result with
+`claude-haiku-4-5` is 0.906 at 0.050 over-permission. What matters here is that
+each defect below was found by the benchmark rather than by reading the code.
 
 | # | Defect | Consequence | Fix |
 |---|---|---|---|
@@ -169,15 +172,19 @@ documents, because a deployment ingesting full agency pages needs them
 immediately — but on this corpus they do no work. Claiming sophisticated
 chunking here would be an overclaim.
 
-**Hybrid retrieval is not demonstrated to pay.** A2 buys +0.006 citation recall
-over dense-only A1. The rationale for BM25 (exact numerals and scheme names that
-dense embeddings blur) is sound in principle, but on a corpus this small and
-this uniformly on-topic, dense already surfaces the right documents. Honest
-reading: cheap insurance whose value is unproven at this scale.
+**Hybrid retrieval barely pays.** A2 buys +0.022 citation recall over dense-only
+A1 (0.707 vs 0.685) for +161 ms at p50, and decision accuracy is identical to
+three decimal places, as it must be — the decision does not come from retrieval.
+The rationale for BM25 (exact numerals and scheme names that dense embeddings
+blur) is sound in principle, but on a corpus this small and this uniformly
+on-topic, dense already surfaces the right documents. Honest reading: cheap
+insurance whose value is marginal at this scale.
 
-**Reranking does not pay at all here** — 57× p50 latency for +0.009 citation
-recall. Kept as an off-by-default profile because the calculus changes with
-corpus size.
+**Reranking does not pay at all here.** It *loses* 0.019 citation recall against
+plain hybrid (0.688 vs 0.707) while adding 18% to p50 and 57% to p95 (10.9 s vs
+6.9 s). A cross-encoder reordering ten documents that fusion already ordered well
+has little to fix and some room to break. Kept as an off-by-default profile
+because the calculus changes with corpus size.
 
 ---
 
