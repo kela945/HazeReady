@@ -1,6 +1,6 @@
 # HazeReady
 
-**Demo video:** _<!-- REPLACE: paste the Loom / screen-recording URL here before submitting -->_
+**Demo video:** [Watch the demo](https://youtu.be/cKQYkXzBkf0)
 
 A role-aware, forecast-aware, strictly-grounded haze advisory assistant for
 Singapore. It answers operational questions — *"24-hour PSI just hit 101, my K1
@@ -127,7 +127,7 @@ React SPA (Vite + TS + Tailwind)          /  advisory console
 
 Independent calls (live reading, hotspots, retrieval) run concurrently via
 `asyncio.gather`. The agent loop is hand-written, not LangChain. `app/agent/orchestrator.py` is
-860 lines including the ablation wiring and context construction; the loop body
+1010 lines including the ablation wiring and context construction; the loop body
 itself is short and every hop is auditable, which is what matters when a
 guardrail misfires at 2am.
 
